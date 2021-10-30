@@ -7,6 +7,7 @@
     </main>
 
     <TheFooter />
+    <PortalTarget name="sidebar" />
   </div>
 </template>
 

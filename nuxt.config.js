@@ -25,7 +25,7 @@ export default {
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [{ src: '~/plugins/validate' }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -50,8 +50,52 @@ export default {
     '@nuxtjs/dayjs',
     // https://github.com/nuxt-community/svg-module
     '@nuxtjs/svg',
+    // https://axios.nuxtjs.org/
+    '@nuxtjs/axios',
+    // https://auth.nuxtjs.org/
+    '@nuxtjs/auth-next',
+    // https://github.com/LinusBorg/portal-vue
+    'portal-vue/nuxt',
   ],
 
+  auth: {
+    redirect: {
+      login: '/login',
+      logout: '/',
+      callback: '/login',
+      home: '/dashboard',
+    },
+    strategies: {
+      cookie: {
+        cookie: {
+          // (optional) If set, we check this cookie existence for loggedIn check
+          name: '_slc_web_sid',
+        },
+        endpoints: {
+          // (optional) If set, we send a get request to this endpoint before login
+          csrf: {
+            url: '',
+          },
+        },
+        endpoints: {
+          login: { url: '/api/v1?action=user.login', method: 'post' },
+          logout: { url: '/api/v1?action=user.logout', method: 'post' },
+          // user: { url: '/api/auth/user', method: 'get' },
+        },
+      },
+    },
+  },
+
+  router: {
+    middleware: ['auth'],
+  },
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    transpile: ['vee-validate/dist/rules'],
+  },
+
+  axios: {
+    baseURL: process.env.API_BASE_URL, // Used as fallback if no runtime config is provided
+  },
 };
