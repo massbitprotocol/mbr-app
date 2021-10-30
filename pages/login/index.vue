@@ -4,6 +4,7 @@
     <div class="mt-3 text-center text-body-2 lg:text-body-1 text-neutral-normal">
       See your growth and get consulting support!
     </div>
+
     <ValidationObserver v-slot="{ handleSubmit, invalid }" tag="div">
       <form class="mx-auto w-full max-w-md mt-7" @submit.prevent="handleSubmit(userLogin)">
         <div class="flex flex-wrap -mx-3 mb-5">
@@ -16,13 +17,14 @@
           >
             <div>
               <label
-                class="block uppercase text-body-1 text-neutral-darkset font-semibold tracking-wide mb-2"
-                for="grid-first-name"
+                class="block text-body-1 text-neutral-darkset font-semibold tracking-wide mb-2"
+                for="grid-user-name"
               >
                 User name
               </label>
               <input
                 v-model.trim="form.username"
+                id="grid-user-name"
                 :class="{
                   'appearance-none block w-full text-body-2 text-gray-700 border border-primary-background rounded py-3 px-4 mb-2.5 leading-tight': true,
                   'border-red-500': false,
@@ -45,18 +47,19 @@
           <div class="w-full px-3 mb-5 md:mb-0">
             <div class="flex justify-between">
               <label
-                class="block uppercase text-body-1 text-neutral-darkset font-semibold tracking-wide mb-2"
-                for="grid-first-name"
+                class="block text-body-1 text-neutral-darkset font-semibold tracking-wide mb-2"
+                for="grid-password"
               >
                 Password
               </label>
 
-              <NuxtLink class="text-body-2 text-accent-green font-semibold" :to="{ name: 'index' }">
+              <NuxtLink class="text-body-2 text-accent-green font-semibold" :to="{ name: 'forgot-password' }">
                 Forgot password?
               </NuxtLink>
             </div>
             <input
               v-model.trim="form.password"
+              id="grid-password"
               :class="{
                 'appearance-none block w-full text-body-2 text-gray-700 border border-primary-background rounded py-3 px-4  leading-tight': true,
                 'border-red-500': false,
@@ -90,6 +93,8 @@
 <script>
 export default {
   auth: false,
+
+  name: 'Login',
 
   data() {
     return {
