@@ -1,6 +1,6 @@
 <template>
-  <div class="h-[80vh] w-full flex items-center justify-center py-7.5 lg:py-10">
-    <div class="max-w-lg">
+  <div class="h-[80vh] w-full grid items-center mx-autuo py-7.5 lg:py-10">
+    <div>
       <div class="text-center text-title-2 lg:text-title-1 text-neutral-darkset font-bold">Forgot Your Password?</div>
       <div class="mt-3 text-center text-body-2 lg:text-body-1 text-neutral-normal">
         Enter your registered email below to<br />receive password reset instruction
