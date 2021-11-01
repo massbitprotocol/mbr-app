@@ -1,5 +1,5 @@
 <template>
-  <div class="h-[80vh] grid items-center mx-auto max-w-lg py-7.5 lg:py-10">
+  <div class="min-h-[80vh] grid items-center mx-auto max-w-lg py-7.5 lg:py-10">
     <div>
       <div class="text-center text-title-2 lg:text-title-1 text-neutral-darkset font-bold">Welcome Back</div>
       <div class="mt-3 text-center text-body-2 lg:text-body-1 text-neutral-normal">
@@ -93,6 +93,8 @@
 </template>
 
 <script>
+import https from 'https';
+
 export default {
   auth: false,
 
@@ -110,12 +112,10 @@ export default {
   methods: {
     async userLogin() {
       try {
-        let response = await this.$auth.loginWith('cookie', { data: this.form });
-        console.log(response);
-        // const data = await this.$axios.$post('/api/v1?action=user.login', {
-        //   data: this.form,
-        // });
-        // console.log('data :>> ', data);
+        const { data } = await this.$auth.loginWith('cookie', { data: this.form });
+        if (data.result) {
+          this.$router.push('/dashboard');
+        }
       } catch (err) {
         console.log(err);
       }

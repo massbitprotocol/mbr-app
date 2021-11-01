@@ -79,8 +79,12 @@ module.exports = {
     plugin(function ({ addUtilities }) {
       const newUtilities = {
         '.text-large-title': {
-          fontSize: '3.5',
-          lineHeight: '3',
+          fontSize: '3.5rem',
+          lineHeight: '3rem',
+        },
+        '.text-medium-title': {
+          fontSize: '3rem',
+          lineHeight: '3rem',
         },
         '.text-title-1': {
           fontSize: '2.25rem',

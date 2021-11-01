@@ -1,3 +1,6 @@
+import path from 'path';
+import fs from 'fs';
+
 const color = `#2C3ACF`;
 
 export default {
@@ -51,11 +54,12 @@ export default {
     // https://github.com/nuxt-community/svg-module
     '@nuxtjs/svg',
     // https://axios.nuxtjs.org/
-    '@nuxtjs/axios',
+    ['@nuxtjs/axios', { credentials: true }],
     // https://auth.nuxtjs.org/
     '@nuxtjs/auth-next',
     // https://github.com/LinusBorg/portal-vue
     'portal-vue/nuxt',
+    'cookie-universal-nuxt',
   ],
 
   auth: {
@@ -67,20 +71,24 @@ export default {
     },
     strategies: {
       cookie: {
+        token: {
+          required: false,
+          type: false,
+        },
+        user: {
+          property: false,
+        },
         cookie: {
           // (optional) If set, we check this cookie existence for loggedIn check
-          name: '_slc_web_sid',
+          prefix: '_slc_web_sid',
         },
         endpoints: {
-          // (optional) If set, we send a get request to this endpoint before login
-          csrf: {
-            url: '',
-          },
-        },
-        endpoints: {
-          login: { url: '/api/v1?action=user.login', method: 'post' },
+          login: { url: '/api/v1?action=user.login', method: 'post', withCredentials: true },
           logout: { url: '/api/v1?action=user.logout', method: 'post' },
-          // user: { url: '/api/auth/user', method: 'get' },
+          csrf: {
+            url: '/api/v1?action=user.ping',
+          },
+          user: false,
         },
       },
     },
@@ -97,5 +105,12 @@ export default {
 
   axios: {
     baseURL: process.env.API_BASE_URL, // Used as fallback if no runtime config is provided
+  },
+
+  server: {
+    https: {
+      key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
+      cert: fs.readFileSync(path.resolve(__dirname, 'server.crt')),
+    },
   },
 };
