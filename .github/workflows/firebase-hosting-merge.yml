@@ -13,6 +13,8 @@ jobs:
       - uses: actions/checkout@v2
       - run: yarn install && yarn build && yarn generate
       - uses: FirebaseExtended/action-hosting-deploy@v0
+        env:
+          API_BASE_URL: https://dapi.massbit.io
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MASSBITROUTE }}'
