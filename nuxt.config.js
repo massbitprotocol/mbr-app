@@ -3,7 +3,7 @@ import fs from 'fs';
 
 const color = `#2C3ACF`;
 
-export default {
+const config = {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'mbr-app',
@@ -106,12 +106,15 @@ export default {
   axios: {
     baseURL: process.env.API_BASE_URL, // Used as fallback if no runtime config is provided
   },
-
-  // For dev
-  // server: {
-  //   https: {
-  //     key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
-  //     cert: fs.readFileSync(path.resolve(__dirname, 'server.crt')),
-  //   },
-  // },
 };
+
+if (process.env.NODE_ENV === 'development') {
+  config.server = {
+    https: {
+      key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
+      cert: fs.readFileSync(path.resolve(__dirname, 'server.crt')),
+    },
+  };
+}
+
+export default config;
