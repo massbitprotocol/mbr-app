@@ -38,27 +38,24 @@
     <DashboardApiCard />
 
     <template v-for="(chart, index) in charts">
-      <DashboardApiChart :key="index" :title="chart.name" :url="chart.url" class="my-10 lg:my-15" />
+      <DashboardApiChart
+        class="my-10 lg:my-15"
+        :key="index"
+        :title="chart.name"
+        :url="chart.url"
+        :filters="chart.filters"
+        :filter.sync="chart.filter"
+      />
     </template>
   </div>
 </template>
 
 <script>
-const charts = [
-  {
-    name: 'Total Requests',
-    url: 'https://gw.mbr.massbitroute.com/__internal_grafana/d-solo/6y_ACGKnk/sitestat?orgId=1&var-Instance=All&var-Host=p3v1vkrvkz89.eth-mainnet.massbitroute.com&panelId=1&from=now&to=now-6h',
-    filter: [],
-  },
-];
+import chartConfig from '~/mixins/chartConfig';
 export default {
   name: 'Index',
 
-  data() {
-    return {
-      charts,
-    };
-  },
+  mixins: [chartConfig],
 
   created() {
     // this.test();
