@@ -1,5 +1,5 @@
 <template>
-  <footer class="bg-footer bg-no-repeat bg-cover bg-top sm:bg-top pt-24 -mt-24 md:-mt-0">
+  <footer class="bg-footer bg-no-repeat bg-cover bg-top sm:bg-top pt-24 -mt-23 md:-mt-0">
     <div class="text-white pt-12 sm:pt-6 md:pt-0">
       <div class="container mx-auto">
         <div class="grid lg:grid-cols-5 grid-flow-row py-10 gap-14 divide-y divide-blue-900 lg:divide-none">

@@ -70,21 +70,15 @@ const config = {
       home: '/dashboard',
     },
     strategies: {
+      local: false,
       cookie: {
-        token: {
-          required: false,
-          type: false,
-        },
-        user: {
-          property: false,
-        },
         cookie: {
           // (optional) If set, we check this cookie existence for loggedIn check
           prefix: '_slc_web_sid',
         },
         endpoints: {
           login: { url: '/api/v1?action=user.login', method: 'post', withCredentials: true },
-          logout: { url: '/api/v1?action=user.logout', method: 'post' },
+          logout: false,
           // csrf: {
           //   url: '/api/v1?action=user.ping',
           // },

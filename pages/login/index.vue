@@ -83,7 +83,9 @@
 
           <div class="flex flex-wrap -mx-3 mb-5">
             <div class="w-full px-3 mb-5 md:mb-0">
-              <BaseButton class="w-full h-[52px]" type="submit" :disabled="invalid">Login</BaseButton>
+              <BaseButton class="w-full h-[52px]" type="submit" :disabled="invalid" :loading="loading">
+                Login
+              </BaseButton>
             </div>
           </div>
         </form>
@@ -106,11 +108,13 @@ export default {
         username: '',
         password: '',
       },
+      loading: false,
     };
   },
 
   methods: {
     async userLogin() {
+      this.loading = true;
       try {
         const { data } = await this.$auth.loginWith('cookie', { data: this.form });
         if (data.result) {
@@ -119,6 +123,7 @@ export default {
       } catch (err) {
         console.log(err);
       }
+      this.loading = false;
     },
   },
 };

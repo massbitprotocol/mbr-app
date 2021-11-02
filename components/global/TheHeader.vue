@@ -3,10 +3,10 @@
     <div class="h-full container mx-auto">
       <div class="h-full flex items-center justify-between">
         <TheLogoDark />
-
-        <BaseSecondaryButton class="hidden lg:block" @click="$router.push({ name: 'login' })">
+        <BaseSecondaryButton v-if="!$auth.loggedIn" class="hidden lg:block" @click="$router.push({ name: 'login' })">
           Login
         </BaseSecondaryButton>
+        <TheAccountDropdown v-else class="hidden lg:block"> Account </TheAccountDropdown>
 
         <div
           class="flex items-center justify-center lg:hidden w-[40px] h-[40px] bg-neutral-lightest rounded"
