@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-[80vh] mx-auto w-full">
-    <div class="text-title-2 lg:text-medium-title text-neutral-darkset font-bold my-5 lg:my-10">Dashboard</div>
+    <div class="text-2xl lg:text-medium-title text-neutral-darkset font-bold my-5 lg:my-10">Dashboard</div>
     <div class="flex items-center flex-wrap justify-between gap-2 mb-3 lg:mb-7.5">
       <div class="whitespace-nowrap text-heading-2 lg:text-title-2 text-neutral-darkset font-semibold lg:font-bold">
         YOUR API KEYS
@@ -46,11 +46,11 @@
 <script>
 const charts = [
   {
-    name: 'Total Requests"',
-    url: 'https://gw.mbr.massbitroute.com/__internal_grafana/d-solo/6y_ACGKnk/sitestat?orgId=1&amp;var-Instance=All&amp;var-Host=p3v1vkrvkz89.eth-mainnet.massbitroute.com&amp;panelId=1&amp;from=now&amp;to=now-6h',
+    name: 'Total Requests',
+    url: 'https://gw.mbr.massbitroute.com/__internal_grafana/d-solo/6y_ACGKnk/sitestat?orgId=1&var-Instance=All&var-Host=p3v1vkrvkz89.eth-mainnet.massbitroute.com&panelId=1&from=now&to=now-6h',
+    filter: [],
   },
 ];
-
 export default {
   name: 'Index',
 

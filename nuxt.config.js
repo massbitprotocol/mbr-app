@@ -85,9 +85,9 @@ export default {
         endpoints: {
           login: { url: '/api/v1?action=user.login', method: 'post', withCredentials: true },
           logout: { url: '/api/v1?action=user.logout', method: 'post' },
-          csrf: {
-            url: '/api/v1?action=user.ping',
-          },
+          // csrf: {
+          //   url: '/api/v1?action=user.ping',
+          // },
           user: false,
         },
       },
@@ -107,10 +107,11 @@ export default {
     baseURL: process.env.API_BASE_URL, // Used as fallback if no runtime config is provided
   },
 
-  server: {
-    https: {
-      key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
-      cert: fs.readFileSync(path.resolve(__dirname, 'server.crt')),
-    },
-  },
+  // For dev
+  // server: {
+  //   https: {
+  //     key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
+  //     cert: fs.readFileSync(path.resolve(__dirname, 'server.crt')),
+  //   },
+  // },
 };
