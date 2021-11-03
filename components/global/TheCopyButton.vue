@@ -2,8 +2,20 @@
   <div class="relative">
     <button
       type="button"
-      class="flex items-center justify-center rounded-full p-2 w-9 h-9 transition duration-150 ease-out"
-      :class="[copied ? 'text-white bg-primary' : 'text-neutral-mid bg-neutral-lightest']"
+      class="
+        flex
+        items-center
+        text-primary-darker
+        bg-neutral-lightest
+        justify-center
+        rounded
+        p-2
+        w-9
+        h-9
+        transition
+        duration-150
+        ease-out
+      "
       @click="copyToClipboard"
     >
       <span class="sr-only">Copy code</span>

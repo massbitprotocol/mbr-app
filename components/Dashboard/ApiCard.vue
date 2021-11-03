@@ -1,31 +1,44 @@
 <template>
-  <div class="w-full md:w-[450px] mt-5 border rounded-2xl border-primary-background">
+  <div v-if="api" class="w-full max-w-[450px] mt-5 border rounded-2xl border-primary-background">
     <div class="flex items-center justify-between px-5 py-4">
-      <div class="text-heading-2 lg:text-heading-1 text-neutral-darkset font-bold">Prodution</div>
-      <BaseToggle :checked.sync="is_prod" />
+      <div
+        class="
+          text-heading-2
+          lg:text-heading-1
+          text-neutral-darkset
+          font-bold
+          overflow-ellipsis
+          whitespace-nowrap
+          break-words
+          overflow-hidden
+        "
+      >
+        {{ api.name }}
+      </div>
+      <BaseToggle :checked.sync="status" />
     </div>
 
     <div class="grid grid-cols-1 px-5 py-4 bg-primary-darker text-white text-body-1">
       <div>API Key</div>
       <div class="inline-flex items-center gap-2 justify-between mt-1.5">
         <div class="font-bold overflow-ellipsis whitespace-nowrap break-words overflow-hidden">
-          8c0f4269-13c8-4fc2-bc55-9960efed45-4453-35355
+          {{ api.api_key }}
         </div>
-        <TheCopyButtonPrimary textToCopy="8c0f4269-13c8-4fc2-bc55-9960efed45-4432-35355" />
+        <TheCopyButtonPrimary :textToCopy="api.api_key" />
       </div>
     </div>
 
     <div class="grid grid-cols-1 border-b border-primary-background px-5 py-4">
       <div class="text-body-2 text-neutral-normal font-semibold">Requests Limit</div>
-      <div class="text-body-1 text-accent-green font-bold mt-1">Unlimited</div>
+      <div class="text-body-1 text-accent-green font-bold mt-1">{{ requestLimit }}</div>
     </div>
 
     <div class="px-5 py-2.5">
       <NuxtLink
-        :to="{ name: 'index' }"
+        :to="{ name: 'dashboard-id', params: { id: api.api_id } }"
         class="flex items-center justify-between w-full text-body-2 text-primary font-semibold hover:text-primary/90"
       >
-        <span> Settings for API Key </span>
+        <span>Settings for API Key</span>
 
         <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -44,10 +57,40 @@
 export default {
   name: 'DashboardApiCard',
 
+  props: {
+    api: {
+      type: Object,
+      default: () => new Object(),
+    },
+  },
+
+  created() {
+    console.log('this.api :>> ', this.api);
+  },
+
   data() {
     return {
       is_prod: false,
     };
+  },
+
+  computed: {
+    status: {
+      get() {
+        return !!this.api.status;
+      },
+      set(value) {
+        this.$emit('updateApiStatus', value);
+      },
+    },
+
+    requestLimit() {
+      if (this.api.security && this.api.security.limit_rate_per_sec) {
+        return `${this.api.security.limit_rate_per_sec} per second`;
+      }
+
+      return 'Unlimited';
+    },
   },
 };
 </script>

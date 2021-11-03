@@ -35,7 +35,11 @@
       </button>
     </div>
 
-    <DashboardApiCard />
+    <div class="flex flex-col items-center md:grid md:grid-cols-2 xl:grid-cols-3 gap-5">
+      <template v-for="(api, index) in apis">
+        <DashboardApiCard :key="index" :api="api" />
+      </template>
+    </div>
 
     <template v-for="(chart, index) in charts">
       <DashboardApiChart
@@ -57,19 +61,18 @@ export default {
 
   mixins: [chartConfig],
 
-  created() {
-    // this.test();
+  async fetch() {
+    const { data, result } = await this.$axios.$get('/api/v1?action=api.list');
+    if (result) {
+      this.apis = data;
+    }
   },
+  fetchOnServer: false,
 
-  methods: {
-    async test() {
-      try {
-        const data = await this.$axios.$get('/api/v1?action=user.ping');
-        console.log('data :>> ', data);
-      } catch (error) {
-        console.log('error :>> ', error);
-      }
-    },
+  data() {
+    return {
+      apis: [],
+    };
   },
 };
 </script>
