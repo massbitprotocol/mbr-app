@@ -2,20 +2,10 @@
   <div class="relative">
     <button
       type="button"
-      class="
-        flex
-        items-center
-        text-primary-darker
-        bg-neutral-lightest
-        justify-center
-        rounded
-        p-2
-        w-9
-        h-9
-        transition
-        duration-150
-        ease-out
-      "
+      :class="[
+        buttonClass,
+        'flex items-center text-primary-darker bg-neutral-lightest justify-center rounded p-2 w-9 h-9 transition duration-150 ease-out',
+      ]"
       @click="copyToClipboard"
     >
       <span class="sr-only">Copy code</span>
@@ -61,6 +51,11 @@
 export default {
   name: 'TheCopyButton',
   props: {
+    buttonClass: {
+      type: String,
+      default: '',
+    },
+
     textToCopy: {
       type: String,
       required: true,

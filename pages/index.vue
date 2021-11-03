@@ -19,5 +19,11 @@ export default {
   auth: false,
 
   name: 'Index',
+
+  async asyncData({ $auth, redirect }) {
+    if ($auth.loggedIn) {
+      redirect('/dashboard');
+    }
+  },
 };
 </script>

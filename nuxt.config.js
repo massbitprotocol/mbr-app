@@ -23,12 +23,13 @@ const config = {
   css: [
     '~/assets/css/fonts.css',
     '~/assets/css/hero.css',
+    '~/assets/css/tooltip.css',
     '~/assets/css/transition.css',
     '~/assets/css/animations.css',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{ src: '~/plugins/validate' }, { src: '~/plugins/axios' }],
+  plugins: [{ src: '~/plugins/validate' }, { src: '~/plugins/axios' }, '~/plugins/tooltip'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -45,20 +46,21 @@ const config = {
     '@nuxtjs/stylelint-module',
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
+    // https://github.com/nuxt-community/svg-module
+    '@nuxtjs/svg',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://github.com/nuxt-community/dayjs-module
     '@nuxtjs/dayjs',
-    // https://github.com/nuxt-community/svg-module
-    '@nuxtjs/svg',
     // https://axios.nuxtjs.org/
     ['@nuxtjs/axios', { credentials: true }],
     // https://auth.nuxtjs.org/
     '@nuxtjs/auth-next',
     // https://github.com/LinusBorg/portal-vue
     'portal-vue/nuxt',
+    // https://github.com/microcipcip/cookie-universal
     'cookie-universal-nuxt',
   ],
 
