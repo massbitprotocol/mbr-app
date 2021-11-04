@@ -1,9 +1,9 @@
 <template>
-  <label for="base-toggle" class="flex items-center cursor-pointer">
+  <label :for="`base-toggle-${refId}`" class="flex items-center cursor-pointer">
     <!-- toggle -->
     <div class="relative">
       <!-- input -->
-      <input v-model="_checked" type="checkbox" id="base-toggle" class="sr-only" />
+      <input v-model="_checked" type="checkbox" :id="`base-toggle-${refId}`" class="sr-only" />
       <!-- line -->
       <div
         :class="{ 'block  w-14 h-8 rounded-full': true, 'bg-primary': checked, 'bg-primary-background': !checked }"
@@ -24,6 +24,11 @@ export default {
     checked: {
       type: Boolean,
       default: false,
+    },
+
+    refId: {
+      type: String,
+      default: '',
     },
   },
 

@@ -10,4 +10,13 @@ export default {
     commit('setList', []);
     return [];
   },
+
+  async updateApi({ commit }, api) {
+    const { result } = await this.$axios.$post('/api/v1?action=api.update', api);
+    if (result) {
+      commit('updateApi', api);
+    }
+
+    return result;
+  },
 };

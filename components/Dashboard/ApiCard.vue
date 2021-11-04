@@ -15,7 +15,7 @@
       >
         {{ api.name }}
       </div>
-      <BaseToggle :checked.sync="status" />
+      <BaseToggle :refId="api.api_key" :checked.sync="status" />
     </div>
 
     <div class="grid grid-cols-1 px-5 py-4 bg-primary-darker text-white text-body-1">
@@ -64,10 +64,6 @@ export default {
     },
   },
 
-  created() {
-    console.log('this.api :>> ', this.api);
-  },
-
   data() {
     return {
       is_prod: false,
@@ -77,7 +73,7 @@ export default {
   computed: {
     status: {
       get() {
-        return !!this.api.status;
+        return !!parseInt(this.api.status);
       },
       set(value) {
         this.$emit('updateApiStatus', value);

@@ -1,3 +1,4 @@
+import webpack from 'webpack';
 import path from 'path';
 import fs from 'fs';
 
@@ -105,6 +106,12 @@ const config = {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: ['vee-validate/dist/rules'],
+    plugins: [
+      new webpack.ProvidePlugin({
+        // global modules
+        _: 'lodash',
+      }),
+    ],
   },
 
   axios: {

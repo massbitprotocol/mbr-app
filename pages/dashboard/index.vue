@@ -38,7 +38,7 @@
 
     <div class="flex flex-col items-center md:grid md:grid-cols-2 xl:grid-cols-3 gap-5">
       <template v-for="(api, index) in apiList">
-        <DashboardApiCard :key="index" :api="api" />
+        <DashboardApiCard :key="index" :api="api" @updateApiStatus="(value) => updateApiStatus(api, value)" />
       </template>
     </div>
 
@@ -81,6 +81,13 @@ export default {
     ...mapGetters({
       apiList: 'api/list',
     }),
+  },
+
+  methods: {
+    async updateApiStatus(api, checked) {
+      let _api = _.cloneDeep(api);
+      await this.$store.dispatch('api/updateApi', Object.assign(_api, { status: checked ? 1 : 0 }));
+    },
   },
 };
 </script>
