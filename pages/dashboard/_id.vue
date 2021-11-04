@@ -1,6 +1,6 @@
 <template>
   <div class="pb-20">
-    <DashboardBreadcrumb />
+    <!-- <DashboardBreadcrumb />
 
     <div class="w-full flex flex-col sm:flex sm:flex-row sm:items-center sm:justify-between mt-5 mb-3 lg:mt-10 lg:mb-5">
       <div class="text-2xl lg:text-medium-title text-neutral-darkset font-bold">Production</div>
@@ -32,7 +32,7 @@
 
     <DashboardApiSecurity />
 
-    <DashboardApiEntrypoints />
+    <DashboardApiEntrypoints /> -->
   </div>
 </template>
 
