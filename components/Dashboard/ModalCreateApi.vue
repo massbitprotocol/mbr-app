@@ -1,7 +1,15 @@
 <template>
   <TheModal :open.sync="_visible" :backdrop="true">
     <div class="max-w-[570px] w-full bg-white p-5 rounded-lg z-10 text-left overflow-hidden">
-      <div class="text-heading-2 text-neutral-darkset font-bold">Create new API Key</div>
+      <div class="w-full flex items-center justify-between">
+        <div class="text-heading-2 text-neutral-darkset font-bold">Create new API Key</div>
+
+        <div
+          @click="_visible = false"
+          class="flex items-center text-neutral-darkset cursor-pointer"
+          v-html="require(`~/assets/svg/icon/close.svg?raw`)"
+        ></div>
+      </div>
 
       <div class="mt-5">
         <ValidationObserver v-slot="{ handleSubmit, invalid }" tag="div">
