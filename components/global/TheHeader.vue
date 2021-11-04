@@ -4,11 +4,13 @@
       <div class="h-full flex items-center justify-between">
         <TheLogoDark />
 
-        <BaseGhostButton v-if="!$auth.loggedIn" class="hidden lg:block" @click="$router.push({ name: 'login' })">
-          Login
-        </BaseGhostButton>
+        <client-only>
+          <BaseGhostButton v-if="!$auth.loggedIn" class="hidden lg:block" @click="$router.push({ name: 'login' })">
+            Login
+          </BaseGhostButton>
 
-        <TheAccountDropdown v-else class="hidden lg:block"> Account </TheAccountDropdown>
+          <TheAccountDropdown v-else class="hidden lg:block"> Account </TheAccountDropdown>
+        </client-only>
 
         <div
           class="flex items-center justify-center lg:hidden w-[40px] h-[40px] bg-neutral-lightest rounded"

@@ -20,10 +20,10 @@ export default {
 
   name: 'Index',
 
-  async asyncData({ $auth, redirect }) {
-    if ($auth.loggedIn) {
-      redirect('/dashboard');
-    }
-  },
+  // async asyncData({ $auth, redirect }) {
+  //   if ($auth.loggedIn) {
+  //     redirect('/dashboard');
+  //   }
+  // },
 };
 </script>
