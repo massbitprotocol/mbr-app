@@ -7,6 +7,7 @@
       </div>
 
       <button
+        @click="showModalCreateApi = true"
         class="
           flex
           items-center
@@ -51,6 +52,8 @@
         :filter.sync="chart.filter"
       />
     </template>
+
+    <DashboardModalCreateApi :visible.sync="showModalCreateApi" />
   </div>
 </template>
 
@@ -72,6 +75,7 @@ export default {
   data() {
     return {
       apis: [],
+      showModalCreateApi: false,
     };
   },
 };
