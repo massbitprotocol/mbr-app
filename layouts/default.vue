@@ -2,16 +2,17 @@
   <div class="flex flex-col min-h-screen">
     <TheHeader class="bg-white" />
 
-    <template v-if="$route.name === 'dashboard-id'">
-      <PortalTarget name="breadcrumb" />
-    </template>
+    <PortalTarget name="breadcrumb" />
 
     <main class="container mx-auto flex-auto">
       <Nuxt />
     </main>
 
     <TheFooter />
+
     <PortalTarget name="sidebar" />
+
+    <BaseNotification />
   </div>
 </template>
 

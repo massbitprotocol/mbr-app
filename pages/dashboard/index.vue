@@ -37,7 +37,7 @@
     </div>
 
     <div class="flex flex-col items-center md:grid md:grid-cols-2 xl:grid-cols-3 gap-5">
-      <template v-for="(api, index) in apis">
+      <template v-for="(api, index) in apiList">
         <DashboardApiCard :key="index" :api="api" />
       </template>
     </div>
@@ -58,25 +58,29 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import chartConfig from '~/mixins/chartConfig';
+
 export default {
   name: 'Index',
 
   mixins: [chartConfig],
 
-  async fetch() {
-    const { data, result } = await this.$axios.$get('/api/v1?action=api.list');
-    if (result) {
-      this.apis = data;
-    }
+  async asyncData({ store }) {
+    await store.dispatch('api/getListApi');
   },
-  fetchOnServer: false,
 
   data() {
     return {
       apis: [],
       showModalCreateApi: false,
     };
+  },
+
+  computed: {
+    ...mapGetters({
+      apiList: 'api/list',
+    }),
   },
 };
 </script>

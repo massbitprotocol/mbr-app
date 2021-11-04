@@ -144,12 +144,17 @@ export default {
       try {
         const { result } = await this.$axios.$post('/api/v1?action=api.create', this.form);
         if (result) {
-          // TODO: Show notification succsess
-          // TODO: Reload list api
+          await this.$store.dispatch('api/getListApi');
+
+          setTimeout(() => {
+            this.$notify({ type: 'success', text: 'New entrypoint has been successfully created!' });
+          }, 500);
+
+          this.loading = false;
           this._visible = false;
         }
       } catch (error) {
-        // TODO: Show notification error
+        this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
       }
       this.loading = false;
     },

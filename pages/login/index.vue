@@ -95,8 +95,6 @@
 </template>
 
 <script>
-import https from 'https';
-
 export default {
   auth: false,
 
@@ -118,7 +116,12 @@ export default {
       try {
         const { data } = await this.$auth.loginWith('cookie', { data: this.form });
         if (data.result) {
-          this.$router.push('/dashboard');
+          let sid = data.data.sid || null;
+          if (sid) {
+            this.$auth.$storage.setUniversal('_slc_web_sid', sid);
+
+            this.$router.push('/dashboard');
+          }
         }
       } catch (err) {
         console.log(err);

@@ -52,12 +52,12 @@ const config = {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    // https://github.com/nuxt-community/dayjs-module
-    '@nuxtjs/dayjs',
     // https://axios.nuxtjs.org/
-    ['@nuxtjs/axios', { credentials: true }],
+    '@nuxtjs/axios',
     // https://auth.nuxtjs.org/
     '@nuxtjs/auth-next',
+    // https://github.com/nuxt-community/dayjs-module
+    '@nuxtjs/dayjs',
     // https://github.com/LinusBorg/portal-vue
     'portal-vue/nuxt',
     // https://github.com/microcipcip/cookie-universal
@@ -65,25 +65,33 @@ const config = {
   ],
 
   auth: {
+    local: false,
+    plugins: [
+      '~/plugins/auth',
+      { src: '~/plugins/axios', ssr: true },
+      { src: '~/plugins/notifications/ssr', ssr: true },
+      { src: '~/plugins/notifications/client', ssr: false },
+    ],
     redirect: {
       login: '/login',
-      logout: '/',
-      callback: '/login',
       home: '/dashboard',
+      logout: '/login',
+    },
+    cookie: {
+      prefix: '',
     },
     strategies: {
-      local: false,
       cookie: {
-        cookie: {
-          // (optional) If set, we check this cookie existence for loggedIn check
-          prefix: '_slc_web_sid',
+        token: {
+          required: false,
+          type: false,
+        },
+        user: {
+          property: false,
         },
         endpoints: {
           login: { url: '/api/v1?action=user.login', method: 'post', withCredentials: true },
           logout: false,
-          // csrf: {
-          //   url: '/api/v1?action=user.ping',
-          // },
           user: false,
         },
       },
@@ -101,6 +109,7 @@ const config = {
 
   axios: {
     baseURL: process.env.API_BASE_URL, // Used as fallback if no runtime config is provided
+    credentials: true,
   },
 };
 
