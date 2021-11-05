@@ -42,16 +42,18 @@
       </template>
     </div>
 
-    <template v-for="(chart, index) in charts">
-      <DashboardApiChart
-        class="my-10 lg:my-15"
-        :key="index"
-        :title="chart.name"
-        :url="chart.url"
-        :filters="chart.filters"
-        :filter.sync="chart.filter"
-      />
-    </template>
+    <client-only>
+      <template v-for="(chart, index) in charts">
+        <DashboardApiChart
+          class="my-10 lg:my-15"
+          :key="index"
+          :title="chart.name"
+          :url="chart.url"
+          :filters="chart.filters"
+          :filter.sync="chart.filter"
+        />
+      </template>
+    </client-only>
 
     <DashboardModalCreateApi :visible.sync="showModalCreateApi" />
   </div>
