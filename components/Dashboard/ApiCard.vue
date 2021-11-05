@@ -1,5 +1,5 @@
 <template>
-  <div v-if="api" class="w-full max-w-[450px] mt-5 border rounded-2xl border-primary-background">
+  <div class="w-full max-w-[450px] mt-5 border rounded-2xl border-primary-background">
     <div class="flex items-center justify-between px-5 py-4">
       <div
         class="
