@@ -1,48 +1,46 @@
 <template>
   <div class="pb-20">
-    <client-only>
-      <DashboardBreadcrumb />
+    <DashboardBreadcrumb />
 
-      <div
-        class="w-full flex flex-col sm:flex sm:flex-row sm:items-center sm:justify-between mt-5 mb-3 lg:mt-10 lg:mb-5"
-      >
-        <div class="text-2xl lg:text-medium-title text-neutral-darkset font-bold">Production</div>
+    <div class="w-full flex flex-col sm:flex sm:flex-row sm:items-center sm:justify-between mt-5 mb-3 lg:mt-10 lg:mb-5">
+      <div class="text-2xl lg:text-medium-title text-neutral-darkset font-bold">Production</div>
 
-        <div class="flex justify-between items-center sm:justify-end gap-3 mt-3">
-          <div class="flex gap-3 items-center">
-            <BaseIconButton class="w-[36px] h-[36px]" icon="edit" />
+      <div class="flex justify-between items-center sm:justify-end gap-3 mt-3">
+        <div class="flex gap-3 items-center">
+          <BaseIconButton class="w-[36px] h-[36px]" icon="edit" />
 
-            <BaseIconButton class="w-[36px] h-[36px]" icon="delete" />
-          </div>
-
-          <BasePopover
-            class="flex items-center"
-            content="Change status of the API key. If you don't want API key active, please switch it off."
-            contentClass="w-[197px]"
-          >
-            <BaseToggle :checked.sync="status" />
-          </BasePopover>
+          <BaseIconButton class="w-[36px] h-[36px]" icon="delete" />
         </div>
+
+        <BasePopover
+          class="flex items-center"
+          content="Change status of the API key. If you don't want API key active, please switch it off."
+          contentClass="w-[197px]"
+        >
+          <BaseToggle :checked.sync="status" />
+        </BasePopover>
       </div>
+    </div>
 
-      <DashboardApiKey apiKey="8c0f4269-13c8-4fc2-bc55-9960efed45-2312-35355" />
+    <DashboardApiKey apiKey="8c0f4269-13c8-4fc2-bc55-9960efed45-2312-35355" />
 
-      <DashboardApiProvider />
+    <DashboardApiProvider />
 
-      <DashboardApiBlockchain />
+    <DashboardApiBlockchain />
 
-      <DashboardApiNetwork />
+    <DashboardApiNetwork />
 
-      <DashboardApiSecurity />
+    <DashboardApiSecurity />
 
-      <DashboardApiEntrypoints />
-    </client-only>
+    <DashboardApiEntrypoints />
   </div>
 </template>
 
 <script>
 export default {
   name: 'DashboardDetail',
+  middleware: ['auth'],
+  auth: true,
 
   data() {
     return {

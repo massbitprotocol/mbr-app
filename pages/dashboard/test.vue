@@ -39,6 +39,8 @@
 <script>
 export default {
   name: 'DashboardTest',
+  middleware: ['auth'],
+  auth: true,
 
   data() {
     return {

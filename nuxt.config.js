@@ -75,9 +75,9 @@ const config = {
     ],
     redirect: {
       login: '/login',
-      home: '/',
-      logout: '/',
-      callback: '/login',
+      home: '/dashboard',
+      logout: '/login',
+      callback: false,
     },
     cookie: {
       prefix: '',
@@ -98,10 +98,6 @@ const config = {
         },
       },
     },
-  },
-
-  router: {
-    middleware: ['auth'],
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

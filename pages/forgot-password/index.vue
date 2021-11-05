@@ -56,9 +56,9 @@
 
 <script>
 export default {
-  auth: false,
-
   name: 'ForgotPassword',
+  middleware: ['auth'],
+  auth: false,
 
   data() {
     return {

@@ -96,9 +96,9 @@
 
 <script>
 export default {
-  auth: false,
-
   name: 'Login',
+  middleware: ['auth'],
+  auth: false,
 
   data() {
     return {

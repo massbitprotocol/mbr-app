@@ -65,6 +65,8 @@ import chartConfig from '~/mixins/chartConfig';
 
 export default {
   name: 'Index',
+  middleware: ['auth'],
+  auth: true,
 
   mixins: [chartConfig],
 
