@@ -115,7 +115,7 @@ const config = {
   },
 
   axios: {
-    baseURL: process.env.API_BASE_URL, // Used as fallback if no runtime config is provided
+    baseURL: process.env.API_BASE_URL,
     credentials: true,
   },
 };

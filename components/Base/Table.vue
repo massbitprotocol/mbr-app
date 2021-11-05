@@ -8,17 +8,31 @@
     </colgroup>
 
     <thead>
-      <!-- <client-only> -->
       <tr>
-        <th
-          v-for="(column, index) in columns"
-          :key="index"
-          class="px-6 py-3 text-left text-xs font-medium text-white uppercase"
-        >
-          {{ column.title }}
+        <th v-for="(column, index) in columns" :key="index" class="px-6 py-3">
+          <span class="text-left text-xs font-medium text-white uppercase">
+            {{ column.title }}
+          </span>
+
+          <input
+            v-if="column.filter === 'text'"
+            class="
+              mt-2
+              appearance-none
+              block
+              w-full
+              text-body-2 text-gray-700
+              border border-primary-background
+              rounded
+              px-2
+              mb-2.5
+              leading-tight
+            "
+            type="text"
+            :placeholder="column.title"
+          />
         </th>
       </tr>
-      <!-- </client-only> -->
     </thead>
 
     <tbody class="bg-white">

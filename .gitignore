@@ -92,3 +92,4 @@ sw.*
 # Ignore local key
 server.crt
 server.key
+ecosystem.config.js

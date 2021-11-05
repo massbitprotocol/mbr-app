@@ -23,21 +23,25 @@ const columns = [
     title: 'ID',
     dataIndex: 'id',
     width: '180px',
+    filter: 'text',
   },
   {
     title: 'Type',
     dataIndex: 'type',
     width: '180px',
+    filter: 'text',
   },
   {
     title: 'Priority',
     dataIndex: 'priority',
     width: '180px',
+    filter: 'text',
   },
   {
     title: 'Status',
     dataIndex: 'status',
     width: '180px',
+    filter: 'text',
   },
   {
     title: '',
