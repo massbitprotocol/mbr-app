@@ -42,7 +42,7 @@
 
 <script>
 export default {
-  name: 'Detail',
+  name: 'DashboardDetail',
 
   data() {
     return {

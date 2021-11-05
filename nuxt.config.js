@@ -75,8 +75,9 @@ const config = {
     ],
     redirect: {
       login: '/login',
-      home: '/dashboard',
-      logout: '/login',
+      home: '/',
+      logout: '/',
+      callback: '/login',
     },
     cookie: {
       prefix: '',
