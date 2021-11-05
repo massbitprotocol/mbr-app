@@ -77,7 +77,7 @@ const config = {
       login: '/login',
       home: '/dashboard',
       logout: '/login',
-      callback: false,
+      callback: '/login',
     },
     cookie: {
       prefix: '',
