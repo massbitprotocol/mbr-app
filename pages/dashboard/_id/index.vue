@@ -22,17 +22,19 @@
       </div>
     </div>
 
-    <DashboardApiKey apiKey="8c0f4269-13c8-4fc2-bc55-9960efed45-2312-35355" />
+    <client-only>
+      <DashboardApiKey apiKey="8c0f4269-13c8-4fc2-bc55-9960efed45-2312-35355" />
 
-    <DashboardApiProvider />
+      <DashboardApiProvider />
 
-    <DashboardApiBlockchain />
+      <DashboardApiBlockchain />
 
-    <DashboardApiNetwork />
+      <DashboardApiNetwork />
 
-    <DashboardApiSecurity />
+      <DashboardApiSecurity />
 
-    <DashboardApiEntrypoints />
+      <DashboardApiEntrypoints />
+    </client-only>
   </div>
 </template>
 
