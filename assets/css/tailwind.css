@@ -19,7 +19,12 @@
   ::-webkit-scrollbar-thumb {
     @apply rounded-lg border-solid border-4 border-transparent;
 
-    background: #A4A9CE;
+    background: #a4a9ce;
     background-clip: content-box;
+  }
+
+  [type='checkbox'],
+  [type='radio'] {
+    @apply bg-transparent rounded-full border-2 border-neutral-lighter text-primary focus:border-primary focus:ring focus:ring-offset-0 focus:ring-primary/20;
   }
 }

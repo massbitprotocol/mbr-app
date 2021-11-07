@@ -6,12 +6,16 @@
 
       <div class="h-[44px] flex items-center justify-between">
         <div class="flex items-center mt-2">
-          <div class="flex items-center mr-2" v-html="require(`~/assets/svg/icon/ethereum.svg?raw`)"></div>
-          <div class="text-body-1 text-neutral-darkset font-semibold">Ethereum</div>
+          <div
+            v-if="blockchain.image"
+            class="flex items-center mr-2"
+            v-html="require(`~/assets/svg/icon/ethereum.svg?raw`)"
+          ></div>
+          <div class="text-body-1 text-neutral-darkset font-semibold">{{ blockchain.value || '' }}</div>
         </div>
 
         <div class="h-[22px] flex items-center py-0.5 px-3 bg-primary rounded">
-          <span class="text-white text-caption font-semibold"> ETH </span>
+          <span class="text-white text-caption font-semibold uppercase">{{ blockchain.id || '' }} </span>
         </div>
       </div>
     </div>
@@ -22,7 +26,9 @@
 
       <div class="h-[44px] flex items-center justify-between">
         <div class="flex items-center mt-2">
-          <div class="text-body-1 text-neutral-darkset font-semibold">JSON-RPC</div>
+          <div class="text-body-1 text-neutral-darkset font-semibold">
+            {{ apiInterface && apiInterface.value ? apiInterface.value : '' }}
+          </div>
         </div>
       </div>
     </div>
@@ -32,5 +38,17 @@
 <script>
 export default {
   name: 'DashboardApiBlockchain',
+
+  props: {
+    blockchain: {
+      type: Object,
+      default: () => new Object(),
+    },
+
+    apiInterface: {
+      type: Object,
+      default: () => new Object(),
+    },
+  },
 };
 </script>

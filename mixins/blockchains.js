@@ -125,4 +125,10 @@ export default {
       blockchains,
     };
   },
+
+  methods: {
+    getBlockChainByID(id) {
+      return this.blockchains.find((blockchain) => blockchain.id === id);
+    },
+  },
 };

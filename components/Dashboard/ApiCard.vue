@@ -35,7 +35,7 @@
 
     <div class="px-5 py-2.5">
       <NuxtLink
-        :to="{ name: 'dashboard-id', params: { id: api.api_id } }"
+        :to="{ name: 'dashboard-id', params: { id: api.id } }"
         class="flex items-center justify-between w-full text-body-2 text-primary font-semibold hover:text-primary/90"
       >
         <span>Settings for API Key</span>

@@ -21,12 +21,9 @@
             overflow-hidden
           "
         >
-          https://zgq9ro8rjg1c.sol-mainnet.massbitroute.com/0637d8f6-8a0d-4492-a8fb-b1d02ac50fb2/
+          {{ gatewayHttp }}
         </div>
-        <TheCopyButton
-          buttonClass="bg-primary-background"
-          textToCopy="https://zgq9ro8rjg1c.sol-mainnet.massbitroute.com/0637d8f6-8a0d-4492-a8fb-b1d02ac50fb2/"
-        />
+        <TheCopyButton buttonClass="bg-primary-background" :textToCopy="gatewayHttp" />
       </div>
 
       <div class="mt-6 lg:mt-7 text-body-2 lg:text-body-1 text-neutral-normal font-semibold">WSS Provider:</div>
@@ -46,12 +43,9 @@
             overflow-hidden
           "
         >
-          wss://zgq9ro8rjg1c.sol-mainnet.massbitroute.com/0637d8f6-8a0d-4492-a8fb-b1d02ac50fb2/
+          {{ gatewayWss }}
         </div>
-        <TheCopyButton
-          buttonClass="bg-primary-background"
-          textToCopy="wss://zgq9ro8rjg1c.sol-mainnet.massbitroute.com/0637d8f6-8a0d-4492-a8fb-b1d02ac50fb2/"
-        />
+        <TheCopyButton buttonClass="bg-primary-background" :textToCopy="gatewayWss" />
       </div>
     </div>
   </div>
@@ -60,5 +54,17 @@
 <script>
 export default {
   name: 'ApiProvider',
+
+  props: {
+    gatewayHttp: {
+      type: String,
+      default: '',
+    },
+
+    gatewayWss: {
+      type: String,
+      default: '',
+    },
+  },
 };
 </script>

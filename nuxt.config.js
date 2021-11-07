@@ -32,11 +32,7 @@ const config = {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [{ src: '~/plugins/validate' }, { src: '~/plugins/axios' }, '~/plugins/tooltip'],
 
-  generate: {
-    routes: () => {
-      return ['/dashboard/_'];
-    },
-  },
+  // Config nuxt gen
   target: 'static',
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -109,6 +105,7 @@ const config = {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    // Add exception
     transpile: ['vee-validate/dist/rules'],
     plugins: [
       new webpack.ProvidePlugin({

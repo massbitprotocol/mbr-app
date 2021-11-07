@@ -1,6 +1,6 @@
 export default {
   async getListApi({ commit }) {
-    const { data, result } = await this.$axios.$get('/api/v1?action=api.list');
+    const { data, result } = await this.$axios.$get('/api/v1', { params: { action: 'api.list' } });
     if (result) {
       commit('setList', data);
 
@@ -9,6 +9,18 @@ export default {
 
     commit('setList', []);
     return [];
+  },
+
+  async getApi({ commit }, id) {
+    const { data, result } = await this.$axios.$get('/api/v1?action=api.get', { params: { id } });
+    if (result) {
+      commit('setApi', data);
+
+      return data;
+    }
+
+    commit('setApi', null);
+    return null;
   },
 
   async updateApi({ commit }, api) {
