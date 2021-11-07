@@ -23,7 +23,10 @@
     background-clip: content-box;
   }
 
-  [type='checkbox'],
+  [type='checkbox'] {
+    @apply bg-transparent rounded border-2 border-neutral-lighter text-primary focus:border-primary focus:ring focus:ring-offset-0 focus:ring-primary/20;
+  }
+
   [type='radio'] {
     @apply bg-transparent rounded-full border-2 border-neutral-lighter text-primary focus:border-primary focus:ring focus:ring-offset-0 focus:ring-primary/20;
   }
