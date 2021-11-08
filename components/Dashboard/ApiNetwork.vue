@@ -19,11 +19,12 @@
           class="flex items-center h-[64px] mr-4"
           v-html="require(`~/assets/svg/dashboard/request-limit.svg?raw`)"
         ></div>
+
         <div class="flex flex-col">
           <div class="text-body-1 text-neutral-normal font-semibold">Requests Limit</div>
-          <div v-if="security.limit_rate_per_sec" class="text-body-1 text-neutral-normal font-semibold">
-            <span class="text-heading-1 text-accent-green"> {{ security.limit_rate_per_sec || '' }} </span>
-            <span>/ Per second</span>
+          <div v-if="security.limit_rate_per_day" class="text-body-1 text-neutral-normal font-semibold">
+            <span class="text-heading-1 text-accent-green"> {{ security.limit_rate_per_day }} </span>
+            <span>/ Per day</span>
           </div>
 
           <div v-else class="text-body-1 text-neutral-normal font-semibold">
@@ -51,11 +52,19 @@
     </div>
 
     <!-- Modal change limit -->
-    <DashboardModalChangeLimit :visible.sync="showModalUpdateSecutiry" />
+    <DashboardModalChangeLimit
+      @onSave="onSave()"
+      :visible.sync="showModalUpdateSecutiry"
+      :limitRatePerDay.sync="limitRatePerDay"
+      :limitType.sync="limitType"
+      :loading.sync="loading"
+    />
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'DashboardApiNetwork',
 
@@ -69,7 +78,70 @@ export default {
   data() {
     return {
       showModalUpdateSecutiry: false,
+      limitRatePerDay: 0,
+      limitType: 'unlimit',
+      loading: false,
     };
+  },
+
+  created() {
+    this.limitRatePerDay = this.getLimitRatePerDay();
+    if (this.limitRatePerDay === 0) {
+      this.limitType = 'unlimit';
+    } else {
+      this.limitType = 'limit';
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+      api: 'api/value',
+    }),
+  },
+
+  methods: {
+    getLimitRatePerDay() {
+      if (this.api.security && this.api.security.limit_rate_per_day) {
+        return parseInt(this.api.security.limit_rate_per_day);
+      }
+
+      return 0;
+    },
+
+    async onSave() {
+      this.loading = true;
+
+      let _api = _.cloneDeep(this.api);
+
+      let limitRatePerDay = this.limitRatePerDay;
+      if (this.limitType === 'unlimit') {
+        limitRatePerDay = 0;
+      } else if (limitRatePerDay === 0) {
+        this.limitType = 'unlimit';
+      }
+
+      let _security = _api.security;
+      if (typeof _security === 'object') {
+        _security = Object.assign(_security, { limit_rate_per_day: limitRatePerDay });
+      } else {
+        _security = { limit_rate_per_day: limitRatePerDay, limit_rate_per_sec: 0, allow_methods: '' };
+      }
+
+      let result = await this.$store.dispatch(
+        'api/updateApi',
+        Object.assign(_api, {
+          security: _security,
+        }),
+      );
+      if (result) {
+        this.$notify({ type: 'success', text: 'Changing request limit successful!!' });
+        this.showModalUpdateSecutiry = false;
+      } else {
+        this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+      }
+
+      this.loading = false;
+    },
   },
 };
 </script>
