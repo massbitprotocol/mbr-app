@@ -4,67 +4,73 @@
       <DashboardBreadcrumb />
     </client-only>
 
-    <div class="w-full flex flex-col sm:flex sm:flex-row sm:items-center sm:justify-between mt-5 mb-3 lg:mt-10 lg:mb-5">
-      <div class="text-2xl lg:text-medium-title text-neutral-darkset font-bold">
-        <template v-if="editName">
-          <input
-            :value="_api.name"
-            @blur="updateApiName"
-            ref="apiName"
-            type="text"
-            class="
-              text-2xl
-              lg:text-medium-title
-              text-neutral-darkset
-              font-bold
-              appearance-none
-              block
-              w-full
-              border border-primary-background
-              rounded
-              leading-tight
-            "
-          />
-        </template>
-        <template v-else>
-          {{ api.name }}
-        </template>
+    <div v-if="_api">
+      <div
+        class="w-full flex flex-col sm:flex sm:flex-row sm:items-center sm:justify-between mt-5 mb-3 lg:mt-10 lg:mb-5"
+      >
+        <div class="text-2xl lg:text-medium-title text-neutral-darkset font-bold">
+          <template v-if="editName">
+            <input
+              :value="_api.name"
+              @blur="updateApiName"
+              ref="apiName"
+              type="text"
+              class="
+                text-2xl
+                lg:text-medium-title
+                text-neutral-darkset
+                font-bold
+                appearance-none
+                block
+                w-full
+                border border-primary-background
+                rounded
+                leading-tight
+              "
+            />
+          </template>
+          <template v-else>
+            {{ api.name }}
+          </template>
+        </div>
+
+        <client-only>
+          <div class="flex justify-between items-center sm:justify-end gap-3 mt-3">
+            <div class="flex gap-3 items-center">
+              <BasePopover class="flex items-center" content="Change the name of the API key" contentClass="w-[197px]">
+                <BaseIconButton class="w-[36px] h-[36px]" icon="edit" @click="showEditApiName" />
+              </BasePopover>
+
+              <BaseIconButton class="w-[36px] h-[36px]" icon="delete" />
+            </div>
+
+            <BasePopover
+              class="flex items-center"
+              content="Change status of the API key. If you don't want API key active, please switch it off."
+              contentClass="w-[197px]"
+            >
+              <BaseToggle :checked.sync="status" />
+            </BasePopover>
+          </div>
+        </client-only>
       </div>
 
       <client-only>
-        <div class="flex justify-between items-center sm:justify-end gap-3 mt-3">
-          <div class="flex gap-3 items-center">
-            <BasePopover class="flex items-center" content="Change the name of the API key" contentClass="w-[197px]">
-              <BaseIconButton class="w-[36px] h-[36px]" icon="edit" @click="showEditApiName" />
-            </BasePopover>
+        <DashboardApiKey :apiKey="api.api_key" />
 
-            <BaseIconButton class="w-[36px] h-[36px]" icon="delete" />
-          </div>
+        <DashboardApiProvider :gatewayHttp="api.gateway_http" :gatewayWss="api.gateway_wss" />
 
-          <BasePopover
-            class="flex items-center"
-            content="Change status of the API key. If you don't want API key active, please switch it off."
-            contentClass="w-[197px]"
-          >
-            <BaseToggle :checked.sync="status" />
-          </BasePopover>
-        </div>
+        <DashboardApiBlockchain :blockchain="_blockchain" :apiInterface="_apiInterface" />
+
+        <DashboardApiNetwork :security="_security" />
+
+        <DashboardApiSecurity />
+
+        <DashboardApiEntrypoints />
       </client-only>
     </div>
 
-    <client-only>
-      <DashboardApiKey :apiKey="api.api_key" />
-
-      <DashboardApiProvider :gatewayHttp="api.gateway_http" :gatewayWss="api.gateway_wss" />
-
-      <DashboardApiBlockchain :blockchain="_blockchain" :apiInterface="_apiInterface" />
-
-      <DashboardApiNetwork :security="_security" />
-
-      <DashboardApiSecurity />
-
-      <DashboardApiEntrypoints />
-    </client-only>
+    <div v-else></div>
   </div>
 </template>
 
