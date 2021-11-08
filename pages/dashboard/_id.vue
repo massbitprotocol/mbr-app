@@ -76,7 +76,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import blockchains from '~/mixins/blockchains';
 
 export default {
   name: 'DashboardDetail',
@@ -91,8 +90,6 @@ export default {
     }
   },
 
-  mixins: [blockchains],
-
   data() {
     return {
       editName: false,
@@ -106,6 +103,7 @@ export default {
   computed: {
     ...mapGetters({
       api: 'api/value',
+      getBlockchainByID: 'blockchains/getBlockchainByID',
     }),
 
     status: {
@@ -128,7 +126,7 @@ export default {
     },
 
     _blockchain() {
-      return this.getBlockChainByID(this.api.blockchain) || null;
+      return this.getBlockchainByID(this.api.blockchain) || null;
     },
 
     _apiInterface() {
