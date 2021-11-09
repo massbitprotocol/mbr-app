@@ -54,9 +54,9 @@
         </div>
       </div>
 
-      <BaseSecondaryButton class="w-full md:w-auto h-[52px] mt-7.5" @click="updateSecurity" :loading="loading"
-        >Update</BaseSecondaryButton
-      >
+      <BaseSecondaryButton class="w-full md:w-auto h-[52px] mt-7.5" @click="updateSecurity" :loading="loading">
+        Update
+      </BaseSecondaryButton>
     </div>
   </div>
 </template>

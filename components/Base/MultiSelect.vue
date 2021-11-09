@@ -28,12 +28,12 @@
 
     <!-- Input search -->
     <input
+      v-show="showMenu"
       v-model="filterText"
       :size="filterText ? filterText.length : 1"
       class="border-none border-transparent !ring-0 !ring-transparent"
       ref="input"
       type="text"
-      @focus="showMenu = true"
     />
 
     <div
@@ -105,11 +105,6 @@ export default {
 
     _sourceData: {
       get() {
-        // if (this.sourceData && this.sourceData.length > 0) {
-        //   console.log('this.sourceData.length :>> ', this.sourceData.length);
-        //   return this.sourceData.filter((source) => source.name.toLowerCase().includes(this.filterText.toLowerCase()));
-        // }
-
         return this.sourceData;
       },
       set(value) {
@@ -120,11 +115,13 @@ export default {
 
   methods: {
     hoverToInput() {
-      this.$refs.input.focus();
+      this.showMenu = true;
+      this.$nextTick(() => {
+        this.$refs.input.focus();
+      });
     },
 
     getItemName(key) {
-      console.log('this.source :>> ', this.source);
       let item = this.source.find((item) => item.key === key);
       if (item) {
         return item.name;
