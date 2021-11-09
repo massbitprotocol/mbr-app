@@ -1,6 +1,6 @@
 <template>
   <div class="relative w-full inline-block text-left">
-    <div class="relative flex w-full flex-wrap items-stretch">
+    <div class="relative flex w-full flex-wrap items-center mb-2.5">
       <input
         v-model="filter"
         @focus="onShowDropdown"
@@ -16,10 +16,24 @@
           rounded
           py-3
           px-4
-          mb-2.5
           leading-tight
         "
       />
+      <div class="pointer-events-none absolute top-1/2 transform -translate-y-1/2 right-3">
+        <!-- Caret up -->
+        <template v-if="showDropdown">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 12L10 7L5 12H15Z" fill="#050C72" />
+          </svg>
+        </template>
+
+        <!-- Caret down -->
+        <template v-else>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M5 8L10 13L15 8H5Z" fill="#050C72" />
+          </svg>
+        </template>
+      </div>
     </div>
 
     <button
@@ -43,6 +57,7 @@
         class="
           origin-center
           fixed
+          z-10
           right-0
           mt-2
           w-full
@@ -93,6 +108,17 @@ export default {
       showDropdown: false,
       filter: '',
     };
+  },
+
+  created() {
+    if (this.key) {
+      let item = this.source.find((item) => item.id === this.key);
+      if (item) {
+        this.filter = item.value;
+      } else {
+        this.filter = '';
+      }
+    }
   },
 
   computed: {
@@ -163,6 +189,7 @@ export default {
     onSelectItem(item) {
       this.filter = item.value;
       this.key = item.id;
+      this.$emit('onChange', item.id);
 
       this.$nextTick(() => this.onHideDropdown());
     },
