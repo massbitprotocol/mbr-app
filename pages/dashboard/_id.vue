@@ -111,10 +111,10 @@ export default {
   mixins: [chartConfig],
 
   async asyncData({ store, error, params }) {
-    const api = await store.dispatch('api/getApi', params.id);
-    if (!api) {
-      error({ statusCode: 404, message: 'Api not found' });
-    }
+    // const api = await store.dispatch('api/getApi', params.id);
+    // if (!api) {
+    //   error({ statusCode: 404, message: 'Api not found' });
+    // }
   },
 
   data() {
@@ -123,8 +123,14 @@ export default {
     };
   },
 
-  created() {
+  async created() {
     console.log('this.api :>> ', this.api);
+    if (!this.api) {
+      const api = await this.$store.dispatch('api/getApi', this.id);
+      if (!api) {
+        return this.$nuxt.error({ statusCode: 404, message: 'Api not found' });
+      }
+    }
   },
 
   computed: {
@@ -132,6 +138,10 @@ export default {
       api: 'api/value',
       getBlockchainByID: 'blockchains/getBlockchainByID',
     }),
+
+    id() {
+      return this.$route.params.id || null;
+    },
 
     status: {
       get() {
