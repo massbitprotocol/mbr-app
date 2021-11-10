@@ -47,7 +47,7 @@
 
 <script>
 export default {
-  name: 'TheCopyButton',
+  name: 'TheCopyButtonPrimary',
   props: {
     textToCopy: {
       type: String,

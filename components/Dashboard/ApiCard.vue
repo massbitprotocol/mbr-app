@@ -1,8 +1,12 @@
 <template>
-  <div class="w-full max-w-[450px] mt-5 border rounded-2xl border-primary-background">
-    <div class="flex items-center justify-between px-5 py-4">
+  <div class="w-full grid grid-cols-1 md:grid-cols-4 gap-5 mt-5 py-4 border rounded-2xl border-primary-background">
+    <div class="flex flex-col justify-between px-0 md:px-5">
       <div
         class="
+          px-5
+          md:px-0
+          mb-4
+          md:mb-0
           text-heading-2
           lg:text-heading-1
           text-neutral-darkset
@@ -15,28 +19,108 @@
       >
         {{ api.name }}
       </div>
-      <BaseToggle :refId="api.api_key" :checked.sync="status" />
-    </div>
 
-    <div class="grid grid-cols-1 px-5 py-4 bg-primary-darker text-white text-body-1">
-      <div>API Key</div>
-      <div class="inline-flex items-center gap-2 justify-between mt-1.5">
-        <div class="font-bold overflow-ellipsis whitespace-nowrap break-words overflow-hidden">
-          {{ api.api_key }}
+      <div class="bg-primary-darker md:bg-white py-4 md:py-0 px-5 md:px-0">
+        <div class="block md:hidden text-body-2 text-primary-background font-semibold">API key</div>
+
+        <div class="w-full inline-flex items-center justify-between gap-2">
+          <div
+            class="
+              text-body-2
+              md:text-body-1
+              text-neutral-white
+              md:text-neutral-darker
+              font-semibold
+              overflow-ellipsis
+              whitespace-nowrap
+              break-words
+              overflow-hidden
+            "
+          >
+            {{ api.api_key }}
+          </div>
+
+          <TheCopyButton class="hidden md:flex" buttonClass="bg-primary-background" :textToCopy="api.api_key" />
+          <TheCopyButtonPrimary class="flex md:hidden" :textToCopy="api.api_key" />
         </div>
-        <TheCopyButtonPrimary :textToCopy="api.api_key" />
       </div>
     </div>
 
-    <div class="grid grid-cols-1 border-b border-primary-background px-5 py-4">
-      <div class="text-body-2 text-neutral-normal font-semibold">Requests Limit</div>
-      <div class="text-body-1 text-accent-green font-bold mt-1">{{ requestLimit }}</div>
+    <div class="hidden md:grid grid-cols-1 m-auto align-middle px-5">
+      <div class="text-body-2 text-neutral-normal font-semibold">Status</div>
+
+      <BaseToggle class="mt-1" :refId="api.api_key" :checked.sync="status" />
     </div>
 
-    <div class="px-5 py-2.5">
+    <div class="flex flex-col items-start md:items-center justify-center px-5">
+      <div class="flex flex-col">
+        <div class="text-body-2 text-neutral-normal font-semibold">Requests Limit</div>
+        <div
+          class="
+            w-full
+            md:w-[150px]
+            mt-1
+            text-body-1 text-accent-green
+            font-bold
+            overflow-ellipsis
+            whitespace-nowrap
+            break-words
+            overflow-hidden
+          "
+        >
+          {{ requestLimit }}
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="
+        flex flex-col
+        items-end
+        justify-center
+        border-t
+        md:border-t-none
+        border-primary-background
+        md:border-transparent
+        px-5
+        pt-4
+        md:pt-0
+      "
+    >
+      <button
+        @click="$router.push({ name: 'dashboard-id', params: { id: api.id } })"
+        class="
+          max-w-[189px]
+          h-[52px]
+          hidden
+          md:flex
+          items-center
+          justify-center
+          cursor-pointer
+          bg-neutral-lightest
+          text-primary text-body-1
+          font-semibold
+          px-7.5
+          rounded-lg
+          hover:bg-neutral-lightest/90
+          whitespace-nowrap
+        "
+      >
+        API Key Settings
+      </button>
+
       <NuxtLink
         :to="{ name: 'dashboard-id', params: { id: api.id } }"
-        class="flex items-center justify-between w-full text-body-2 text-primary font-semibold hover:text-primary/90"
+        class="
+          w-full
+          flex
+          md:hidden
+          items-center
+          justify-between
+          text-body-2 text-primary
+          font-semibold
+          hover:text-primary/90
+        "
       >
         <span>Settings for API Key</span>
 
