@@ -1,8 +1,6 @@
 <template>
   <div class="pb-20">
-    <client-only>
-      <DashboardBreadcrumb />
-    </client-only>
+    <DashboardBreadcrumb />
 
     <div v-if="_api">
       <div
@@ -34,64 +32,60 @@
           </template>
         </div>
 
-        <client-only>
-          <div class="flex justify-between items-center sm:justify-end gap-3 mt-3">
-            <div class="flex gap-3 items-center">
-              <BasePopover class="flex items-center" content="Change the name of the API key" contentClass="w-[197px]">
-                <BaseIconButton class="w-[36px] h-[36px]" icon="edit" @click="showEditApiName" />
-              </BasePopover>
-
-              <BasePopover
-                class="flex items-center"
-                content="Delete this API key, if you don’t need it anymore."
-                contentClass="w-[197px]"
-              >
-                <BaseIconButton class="w-[36px] h-[36px]" icon="delete" />
-              </BasePopover>
-            </div>
+        <div class="flex justify-between items-center sm:justify-end gap-3 mt-3">
+          <div class="flex gap-3 items-center">
+            <BasePopover class="flex items-center" content="Change the name of the API key" contentClass="w-[197px]">
+              <BaseIconButton class="w-[36px] h-[36px]" icon="edit" @click="showEditApiName" />
+            </BasePopover>
 
             <BasePopover
               class="flex items-center"
-              content="Change status of the API key. If you don't want API key active, please switch it off."
+              content="Delete this API key, if you don’t need it anymore."
               contentClass="w-[197px]"
             >
-              <BaseToggle :checked.sync="status" />
+              <BaseIconButton class="w-[36px] h-[36px]" icon="delete" />
             </BasePopover>
           </div>
-        </client-only>
+
+          <BasePopover
+            class="flex items-center"
+            content="Change status of the API key. If you don't want API key active, please switch it off."
+            contentClass="w-[197px]"
+          >
+            <BaseToggle :checked.sync="status" />
+          </BasePopover>
+        </div>
       </div>
 
-      <client-only>
-        <DashboardApiKey :apiKey="api.api_key" />
+      <DashboardApiKey :apiKey="api.api_key" />
 
-        <DashboardApiProvider :gatewayHttp="api.gateway_http" :gatewayWss="api.gateway_wss" />
+      <DashboardApiProvider :gatewayHttp="api.gateway_http" :gatewayWss="api.gateway_wss" />
 
-        <DashboardApiBlockchain :blockchain="_blockchain" :apiInterface="_apiInterface" />
+      <DashboardApiBlockchain :blockchain="_blockchain" :apiInterface="_apiInterface" />
 
-        <DashboardApiNetwork :security="_security" />
+      <DashboardApiNetwork :security="_security" />
 
-        <DashboardApiSecurity />
+      <DashboardApiSecurity />
 
-        <DashboardApiEntrypoints />
+      <DashboardApiEntrypoints />
 
-        <div class="mt-10 lg:mt-15">
-          <div class="flex items-center justify-between">
-            <div class="uppercase text-heading-2 lg:text-title-2 text-neutral-darkset font-semibold lg:font-bold">
-              Stats
-            </div>
+      <div class="mt-10 lg:mt-15">
+        <div class="flex items-center justify-between">
+          <div class="uppercase text-heading-2 lg:text-title-2 text-neutral-darkset font-semibold lg:font-bold">
+            Stats
           </div>
-
-          <template v-for="(chart, index) in charts">
-            <DashboardStats
-              :key="index"
-              :title="chart.name"
-              :url="chart.url"
-              :filters="chart.filters"
-              :filter.sync="chart.filter"
-            />
-          </template>
         </div>
-      </client-only>
+
+        <template v-for="(chart, index) in charts">
+          <DashboardStats
+            :key="index"
+            :title="chart.name"
+            :url="chart.url"
+            :filters="chart.filters"
+            :filter.sync="chart.filter"
+          />
+        </template>
+      </div>
     </div>
 
     <div v-else></div>
@@ -111,10 +105,10 @@ export default {
   mixins: [chartConfig],
 
   async asyncData({ store, error, params }) {
-    // const api = await store.dispatch('api/getApi', params.id);
-    // if (!api) {
-    //   error({ statusCode: 404, message: 'Api not found' });
-    // }
+    const api = await store.dispatch('api/getApi', params.id);
+    if (!api) {
+      error({ statusCode: 404, message: 'Api not found' });
+    }
   },
 
   data() {
