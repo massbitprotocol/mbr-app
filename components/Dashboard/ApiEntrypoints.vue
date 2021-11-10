@@ -177,7 +177,13 @@ export default {
 
   created() {
     if (this.columns && this._providers.length > 0) {
-      this.columns[1].filterSelectSource.push(...this._providers);
+      this.columns[1].filterSelectSource = [
+        {
+          name: 'All',
+          value: 'all',
+        },
+        ...this._providers,
+      ];
     }
   },
 
@@ -194,7 +200,7 @@ export default {
 
     _entrypoints() {
       if (this.api && this.api.entrypoints && Array.isArray(this.api.entrypoints)) {
-        return this.api.entrypoints;
+        return _.cloneDeep(this.api.entrypoints);
       }
 
       return [];

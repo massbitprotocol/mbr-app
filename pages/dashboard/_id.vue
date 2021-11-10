@@ -73,6 +73,24 @@
         <DashboardApiSecurity />
 
         <DashboardApiEntrypoints />
+
+        <div class="mt-10 lg:mt-15">
+          <div class="flex items-center justify-between">
+            <div class="uppercase text-heading-2 lg:text-title-2 text-neutral-darkset font-semibold lg:font-bold">
+              Stats
+            </div>
+          </div>
+
+          <template v-for="(chart, index) in charts">
+            <DashboardStats
+              :key="index"
+              :title="chart.name"
+              :url="chart.url"
+              :filters="chart.filters"
+              :filter.sync="chart.filter"
+            />
+          </template>
+        </div>
       </client-only>
     </div>
 
@@ -82,12 +100,15 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import chartConfig from '~/mixins/chartConfig';
 
 export default {
   name: 'DashboardDetail',
 
   middleware: ['auth'],
   auth: true,
+
+  mixins: [chartConfig],
 
   async asyncData({ store, error, params }) {
     const api = await store.dispatch('api/getApi', params.id);
@@ -136,7 +157,7 @@ export default {
     },
 
     _apiInterface() {
-      if (this._blockchain.api_interface && this.api.api_interface) {
+      if (this._blockchain && this._blockchain.api_interface && this.api.api_interface) {
         return this._blockchain.api_interface.find((item) => item.id === this.api.api_interface);
       }
 
