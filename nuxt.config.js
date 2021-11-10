@@ -40,9 +40,6 @@ const config = {
     '~/plugins/tooltip',
   ],
 
-  // Config nuxt gen
-  target: 'static',
-
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
@@ -77,7 +74,6 @@ const config = {
   ],
 
   auth: {
-    local: false,
     plugins: ['~/plugins/auth'],
     redirect: {
       login: '/login',
@@ -121,7 +117,6 @@ const config = {
   axios: {
     baseURL: process.env.API_BASE_URL,
     credentials: true,
-    debug: true,
   },
 };
 

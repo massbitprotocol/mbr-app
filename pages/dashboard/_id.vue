@@ -118,7 +118,6 @@ export default {
   },
 
   async created() {
-    console.log('this.api :>> ', this.api);
     if (!this.api) {
       const api = await this.$store.dispatch('api/getApi', this.id);
       if (!api) {
