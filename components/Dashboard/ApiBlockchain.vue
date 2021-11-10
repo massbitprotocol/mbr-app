@@ -7,7 +7,7 @@
       <div class="h-[44px] flex items-center justify-between">
         <div class="flex items-center mt-2">
           <div
-            v-if="blockchain.image"
+            v-if="blockchain && blockchain.image"
             class="flex items-center mr-2"
             v-html="require(`~/assets/svg/icon/ethereum.svg?raw`)"
           ></div>

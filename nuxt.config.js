@@ -118,6 +118,7 @@ const config = {
   axios: {
     baseURL: process.env.API_BASE_URL,
     credentials: true,
+    debug: true,
   },
 };
 
