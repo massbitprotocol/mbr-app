@@ -20,6 +20,8 @@ const config = {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
+  mode: 'universal',
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '~/assets/css/fonts.css',
@@ -30,7 +32,13 @@ const config = {
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{ src: '~/plugins/validate' }, { src: '~/plugins/axios' }, '~/plugins/tooltip'],
+  plugins: [
+    { src: '~/plugins/validate' },
+    { src: '~/plugins/axios', ssr: true },
+    { src: '~/plugins/notifications/ssr', ssr: true },
+    { src: '~/plugins/notifications/client', ssr: false },
+    '~/plugins/tooltip',
+  ],
 
   // Config nuxt gen
   target: 'static',
@@ -70,12 +78,7 @@ const config = {
 
   auth: {
     local: false,
-    plugins: [
-      '~/plugins/auth',
-      { src: '~/plugins/axios', ssr: true },
-      { src: '~/plugins/notifications/ssr', ssr: true },
-      { src: '~/plugins/notifications/client', ssr: false },
-    ],
+    plugins: ['~/plugins/auth'],
     redirect: {
       login: '/login',
       home: '/dashboard',
