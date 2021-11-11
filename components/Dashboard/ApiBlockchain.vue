@@ -4,13 +4,9 @@
     <div class="p-5 bg-white rounded-xl border border-primary-background">
       <div class="text-body-1 text-neutral-darkset font-semibold">Blockchain</div>
 
-      <div class="h-[44px] flex items-center justify-between">
+      <div v-if="blockchain" class="h-[44px] flex items-center justify-between">
         <div class="flex items-center mt-2">
-          <div
-            v-if="blockchain && blockchain.image"
-            class="flex items-center mr-2"
-            v-html="require(`~/assets/svg/icon/ethereum.svg?raw`)"
-          ></div>
+          <img v-if="blockchain.icon" :src="blockchain.icon" class="mr-2" width="32" height="32" />
           <div class="text-body-1 text-neutral-darkset font-semibold">{{ blockchain.value || '' }}</div>
         </div>
 
@@ -24,10 +20,10 @@
     <div class="p-5 bg-white rounded-xl border border-primary-background">
       <div class="text-body-1 text-neutral-darkset font-semibold">API Interface</div>
 
-      <div class="h-[44px] flex items-center justify-between">
+      <div v-if="apiInterface" class="h-[44px] flex items-center justify-between">
         <div class="flex items-center mt-2">
           <div class="text-body-1 text-neutral-darkset font-semibold">
-            {{ apiInterface && apiInterface.value ? apiInterface.value : '' }}
+            {{ apiInterface.value ? apiInterface.value : 'JSON-RPC' }}
           </div>
         </div>
       </div>

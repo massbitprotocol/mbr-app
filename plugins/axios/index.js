@@ -3,6 +3,7 @@ export default function ({ $axios, app, redirect }) {
     const { data } = response;
     if (data && !data.data && data.err_code === 100) {
       app.$auth.logout();
+      redirect('/login');
     }
   });
 }

@@ -38,13 +38,13 @@
               <BaseIconButton class="w-[36px] h-[36px]" icon="edit" @click="showEditApiName" />
             </BasePopover>
 
-            <BasePopover
+            <!-- <BasePopover
               class="flex items-center"
               content="Delete this API key, if you don’t need it anymore."
               contentClass="w-[197px]"
             >
               <BaseIconButton class="w-[36px] h-[36px]" icon="delete" />
-            </BasePopover>
+            </BasePopover> -->
           </div>
 
           <BasePopover

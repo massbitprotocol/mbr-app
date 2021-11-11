@@ -165,8 +165,8 @@ export default {
     },
 
     requestLimit() {
-      if (this.api.security && this.api.security.limit_rate_per_sec) {
-        return `${this.api.security.limit_rate_per_sec} per second`;
+      if (this.api.security && this.api.security.limit_rate_per_day) {
+        return `${this.api.security.limit_rate_per_day} per day`;
       }
 
       return 'Unlimited';

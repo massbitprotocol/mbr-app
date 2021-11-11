@@ -1,7 +1,6 @@
 export default {
   actions: {
     async nuxtServerInit({ commit }, { app }) {
-      console.log('nuxtServerInit =======================');
       if (app.$auth.loggedIn) {
         const data = await app.$axios.$get('config.json');
         if (data) {
