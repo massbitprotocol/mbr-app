@@ -2,7 +2,6 @@ export default {
   actions: {
     async nuxtServerInit({ commit }, { app }) {
       if (app.$auth.loggedIn) {
-        console.log('nuxtServerInit =========================');
         const data = await app.$axios.$get('config.json');
         if (data) {
           // Init blockchains

@@ -21,89 +21,91 @@
     </div>
 
     <div v-else>
-      <div
-        class="w-full flex flex-col sm:flex sm:flex-row sm:items-center sm:justify-between mt-5 mb-3 lg:mt-10 lg:mb-5"
-      >
-        <div class="text-2xl lg:text-medium-title text-neutral-darkset font-bold">
-          <template v-if="editName">
-            <input
-              :value="_api.name"
-              @blur="updateApiName"
-              ref="apiName"
-              type="text"
-              class="
-                text-2xl
-                lg:text-medium-title
-                text-neutral-darkset
-                font-bold
-                appearance-none
-                block
-                w-full
-                border border-primary-background
-                rounded
-                leading-tight
-              "
-            />
-          </template>
-          <template v-else>
-            {{ _api.name }}
-          </template>
-        </div>
+      <client-only>
+        <div
+          class="w-full flex flex-col sm:flex sm:flex-row sm:items-center sm:justify-between mt-5 mb-3 lg:mt-10 lg:mb-5"
+        >
+          <div class="text-2xl lg:text-medium-title text-neutral-darkset font-bold">
+            <template v-if="editName">
+              <input
+                :value="_api.name"
+                @blur="updateApiName"
+                ref="apiName"
+                type="text"
+                class="
+                  text-2xl
+                  lg:text-medium-title
+                  text-neutral-darkset
+                  font-bold
+                  appearance-none
+                  block
+                  w-full
+                  border border-primary-background
+                  rounded
+                  leading-tight
+                "
+              />
+            </template>
+            <template v-else>
+              {{ _api.name }}
+            </template>
+          </div>
 
-        <div class="flex justify-between items-center sm:justify-end gap-3 mt-3">
-          <div class="flex gap-3 items-center">
-            <BasePopover class="flex items-center" content="Change the name of the API key" contentClass="w-[197px]">
-              <BaseIconButton class="w-[36px] h-[36px]" icon="edit" @click="showEditApiName" />
-            </BasePopover>
+          <div class="flex justify-between items-center sm:justify-end gap-3 mt-3">
+            <div class="flex gap-3 items-center">
+              <BasePopover class="flex items-center" content="Change the name of the API key" contentClass="w-[197px]">
+                <BaseIconButton class="w-[36px] h-[36px]" icon="edit" @click="showEditApiName" />
+              </BasePopover>
 
-            <!-- <BasePopover
+              <!-- <BasePopover
               class="flex items-center"
               content="Delete this API key, if you don’t need it anymore."
               contentClass="w-[197px]"
             >
               <BaseIconButton class="w-[36px] h-[36px]" icon="delete" />
             </BasePopover> -->
-          </div>
+            </div>
 
-          <BasePopover
-            class="flex items-center"
-            content="Change status of the API key. If you don't want API key active, please switch it off."
-            contentClass="w-[197px]"
-          >
-            <BaseToggle :checked.sync="status" />
-          </BasePopover>
-        </div>
-      </div>
-
-      <DashboardApiKey :apiKey="api.api_key" />
-
-      <DashboardApiProvider :gatewayHttp="api.gateway_http" :gatewayWss="api.gateway_wss" />
-
-      <DashboardApiBlockchain :blockchain="_blockchain" :apiInterface="_apiInterface" />
-
-      <DashboardApiNetwork :security="_security" />
-
-      <DashboardApiSecurity />
-
-      <DashboardApiEntrypoints />
-
-      <div class="mt-10 lg:mt-15">
-        <div class="flex items-center justify-between">
-          <div class="uppercase text-heading-2 lg:text-title-2 text-neutral-darkset font-semibold lg:font-bold">
-            Stats
+            <BasePopover
+              class="flex items-center"
+              content="Change status of the API key. If you don't want API key active, please switch it off."
+              contentClass="w-[197px]"
+            >
+              <BaseToggle :checked.sync="status" />
+            </BasePopover>
           </div>
         </div>
 
-        <template v-for="(chart, index) in charts">
-          <DashboardStats
-            :key="index"
-            :title="chart.name"
-            :url="chart.url"
-            :filters="chart.filters"
-            :filter.sync="chart.filter"
-          />
-        </template>
-      </div>
+        <DashboardApiKey :apiKey="api.api_key" />
+
+        <DashboardApiProvider :gatewayHttp="api.gateway_http" :gatewayWss="api.gateway_wss" />
+
+        <DashboardApiBlockchain :blockchain="_blockchain" :apiInterface="_apiInterface" />
+
+        <DashboardApiNetwork :security="_security" />
+
+        <DashboardApiSecurity />
+
+        <DashboardApiEntrypoints />
+
+        <div class="mt-10 lg:mt-15">
+          <div class="flex items-center justify-between">
+            <div class="uppercase text-heading-2 lg:text-title-2 text-neutral-darkset font-semibold lg:font-bold">
+              Stats
+            </div>
+          </div>
+
+          <template v-for="(chart, index) in charts">
+            <DashboardStats
+              :key="index"
+              :title="chart.name"
+              :url="chart.url"
+              :filters="chart.filters"
+              :filter.sync="chart.filter"
+            />
+          </template>
+        </div>
+      </client-only>
     </div>
   </div>
 </template>
