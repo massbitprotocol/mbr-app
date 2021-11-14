@@ -100,6 +100,12 @@ export default {
   middleware: ['auth'],
   auth: false,
 
+  async asyncData({ $auth, redirect }) {
+    if ($auth.loggedIn) {
+      redirect('/dashboard');
+    }
+  },
+
   data() {
     return {
       form: {

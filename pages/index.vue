@@ -17,9 +17,5 @@
 <script>
 export default {
   name: 'Index',
-
-  created() {
-    console.log('here ==========================');
-  },
 };
 </script>

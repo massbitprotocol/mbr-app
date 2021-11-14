@@ -74,11 +74,11 @@ const config = {
   ],
 
   auth: {
-    plugins: ['~/plugins/auth'],
+    plugins: [{ src: '~/plugins/axios', ssr: true }, '~/plugins/auth'],
     redirect: {
       login: '/login',
+      logout: '/',
       home: '/dashboard',
-      logout: '/login',
       callback: '/login',
     },
     cookie: {

@@ -69,11 +69,8 @@ export default {
   },
 
   methods: {
-    async submitFormForgotPassword() {
-      try {
-      } catch (err) {
-        console.log(err);
-      }
+    submitFormForgotPassword() {
+      console.log('ForgotPassword');
     },
   },
 };

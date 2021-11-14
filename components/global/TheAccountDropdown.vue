@@ -3,8 +3,8 @@
     <!-- Button -->
     <div>
       <button
-        @click="showMenu = !showMenu"
         type="button"
+        @click="showMenu = !showMenu"
         class="
           inline-flex
           items-center
@@ -64,6 +64,7 @@
             Setting
           </NuxtLink>
           <button
+            type="button"
             class="flex text-body-2 text-accent-red hover:text-accent-red/90 font-semibold"
             @click="$auth.logout()"
           >
