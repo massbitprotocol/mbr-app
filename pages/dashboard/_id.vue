@@ -2,7 +2,7 @@
   <div class="pb-20">
     <DashboardBreadcrumb />
 
-    <div v-if="_api">
+    <client-only>
       <div
         class="w-full flex flex-col sm:flex sm:flex-row sm:items-center sm:justify-between mt-5 mb-3 lg:mt-10 lg:mb-5"
       >
@@ -86,9 +86,7 @@
           />
         </template>
       </div>
-    </div>
-
-    <div v-else></div>
+    </client-only>
   </div>
 </template>
 
@@ -104,10 +102,10 @@ export default {
 
   mixins: [chartConfig],
 
-  async asyncData({ store, error, params }) {
-    const api = await store.dispatch('api/getApi', params.id);
+  async fetch() {
+    const api = await this.$store.dispatch('api/getApi', this.id);
     if (!api) {
-      error({ statusCode: 404, message: 'Api not found' });
+      return this.$nuxt.error({ statusCode: 404, message: 'Api not found' });
     }
   },
 
@@ -115,15 +113,6 @@ export default {
     return {
       editName: false,
     };
-  },
-
-  async created() {
-    if (!this.api) {
-      const api = await this.$store.dispatch('api/getApi', this.id);
-      if (!api) {
-        return this.$nuxt.error({ statusCode: 404, message: 'Api not found' });
-      }
-    }
   },
 
   computed: {
