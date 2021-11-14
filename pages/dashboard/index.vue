@@ -20,13 +20,13 @@
       </BaseButton>
     </div>
 
-    <div class="flex flex-col gap-y-2.5">
-      <template v-for="(api, index) in apiList">
-        <DashboardApiCard :key="index" :api="api" @updateApiStatus="(value) => updateApiStatus(api, value)" />
-      </template>
-    </div>
-
     <client-only>
+      <div class="flex flex-col gap-y-2.5">
+        <template v-for="(api, index) in apiList">
+          <DashboardApiCard :key="index" :api="api" @updateApiStatus="(value) => updateApiStatus(api, value)" />
+        </template>
+      </div>
+
       <template v-for="(chart, index) in charts">
         <DashboardApiChart
           class="my-10 lg:my-15"
@@ -37,9 +37,9 @@
           :filter.sync="chart.filter"
         />
       </template>
-    </client-only>
 
-    <DashboardModalCreateApi :visible.sync="showModalCreateApi" />
+      <DashboardModalCreateApi :visible.sync="showModalCreateApi" />
+    </client-only>
   </div>
 </template>
 
@@ -54,8 +54,8 @@ export default {
 
   mixins: [chartConfig],
 
-  async asyncData({ store }) {
-    await store.dispatch('api/getListApi');
+  async fetch() {
+    await this.$store.dispatch('api/getListApi');
   },
 
   data() {
