@@ -1,4 +1,4 @@
-import webpack from 'webpack';
+// import webpack from 'webpack';
 // import path from 'path';
 // import fs from 'fs';
 
@@ -104,12 +104,12 @@ const config = {
   build: {
     // Add exception
     transpile: ['vee-validate/dist/rules'],
-    plugins: [
-      new webpack.ProvidePlugin({
-        // global modules
-        _: 'lodash',
-      }),
-    ],
+    // plugins: [
+    //   new webpack.ProvidePlugin({
+    //     // global modules
+    //     _: 'lodash',
+    //   }),
+    // ],
   },
 
   axios: {
