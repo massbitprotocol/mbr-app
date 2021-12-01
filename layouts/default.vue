@@ -24,7 +24,7 @@ export default {
 
   mode: 'out-in',
 
-  created() {
+  async created() {
     if (this.providers.length === 0) {
       await this.initData();
     }
