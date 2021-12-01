@@ -1,6 +1,6 @@
 import webpack from 'webpack';
-import path from 'path';
-import fs from 'fs';
+// import path from 'path';
+// import fs from 'fs';
 
 const color = `#2C3ACF`;
 
@@ -118,13 +118,13 @@ const config = {
   },
 };
 
-if (process.env.NODE_ENV === 'development') {
-  config.server = {
-    https: {
-      key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
-      cert: fs.readFileSync(path.resolve(__dirname, 'server.crt')),
-    },
-  };
-}
+// if (process.env.NODE_ENV === 'development') {
+//   config.server = {
+//     https: {
+//       key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
+//       cert: fs.readFileSync(path.resolve(__dirname, 'server.crt')),
+//     },
+//   };
+// }
 
 export default config;
