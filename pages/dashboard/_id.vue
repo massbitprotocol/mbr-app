@@ -112,6 +112,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import _ from 'lodash';
+
 import chartConfig from '~/mixins/chartConfig';
 
 export default {
