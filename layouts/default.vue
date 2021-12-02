@@ -50,7 +50,7 @@ export default {
         }
 
         if (data.providers) {
-          this.setBlockchains(data.providers);
+          this.setproviders(data.providers);
         }
       } catch (error) {
         console.log('error :>> ', error);
