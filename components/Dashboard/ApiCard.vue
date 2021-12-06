@@ -24,20 +24,8 @@
         <div class="block md:hidden text-body-2 text-primary-background font-semibold">API key</div>
 
         <div class="w-full inline-flex items-center justify-between gap-2">
-          <div
-            class="
-              text-body-2
-              md:text-body-1
-              text-neutral-white
-              md:text-neutral-darker
-              font-semibold
-              overflow-ellipsis
-              whitespace-nowrap
-              break-words
-              overflow-hidden
-            "
-          >
-            {{ api.api_key }}
+          <div class="text-body-2 md:text-body-1 text-neutral-white md:text-neutral-darker font-semibold truncate">
+            {{ api.api_key | shortenKey }}
           </div>
 
           <TheCopyButton class="hidden md:flex" buttonClass="bg-primary-background" :textToCopy="api.api_key" />

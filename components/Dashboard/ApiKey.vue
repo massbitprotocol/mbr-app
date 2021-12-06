@@ -4,7 +4,9 @@
       <div class="block text-body-1 text-neutral-normal font-semibold">API key</div>
 
       <div class="flex items-center text-body-1 text-neutral-darkset font-bold mt-1.5">
-        <span class="mr-2 overflow-ellipsis whitespace-nowrap break-words overflow-hidden">{{ apiKey }}</span>
+        <span class="mr-2 overflow-ellipsis whitespace-nowrap break-words overflow-hidden">{{
+          apiKey | shortenKey
+        }}</span>
         <TheCopyButton :textToCopy="apiKey" />
       </div>
     </div>

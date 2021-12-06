@@ -43,7 +43,7 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ['Quicksand', ...themes.fontFamily.sans],
+        sans: ['Airbnb Cereal App', ...themes.fontFamily.sans],
       },
       fontSize: {
         '4xl': ['3.5rem', '3rem'], // 'large-title'

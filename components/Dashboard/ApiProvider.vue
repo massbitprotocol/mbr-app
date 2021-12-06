@@ -21,7 +21,7 @@
             overflow-hidden
           "
         >
-          {{ gatewayHttp }}
+          {{ gatewayHttp | shortenUrl }}
         </div>
         <TheCopyButton buttonClass="bg-primary-background" :textToCopy="gatewayHttp" />
       </div>
@@ -43,7 +43,7 @@
             overflow-hidden
           "
         >
-          {{ gatewayWss }}
+          {{ gatewayWss | shortenUrl }}
         </div>
         <TheCopyButton buttonClass="bg-primary-background" :textToCopy="gatewayWss" />
       </div>

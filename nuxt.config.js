@@ -1,6 +1,5 @@
-// import webpack from 'webpack';
-// import path from 'path';
-// import fs from 'fs';
+import path from 'path';
+import fs from 'fs';
 
 const color = `#2C3ACF`;
 
@@ -72,7 +71,7 @@ const config = {
   ],
 
   auth: {
-    plugins: [{ src: '~/plugins/axios', ssr: true }, '~/plugins/auth'],
+    plugins: [{ src: '~/plugins/axios', ssr: true }, { src: '~/plugins/auth' }, { src: '~/plugins/helpers/filters' }],
     redirect: {
       login: '/login',
       logout: '/',
@@ -104,27 +103,25 @@ const config = {
   build: {
     // Add exception
     transpile: ['vee-validate/dist/rules'],
-    // plugins: [
-    //   new webpack.ProvidePlugin({
-    //     // global modules
-    //     _: 'lodash',
-    //   }),
-    // ],
   },
 
   axios: {
     baseURL: process.env.API_BASE_URL,
     credentials: true,
   },
+
+  tailwindcss: {
+    viewer: false,
+  },
 };
 
-// if (process.env.NODE_ENV === 'development') {
-//   config.server = {
-//     https: {
-//       key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
-//       cert: fs.readFileSync(path.resolve(__dirname, 'server.crt')),
-//     },
-//   };
-// }
+if (process.env.NODE_ENV === 'development') {
+  config.server = {
+    https: {
+      key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
+      cert: fs.readFileSync(path.resolve(__dirname, 'server.crt')),
+    },
+  };
+}
 
 export default config;
