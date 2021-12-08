@@ -1,16 +1,8 @@
 <template>
-  <div class="flex flex-col items-center justify-center pt-20 pb-30">
-    <HomeHeroImage class="max-w-[413px] min-w-[300px]" />
+  <div>
+    <HomeDashboard v-if="$auth.loggedIn" />
 
-    <div class="text-center text-title-2 lg:text-title-1 text-neutral-darkset font-bold mt-11 mb-3">
-      Welcome to Decentralized API Projects
-    </div>
-
-    <div class="text-center px-5 text-body-2 lg:text-heading-2 text-neutral-darker font-semibold">
-      We work with small API providers and validators to form decentralized gateways.
-    </div>
-
-    <BaseButton class="mt-10 w-full lg:w-[194px] h-[52px]" @click="$router.push({ name: 'login' })"> Login </BaseButton>
+    <HomeLogin v-else />
   </div>
 </template>
 
@@ -18,10 +10,13 @@
 export default {
   name: 'Index',
 
-  async asyncData({ $auth, redirect }) {
-    if ($auth.loggedIn) {
-      redirect('/dashboard');
+  layout(context) {
+    console.log('context :>> ', context.$auth.loggedIn);
+    if (context.$auth.loggedIn) {
+      return 'wellcome';
     }
+
+    return 'default';
   },
 };
 </script>

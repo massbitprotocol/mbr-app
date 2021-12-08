@@ -11,11 +11,9 @@
         ></div>
       </div>
 
-      <div class="text-body-1 text-accent-red font-semibold mb-1.5">
-        Are you sure you want to delete this Entrypoint?
-      </div>
+      <div class="text-body-1 text-accent-red font-medium mb-1.5">Are you sure you want to delete this Entrypoint?</div>
 
-      <div class="text-body-1 text-neutral-normal font-semibold">
+      <div class="text-body-1 text-neutral-normal font-medium">
         Deleting will remove access to MassBit for this project immediately. This cannot be undone.
       </div>
 

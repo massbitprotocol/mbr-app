@@ -3,7 +3,7 @@
     v-bind="$attrs"
     v-on="$listeners"
     :class="{
-      'flex items-center justify-center cursor-pointer bg-neutral-lightest text-primary text-body-1 font-semibold h-[40px] px-7.5 rounded-lg hover:text-primary/90': true,
+      'flex items-center justify-center cursor-pointer bg-neutral-lightest text-primary text-body-1 font-medium h-[40px] px-7.5 rounded-lg hover:text-primary/90': true,
       'text-primary': !loading,
       'text-primary/90': loading,
     }"

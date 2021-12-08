@@ -24,7 +24,7 @@
               >
                 <div>
                   <label
-                    class="block text-body-1 text-neutral-darkset font-semibold tracking-wide mb-2"
+                    class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2"
                     for="grid-api-key"
                   >
                     Enter the name of your new API key
@@ -53,7 +53,7 @@
               >
                 <div>
                   <label
-                    class="block text-body-1 text-neutral-darkset font-semibold tracking-wide mb-2"
+                    class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2"
                     for="grid-api-key"
                   >
                     Blockchain
@@ -65,10 +65,7 @@
               </ValidationProvider>
 
               <div class="w-full px-3 mb-5 md:mb-0">
-                <label
-                  class="block text-body-1 text-neutral-darkset font-semibold tracking-wide mb-2"
-                  for="grid-api-key"
-                >
+                <label class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2" for="grid-api-key">
                   Network
                 </label>
 

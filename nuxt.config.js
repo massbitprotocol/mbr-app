@@ -75,7 +75,7 @@ const config = {
     redirect: {
       login: '/login',
       logout: '/',
-      home: '/dashboard',
+      home: '/',
       callback: '/login',
     },
     cookie: {
@@ -102,7 +102,7 @@ const config = {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     // Add exception
-    transpile: ['vee-validate/dist/rules'],
+    transpile: ['vee-validate/dist/rules', '@amcharts/amcharts5', '@amcharts/amcharts5-geodata'],
   },
 
   axios: {
@@ -112,6 +112,10 @@ const config = {
 
   tailwindcss: {
     viewer: false,
+  },
+
+  dayjs: {
+    plugins: ['utc', 'relativeTime', 'duration'],
   },
 };
 

@@ -9,7 +9,7 @@
       cursor-pointer
       border border-primary
       text-primary text-body-2
-      font-semibold
+      font-medium
       h-[40px]
       px-7.5
       rounded-lg

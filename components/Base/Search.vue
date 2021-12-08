@@ -72,7 +72,12 @@
         "
       >
         <template v-for="(item, index) in filterSource">
-          <div @click="onSelectItem(item)" class="hover:bg-primary-background block px-4 py-2 text-base" :key="index">
+          <div
+            @click="onSelectItem(item)"
+            class="flex items-center px-4 py-2 text-base hover:bg-primary-background"
+            :key="index"
+          >
+            <img class="mr-2" v-if="item.icon" :src="item.icon" />
             {{ item.value }}
           </div>
         </template>

@@ -1,6 +1,6 @@
 <template>
   <div class="pb-20">
-    <DashboardBreadcrumb />
+    <NodeDashboardBreadcrumb />
 
     <div v-if="$fetchState.pending" class="w-full h-[45vh] flex items-center justify-center">
       <svg
@@ -17,7 +17,7 @@
         ></path>
       </svg>
 
-      <div class="text-body-1 font-semibold text-neutral-darkset">Loading...</div>
+      <div class="text-body-1 font-medium text-neutral-darkset">Loading...</div>
     </div>
 
     <div v-else>
@@ -90,7 +90,7 @@
 
         <div class="mt-10 lg:mt-15">
           <div class="flex items-center justify-between">
-            <div class="uppercase text-heading-2 lg:text-title-2 text-neutral-darkset font-semibold lg:font-bold">
+            <div class="uppercase text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold">
               Stats
             </div>
           </div>
@@ -117,7 +117,7 @@ import _ from 'lodash';
 import chartConfig from '~/mixins/chartConfig';
 
 export default {
-  name: 'DashboardDetail',
+  name: 'NodesDashboardDetail',
 
   middleware: ['auth'],
   auth: true,

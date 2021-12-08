@@ -12,7 +12,7 @@
             mt-30
             p-4
             text-white text-body-2
-            font-semibold
+            font-medium
             rounded-l-lg
           "
         >
@@ -32,7 +32,7 @@
             mt-30
             p-4
             text-white text-body-2
-            font-semibold
+            font-medium
             rounded-l-lg
           "
         >

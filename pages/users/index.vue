@@ -1,8 +1,17 @@
 <template>
   <div class="min-h-[80vh] mx-auto w-full">
-    <div class="text-2xl lg:text-medium-title text-neutral-darkset font-bold my-5 lg:my-10">Dashboard</div>
+    <Portal to="banner" tag="div">
+      <div class="bg-banner-user-pattern bg-neutral-darker h-[268px] flex items-center justify-center">
+        <div class="container mx-auto">
+          <div class="text-title-1 md:text-medium-title text-neutral-white font-bold">Welcome to Decentralized API</div>
+
+          <div class="mt-2 text-body-1 md:text-heading-2 font-medium text-primary-background">Content</div>
+        </div>
+      </div>
+    </Portal>
+
     <div class="flex flex-col md:flex-row items-start md:items-center flex-wrap justify-between gap-2 mb-3 lg:mb-7.5">
-      <div class="whitespace-nowrap text-heading-2 lg:text-title-2 text-neutral-darkset font-semibold lg:font-bold">
+      <div class="whitespace-nowrap text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold">
         YOUR API KEYS
       </div>
 
@@ -34,7 +43,7 @@
         ></path>
       </svg>
 
-      <div class="text-body-1 font-semibold text-neutral-darkset">Loading...</div>
+      <div class="text-body-1 font-medium text-neutral-darkset">Loading...</div>
     </div>
 
     <div v-else>
@@ -70,6 +79,8 @@ export default {
   name: 'Index',
   middleware: ['auth'],
   auth: true,
+
+  layout: 'dashboard',
 
   mixins: [chartConfig],
 
