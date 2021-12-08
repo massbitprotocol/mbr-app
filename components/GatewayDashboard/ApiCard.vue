@@ -78,7 +78,7 @@
       "
     >
       <button
-        @click="$router.push({ name: 'nodes-id', params: { id: api.id } })"
+        @click="$router.push({ name: 'gateways-id', params: { id: api.id } })"
         class="
           max-w-[189px]
           h-[52px]
@@ -96,11 +96,11 @@
           whitespace-nowrap
         "
       >
-        Node Settings
+        Gateway Settings
       </button>
 
       <NuxtLink
-        :to="{ name: 'nodes-id', params: { id: api.id } }"
+        :to="{ name: 'gateways-id', params: { id: api.id } }"
         class="
           w-full
           flex
@@ -112,7 +112,7 @@
           hover:text-primary/90
         "
       >
-        <span> Node Settings</span>
+        <span>Gateway Settings</span>
 
         <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
