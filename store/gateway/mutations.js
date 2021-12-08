@@ -7,6 +7,10 @@ export default {
     state.api = api;
   },
 
+  setZones(state, zones) {
+    state.zones = zones;
+  },
+
   updateApi(state, api) {
     // Update current api
     state.api = api;

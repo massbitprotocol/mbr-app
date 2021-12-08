@@ -6,4 +6,8 @@ export default {
   value(state) {
     return state.api;
   },
+
+  zones(state) {
+    return state.zones;
+  },
 };

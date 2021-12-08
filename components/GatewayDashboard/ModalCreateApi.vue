@@ -2,7 +2,7 @@
   <TheModal :open.sync="_visible" :backdrop="true">
     <div class="max-w-[570px] w-full bg-white p-5 rounded-lg z-10 text-left overflow-hidden">
       <div class="w-full flex items-center justify-between">
-        <div class="text-heading-2 text-neutral-darkset font-bold">Add New Node</div>
+        <div class="text-heading-2 text-neutral-darkset font-bold">Add New Gateway</div>
 
         <div
           @click="_visible = false"
@@ -27,7 +27,7 @@
                     class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2"
                     for="grid-api-key"
                   >
-                    Node name
+                    Gateway name
                   </label>
 
                   <input
@@ -60,6 +60,26 @@
                   </label>
 
                   <BaseSearch v-model="form.blockchain" :source="blockchains" placeholder="Select blockchain" />
+                  <p v-if="errors[0]" class="text-red-500 text-xs italic">{{ errors[0] }}</p>
+                </div>
+              </ValidationProvider>
+
+              <ValidationProvider
+                v-slot="{ errors }"
+                rules="required"
+                name="zone"
+                tag="div"
+                class="w-full px-3 mb-5 md:mb-0"
+              >
+                <div>
+                  <label
+                    class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2"
+                    for="grid-api-key"
+                  >
+                    Choose Zone
+                  </label>
+
+                  <GatewayDashboardSelectZone v-model="form.zone" :source="zones" placeholder="Select zone" />
                   <p v-if="errors[0]" class="text-red-500 text-xs italic">{{ errors[0] }}</p>
                 </div>
               </ValidationProvider>
@@ -116,6 +136,7 @@ export default {
       form: {
         name: '',
         blockchain: '',
+        zone: '',
         network: 'mainnet',
       },
       loading: false,
@@ -125,6 +146,7 @@ export default {
   computed: {
     ...mapGetters({
       blockchains: 'blockchains/list',
+      zones: 'gateway/zones',
     }),
 
     _visible: {
