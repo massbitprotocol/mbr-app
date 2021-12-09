@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="w-full flex items-center justify-between">
-      <div class="uppercase text-heading-2 text-neutral-darkset font-medium">
+      <div class="uppercase text-body-1 text-neutral-darker font-medium">
         {{ title }}
       </div>
 

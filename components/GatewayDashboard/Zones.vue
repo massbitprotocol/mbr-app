@@ -1,9 +1,24 @@
 <template>
-  <div class="grid grid-cols-2 gap-5 pt-4">
+  <div class="grid grid-cols-1 xl:grid-cols-2 gap-5 pt-4">
     <div
       v-for="zone in zones"
       :key="zone.key"
-      class="w-full h-[94px] flex items-center justify-between px-5 border border-primary-background rounded-xl"
+      class="
+        w-full
+        h-full
+        md:h-[94px]
+        flex flex-col
+        md:flex-row
+        item-start
+        md:items-center
+        justify-between
+        px-5
+        py-5
+        md:py-auto
+        border border-primary-background
+        rounded-xl
+        gap-5
+      "
     >
       <div class="flex items-center gap-4">
         <div v-if="zone.key === 'asia'" class="w-[64px] h-[64px] bg-asia-pattern bg-center bg-no-repeat"></div>
@@ -20,9 +35,7 @@
             {{ zone.name }}
           </span>
 
-          <span class="text-heading-1 text-primary-darker font-bold">
-            {{ zone.value }}
-          </span>
+          <span class="text-heading-1 text-primary-darker font-bold"> {{ zone.value }} Gateways </span>
         </div>
       </div>
 

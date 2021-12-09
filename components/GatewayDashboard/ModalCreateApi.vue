@@ -163,12 +163,12 @@ export default {
     async createApi() {
       this.loading = true;
       try {
-        const { result } = await this.$axios.$post('/api/v1?action=node.create', this.form);
+        const { result } = await this.$axios.$post('/api/v1?action=gateway.create', this.form);
         if (result) {
-          await this.$store.dispatch('node/getListApi');
+          await this.$store.dispatch('gateway/getListApi');
 
           setTimeout(() => {
-            this.$notify({ type: 'success', text: 'New node has been successfully created!' });
+            this.$notify({ type: 'success', text: 'New gateway has been successfully created!' });
           }, 500);
 
           this.loading = false;

@@ -1,6 +1,6 @@
 <template>
   <div class="pb-20">
-    <NodeDashboardBreadcrumb />
+    <GatewayDashboardBreadcrumb />
 
     <div v-if="$fetchState.pending" class="w-full h-[45vh] flex items-center justify-center">
       <svg
@@ -92,22 +92,32 @@
           <DashboardOverview :api="api" />
         </div>
 
-        <div class="mt-10 lg:mt-15">
-          <div class="flex items-center justify-between">
-            <div class="uppercase text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold">
-              Stats
-            </div>
+        <!-- Stats -->
+        <div class="mt-15 lg:mb-7.5">
+          <div
+            class="
+              uppercase
+              whitespace-nowrap
+              text-heading-2
+              lg:text-title-2
+              text-neutral-darkset
+              font-medium
+              lg:font-bold
+            "
+          >
+            Stats
           </div>
 
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-7.5">
+          <div class="mt-5 grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-7.5">
             <template v-for="(chart, index) in charts">
-              <DashboardStats
-                :key="index"
-                :title="chart.name"
-                :url="chart.url"
-                :filters="chart.filters"
-                :filter.sync="chart.filter"
-              />
+              <div :key="index" class="p-7.5 border border-primary-background rounded-xl">
+                <GatewayDashboardApiChart
+                  :title="chart.name"
+                  :url="chart.url"
+                  :filters="chart.filters"
+                  :filter.sync="chart.filter"
+                />
+              </div>
             </template>
           </div>
         </div>
@@ -445,7 +455,7 @@ export default {
       if (apiName) {
         if (apiName !== this.api.name) {
           let _api = _.cloneDeep(this.api);
-          const result = await this.$store.dispatch('api/updateApi', Object.assign(_api, { name: apiName }));
+          const result = await this.$store.dispatch('gateway/updateApi', Object.assign(_api, { name: apiName }));
           if (result) {
             this.$notify({ type: 'success', text: 'The name of your API key has been successfully changed!' });
           } else {
@@ -455,6 +465,7 @@ export default {
       } else {
         this.$notify({ type: 'error', text: 'Please enter the name' });
       }
+
       this.editName = false;
     },
   },

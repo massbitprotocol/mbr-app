@@ -4,9 +4,11 @@
       <div class="block text-body-1 text-neutral-normal font-medium">Updated at</div>
 
       <div class="flex items-center text-body-1 text-neutral-darkset font-medium mt-1.5">
-        <span class="mr-2 overflow-ellipsis whitespace-nowrap break-words overflow-hidden">{{
-          updatedAt ? updatedAt.toString() : '' | formatTimeUTC
+        <span v-if="updatedAt" class="mr-2 overflow-ellipsis whitespace-nowrap break-words overflow-hidden">{{
+          updatedAt.toString() | formatTimeUTC
         }}</span>
+
+        <span v-else class="mr-2 overflow-ellipsis whitespace-nowrap break-words overflow-hidden"> - </span>
       </div>
     </div>
   </div>
@@ -19,7 +21,7 @@ export default {
 
     updatedAt: {
       type: Number,
-      default: '',
+      default: 0,
     },
   },
 };
