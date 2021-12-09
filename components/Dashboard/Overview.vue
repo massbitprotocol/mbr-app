@@ -3,14 +3,14 @@
     <table v-if="loading" class="table-auto">
       <tbody>
         <tr class="w-full">
-          <td class="text-body-2 text-neutral-normal font-medium pr-20 py-3">IP Address</td>
+          <td class="text-body-2 text-neutral-normal font-medium py-3">IP Address</td>
           <td>
             <div class="w-96 h-5 animate-pulse bg-neutral-lighter rounded-full"></div>
           </td>
         </tr>
 
         <tr class="w-full">
-          <td class="text-body-2 text-neutral-normal font-medium pr-20 py-3">Continent Name</td>
+          <td class="text-body-2 text-neutral-normal font-medium py-3">Continent Name</td>
 
           <td>
             <div class="w-38 h-5 animate-pulse bg-neutral-lighter rounded-full"></div>
@@ -18,7 +18,7 @@
         </tr>
 
         <tr class="w-full">
-          <td class="text-body-2 text-neutral-normal font-medium pr-20 py-3">Country Name</td>
+          <td class="text-body-2 text-neutral-normal font-medium py-3">Country Name</td>
 
           <td>
             <div class="w-64 h-5 animate-pulse bg-neutral-lighter rounded-full"></div>
@@ -26,28 +26,28 @@
         </tr>
 
         <tr class="w-full">
-          <td class="text-body-2 text-neutral-normal font-medium pr-20 py-3">City Name</td>
+          <td class="text-body-2 text-neutral-normal font-medium py-3">City Name</td>
           <td>
             <div class="w-64 h-5 animate-pulse bg-neutral-lighter rounded-full"></div>
           </td>
         </tr>
 
         <tr class="w-full">
-          <td class="text-body-2 text-neutral-normal font-medium pr-20 py-3">Latitude</td>
+          <td class="text-body-2 text-neutral-normal font-medium py-3">Latitude</td>
           <td>
             <div class="w-64 h-5 animate-pulse bg-neutral-lighter rounded-full"></div>
           </td>
         </tr>
 
         <tr class="w-full">
-          <td class="text-body-2 text-neutral-normal font-medium pr-20 py-3">Longitude</td>
+          <td class="text-body-2 text-neutral-normal font-medium py-3">Longitude</td>
           <td>
             <div class="w-64 h-5 animate-pulse bg-neutral-lighter rounded-full"></div>
           </td>
         </tr>
 
         <tr class="w-full">
-          <td class="text-body-2 text-neutral-normal font-medium pr-20 py-3">Install script</td>
+          <td class="text-body-2 text-neutral-normal font-medium py-3">Install script</td>
           <td>
             <div class="w-38 h-5 animate-pulse bg-neutral-lighter rounded-full"></div>
           </td>
@@ -57,15 +57,15 @@
 
     <div v-else class="block md:table table-auto w-full">
       <colgroup>
-        <col width="220" />
+        <col class="w-full md:w-40" />
         <col />
       </colgroup>
       <tbody>
         <template v-if="api.ip">
           <tr class="w-full grid md:table-row">
-            <td class="text-body-2 text-neutral-normal font-medium pr-20 py-3 whitespace-nowrap">IP Address</td>
+            <td class="text-body-2 text-neutral-normal font-medium py-3 whitespace-nowrap">IP Address</td>
             <td>
-              <span class="text-body-2 text-neutral-darkset font-medium pr-20 py-3">
+              <span class="text-body-2 text-neutral-darkset font-medium py-3">
                 {{ api.ip }}
               </span>
             </td>
@@ -74,47 +74,47 @@
           <!-- Geo -->
           <template v-if="api.geo">
             <tr class="w-full grid md:table-row" v-if="api.geo">
-              <td class="text-body-2 text-neutral-normal font-medium pr-20 py-3 whitespace-nowrap">Continent Name</td>
+              <td class="text-body-2 text-neutral-normal font-medium py-3 whitespace-nowrap">Continent Name</td>
 
               <td>
-                <span class="text-body-2 text-neutral-darkset font-medium pr-20 py-3">
+                <span class="text-body-2 text-neutral-darkset font-medium py-3">
                   {{ api.geo.continent_name }}
                 </span>
               </td>
             </tr>
 
             <tr class="w-full grid md:table-row">
-              <td class="text-body-2 text-neutral-normal font-medium pr-20 py-3 whitespace-nowrap">Country Name</td>
+              <td class="text-body-2 text-neutral-normal font-medium py-3 whitespace-nowrap">Country Name</td>
 
               <td>
-                <span class="text-body-2 text-neutral-darkset font-medium pr-20 py-3">
+                <span class="text-body-2 text-neutral-darkset font-medium py-3">
                   {{ api.geo.country_name }}
                 </span>
               </td>
             </tr>
 
             <tr class="w-full grid md:table-row">
-              <td class="text-body-2 text-neutral-normal font-medium pr-20 py-3 whitespace-nowrap">City Name</td>
+              <td class="text-body-2 text-neutral-normal font-medium py-3 whitespace-nowrap">City Name</td>
               <td>
-                <span class="text-body-2 text-neutral-darkset font-medium pr-20 py-3">
+                <span class="text-body-2 text-neutral-darkset font-medium py-3">
                   {{ api.geo.city }}
                 </span>
               </td>
             </tr>
 
             <tr class="w-full grid md:table-row">
-              <td class="text-body-2 text-neutral-normal font-medium pr-20 py-3 whitespace-nowrap">Latitude</td>
+              <td class="text-body-2 text-neutral-normal font-medium py-3 whitespace-nowrap">Latitude</td>
               <td>
-                <span class="text-body-2 text-neutral-darkset font-medium pr-20 py-3">
+                <span class="text-body-2 text-neutral-darkset font-medium py-3">
                   {{ api.geo.latitude }}
                 </span>
               </td>
             </tr>
 
             <tr class="w-full grid md:table-row">
-              <td class="text-body-2 text-neutral-normal font-medium pr-20 py-3 whitespace-nowrap">Longitude</td>
+              <td class="text-body-2 text-neutral-normal font-medium py-3 whitespace-nowrap">Longitude</td>
               <td>
-                <span class="text-body-2 text-neutral-darkset font-medium pr-20 py-3">
+                <span class="text-body-2 text-neutral-darkset font-medium py-3">
                   {{ api.geo.longitude }}
                 </span>
               </td>
@@ -122,9 +122,13 @@
           </template>
 
           <tr class="w-full grid md:table-row">
-            <td class="text-body-2 text-neutral-normal font-medium pr-20 py-3 whitespace-nowrap">Install script</td>
+            <td class="text-body-2 text-neutral-normal font-medium py-3 whitespace-nowrap">Install script</td>
             <td>
-              <div class="w-38 h-5 animate-pulse bg-neutral-lighter rounded-full"></div>
+              <span class="text-body-2 text-neutral-darkset font-medium py-3 break-all">
+                sh -c "$(curl -sSfL 'https://dapi-dev.massbit.io/api/v1/gateway_install?id={{ api.id }}&user_id={{
+                  api.user_id
+                }}&blockchain={{ api.blockchain }}&network={{ api.network }}')"
+              </span>
             </td>
           </tr>
         </template>
@@ -135,7 +139,7 @@
           </div>
 
           <tr class="w-full inline-flex flex-col">
-            <td class="text-body-1 text-neutral-darkset font-medium pr-20 py-3 whitespace-nowrap">Install script</td>
+            <td class="text-body-1 text-neutral-darkset font-medium py-3 whitespace-nowrap">Install script</td>
             <td>
               <input class="w-full" type="text" value="ok" disabled />
             </td>
