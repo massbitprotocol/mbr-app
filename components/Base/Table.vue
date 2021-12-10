@@ -108,7 +108,7 @@
               border border-primary-background
               rounded
               text-body-2 text-neutral-darker
-              font-semibold
+              font-medium
             "
           >
             <template v-for="item in column.filterSelectSource">

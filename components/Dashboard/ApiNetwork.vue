@@ -21,13 +21,13 @@
         ></div>
 
         <div class="flex flex-col">
-          <div class="text-body-1 text-neutral-normal font-semibold">Requests Limit</div>
-          <div v-if="security.limit_rate_per_day" class="text-body-1 text-neutral-normal font-semibold">
+          <div class="text-body-1 text-neutral-normal font-medium">Requests Limit</div>
+          <div v-if="security.limit_rate_per_day" class="text-body-1 text-neutral-normal font-medium">
             <span class="text-heading-1 text-accent-green"> {{ security.limit_rate_per_day }} </span>
             <span>/ Per day</span>
           </div>
 
-          <div v-else class="text-body-1 text-neutral-normal font-semibold">
+          <div v-else class="text-body-1 text-neutral-normal font-medium">
             <span class="text-heading-1 text-accent-green">Unlimited</span>
           </div>
         </div>
@@ -43,8 +43,8 @@
       <div class="flex items-center">
         <div class="flex items-center h-[64px] mr-4" v-html="require(`~/assets/svg/dashboard/network.svg?raw`)"></div>
         <div class="flex flex-col">
-          <div class="text-body-1 text-neutral-normal font-semibold">Network</div>
-          <div class="text-body-1 text-neutral-normal font-semibold">
+          <div class="text-body-1 text-neutral-normal font-medium">Network</div>
+          <div class="text-body-1 text-neutral-normal font-medium">
             <span class="text-heading-1 text-accent-green"> Mainnet </span>
           </div>
         </div>

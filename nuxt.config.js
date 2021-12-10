@@ -37,6 +37,11 @@ const config = {
     '~/plugins/tooltip',
   ],
 
+  publicRuntimeConfig: {
+    curlGatewayURL: process.env.GATEWAY_INSTALL_URL,
+    curlNodeURL: process.env.NODE_INSTALL_URL,
+  },
+
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
@@ -75,7 +80,7 @@ const config = {
     redirect: {
       login: '/login',
       logout: '/',
-      home: '/dashboard',
+      home: '/',
       callback: '/login',
     },
     cookie: {
@@ -112,6 +117,10 @@ const config = {
 
   tailwindcss: {
     viewer: false,
+  },
+
+  dayjs: {
+    plugins: ['utc', 'relativeTime', 'duration'],
   },
 };
 

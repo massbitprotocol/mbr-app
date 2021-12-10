@@ -1,10 +1,10 @@
 <template>
   <div class="mt-7.5 lg:mt-9">
-    <div class="text-heading-2 lg:text-title-2 text-neutral-darkset font-semibold lg:font-bold">YOUR API PROVIDER</div>
+    <div class="text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold">YOUR API PROVIDER</div>
 
     <div class="mt-3 lg:mt-4 p-5 bg-neutral-lightest rounded-xl">
       <!-- HTTP Provider -->
-      <div class="text-body-2 lg:text-body-1 text-neutral-normal font-semibold">HTTP Provider:</div>
+      <div class="text-body-2 lg:text-body-1 text-neutral-normal font-medium">HTTP Provider:</div>
       <div class="flex items-center mt-2 lg:mt-3">
         <span class="flex items-center mr-2" v-html="require(`~/assets/svg/icon/globe.svg?raw`)"></span>
         <div
@@ -14,7 +14,7 @@
             text-body-2
             lg:text-body-1
             text-neutral-darkset
-            font-semibold
+            font-medium
             overflow-ellipsis
             whitespace-nowrap
             break-words
@@ -26,7 +26,7 @@
         <TheCopyButton buttonClass="bg-primary-background" :textToCopy="gatewayHttp" />
       </div>
 
-      <div class="mt-6 lg:mt-7 text-body-2 lg:text-body-1 text-neutral-normal font-semibold">WSS Provider:</div>
+      <div class="mt-6 lg:mt-7 text-body-2 lg:text-body-1 text-neutral-normal font-medium">WSS Provider:</div>
       <div class="flex items-center mt-2 lg:mt-3">
         <span class="flex items-center mr-2" v-html="require(`~/assets/svg/icon/globe.svg?raw`)"></span>
         <div
@@ -36,7 +36,7 @@
             text-body-2
             lg:text-body-1
             text-neutral-darkset
-            font-semibold
+            font-medium
             overflow-ellipsis
             whitespace-nowrap
             break-words

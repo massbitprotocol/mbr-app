@@ -17,7 +17,7 @@
         ></path>
       </svg>
 
-      <div class="text-body-1 font-semibold text-neutral-darkset">Loading...</div>
+      <div class="text-body-1 font-medium text-neutral-darkset">Loading...</div>
     </div>
 
     <div v-else>
@@ -90,7 +90,7 @@
 
         <div class="mt-10 lg:mt-15">
           <div class="flex items-center justify-between">
-            <div class="uppercase text-heading-2 lg:text-title-2 text-neutral-darkset font-semibold lg:font-bold">
+            <div class="uppercase text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold">
               Stats
             </div>
           </div>

@@ -1,12 +1,26 @@
 <template>
-  <div class="w-full grid grid-cols-1 md:grid-cols-4 gap-5 mt-5 py-4 border rounded-2xl border-primary-background">
-    <div class="flex flex-col justify-between px-0 md:px-5">
+  <div
+    class="
+      w-full
+      grid grid-cols-1
+      lg:flex
+      items-center
+      justify-between
+      gap-5
+      mt-5
+      py-4
+      border
+      rounded-2xl
+      border-primary-background
+    "
+  >
+    <div class="max-w-full lg:max-w-sm w-full flex flex-col justify-between px-0 lg:px-5">
       <div
         class="
           px-5
-          md:px-0
+          lg:px-0
           mb-4
-          md:mb-0
+          lg:mb-0
           text-heading-2
           lg:text-heading-1
           text-neutral-darkset
@@ -20,33 +34,33 @@
         {{ api.name }}
       </div>
 
-      <div class="bg-primary-darker md:bg-white py-4 md:py-0 px-5 md:px-0">
-        <div class="block md:hidden text-body-2 text-primary-background font-semibold">API key</div>
+      <div class="bg-primary-darker lg:bg-white py-4 lg:py-0 px-5 lg:px-0">
+        <div class="block lg:hidden text-body-2 text-primary-background font-medium">API key</div>
 
         <div class="w-full inline-flex items-center justify-between gap-2">
-          <div class="text-body-2 md:text-body-1 text-neutral-white md:text-neutral-darker font-semibold truncate">
+          <div class="text-body-2 lg:text-body-1 text-neutral-white lg:text-neutral-darker font-medium truncate">
             {{ api.api_key | shortenKey }}
           </div>
 
-          <TheCopyButton class="hidden md:flex" buttonClass="bg-primary-background" :textToCopy="api.api_key" />
-          <TheCopyButtonPrimary class="flex md:hidden" :textToCopy="api.api_key" />
+          <TheCopyButton class="hidden lg:flex" buttonClass="bg-primary-background" :textToCopy="api.api_key" />
+          <TheCopyButtonPrimary class="flex lg:hidden" :textToCopy="api.api_key" />
         </div>
       </div>
     </div>
 
-    <div class="hidden md:grid grid-cols-1 m-auto align-middle px-5">
-      <div class="text-body-2 text-neutral-normal font-semibold">Status</div>
+    <div class="hidden min-w-[64px] max-w-[150px] lg:grid grid-cols-1 px-5">
+      <div class="text-body-2 text-neutral-normal font-medium">Status</div>
 
       <BaseToggle class="mt-1" :refId="api.api_key" :checked.sync="status" />
     </div>
 
-    <div class="flex flex-col items-start md:items-center justify-center px-5">
-      <div class="flex flex-col">
-        <div class="text-body-2 text-neutral-normal font-semibold">Requests Limit</div>
+    <div class="flex-shrink px-5">
+      <div class="grid grid-cols-1">
+        <div class="text-body-2 text-neutral-normal font-medium">Requests Limit</div>
         <div
           class="
             w-full
-            md:w-[150px]
+            lg:w-[150px]
             mt-1
             text-body-1 text-accent-green
             font-bold
@@ -67,27 +81,27 @@
         items-end
         justify-center
         border-t
-        md:border-t-none
+        lg:border-t-none
         border-primary-background
-        md:border-transparent
+        lg:border-transparent
         px-5
         pt-4
-        md:pt-0
+        lg:pt-0
       "
     >
       <button
-        @click="$router.push({ name: 'dashboard-id', params: { id: api.id } })"
+        @click="$router.push({ name: 'users-id', params: { id: api.id } })"
         class="
           max-w-[189px]
           h-[52px]
           hidden
-          md:flex
+          lg:flex
           items-center
           justify-center
           cursor-pointer
           bg-neutral-lightest
           text-primary text-body-1
-          font-semibold
+          font-medium
           px-7.5
           rounded-lg
           hover:bg-neutral-lightest/90
@@ -98,15 +112,15 @@
       </button>
 
       <NuxtLink
-        :to="{ name: 'dashboard-id', params: { id: api.id } }"
+        :to="{ name: 'users-id', params: { id: api.id } }"
         class="
           w-full
           flex
-          md:hidden
+          lg:hidden
           items-center
           justify-between
           text-body-2 text-primary
-          font-semibold
+          font-medium
           hover:text-primary/90
         "
       >
