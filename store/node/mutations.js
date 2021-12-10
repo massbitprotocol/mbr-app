@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export default {
   setList(state, list) {
     state.list = list;
@@ -5,6 +7,27 @@ export default {
 
   setApi(state, api) {
     state.api = api;
+  },
+
+  setZones(state, zones) {
+    state.zones = zones;
+  },
+
+  updateZonesValue(state, zonesSummary) {
+    let _zones = _.cloneDeep(state.zones);
+    console.log('updateZonesValue :>> ', zonesSummary);
+    _zones.map((zone) => {
+      if (Object.hasOwnProperty.call(zonesSummary, zone.key)) {
+        console.log('ok -----------------------------');
+        zone.value = zonesSummary[zone.key];
+      }
+      console.log('zone :>> ', zone);
+      return zone;
+    });
+
+    console.log('_zones :>> ', _zones);
+
+    state.zones = _zones;
   },
 
   updateApi(state, api) {

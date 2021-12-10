@@ -3,6 +3,10 @@ export default {
     return state.list;
   },
 
+  zones(state) {
+    return state.zones;
+  },
+
   value(state) {
     return state.api;
   },

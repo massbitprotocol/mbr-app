@@ -64,6 +64,26 @@
                 </div>
               </ValidationProvider>
 
+              <ValidationProvider
+                v-slot="{ errors }"
+                rules="required"
+                name="zone"
+                tag="div"
+                class="w-full px-3 mb-5 md:mb-0"
+              >
+                <div>
+                  <label
+                    class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2"
+                    for="grid-api-key"
+                  >
+                    Choose Zone
+                  </label>
+
+                  <GatewayDashboardSelectZone v-model="form.zone" :source="zones" placeholder="Select zone" />
+                  <p v-if="errors[0]" class="text-red-500 text-xs italic">{{ errors[0] }}</p>
+                </div>
+              </ValidationProvider>
+
               <div class="w-full px-3 mb-5 md:mb-0">
                 <label class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2" for="grid-api-key">
                   Network
@@ -108,6 +128,19 @@ export default {
       type: Boolean,
       default: false,
     },
+
+    zone: {
+      type: String,
+      default: '',
+    },
+  },
+
+  watch: {
+    visible(value) {
+      if (value) {
+        this.form.zone = this.zone;
+      }
+    },
   },
 
   data() {
@@ -116,6 +149,7 @@ export default {
       form: {
         name: '',
         blockchain: '',
+        zone: '',
         network: 'mainnet',
       },
       loading: false,
@@ -125,6 +159,7 @@ export default {
   computed: {
     ...mapGetters({
       blockchains: 'blockchains/list',
+      zones: 'node/zones',
     }),
 
     _visible: {

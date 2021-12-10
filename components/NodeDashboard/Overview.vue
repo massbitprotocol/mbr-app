@@ -211,7 +211,7 @@
 
 <script>
 export default {
-  name: 'DashboardOverview',
+  name: 'NodeDashboardOverview',
 
   props: {
     api: {
@@ -233,14 +233,10 @@ export default {
     };
   },
 
-  created() {
-    console.log('this.api :>> ', this.api);
-  },
-
   computed: {
     installScript() {
       if (this.api) {
-        return `sh -c "$(curl -sSfL '${this.$config.curlGatewayURL}?id=${this.api.id}&user_id=${this.api.user_id}&blockchain=${this.api.blockchain}&network=${this.api.network}')"`;
+        return `sh -c "$(curl -sSfL '${this.$config.curlNodeURL}?id=${this.api.id}&user_id=${this.api.user_id}&blockchain=${this.api.blockchain}&network=${this.api.network}')"`;
       }
 
       return '';

@@ -82,6 +82,7 @@
           <DashboardApiUpdatedAt :updatedAt="api.updated_at" />
         </div>
 
+        <!-- Overview -->
         <div class="mt-10 lg:mt-15">
           <div class="flex items-center justify-between">
             <div class="uppercase text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold">
@@ -90,6 +91,52 @@
           </div>
 
           <DashboardOverview :api="api" />
+        </div>
+
+        <div class="mt-7.5 grid grid-cols-2 gap-5">
+          <!-- Blockchain -->
+          <div v-if="_blockchain" class="p-5 bg-white rounded-xl border border-primary-background">
+            <div class="text-body-1 text-neutral-darkset font-medium">Blockchain</div>
+
+            <div v-if="_b" class="h-[44px] flex items-center justify-between">
+              <div class="flex items-center mt-2">
+                <img v-if="_blockchain.icon" :src="_blockchain.icon" class="mr-2" width="32" height="32" />
+                <div class="text-body-1 text-neutral-darkset font-medium">{{ _blockchain.value || '' }}</div>
+              </div>
+
+              <div class="h-[22px] flex items-center py-0.5 px-3 bg-primary rounded">
+                <span class="text-white text-caption font-medium uppercase">{{ _blockchain.id || '' }} </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Network -->
+          <div
+            v-if="api.network"
+            class="
+              flex
+              items-center
+              justify-between
+              p-5
+              bg-white
+              rounded-xl
+              border border-primary-background
+              capitalize
+            "
+          >
+            <div class="flex items-center">
+              <div
+                class="flex items-center h-[64px] mr-4"
+                v-html="require(`~/assets/svg/dashboard/network.svg?raw`)"
+              ></div>
+              <div class="flex flex-col">
+                <div class="text-body-1 text-neutral-normal font-medium">Network</div>
+                <div class="text-body-1 text-neutral-normal font-medium">
+                  <span class="text-heading-1 text-accent-green"> {{ api.network }} </span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Stats -->

@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-[80vh] mx-auto w-full">
+  <div class="min-h-[80vh] mx-auto w-full mb-30">
     <Portal to="banner" tag="div">
       <div class="bg-banner-node-pattern bg-neutral-darker h-[268px] flex items-center justify-center">
         <div class="container mx-auto">
@@ -10,26 +10,6 @@
       </div>
     </Portal>
 
-    <div class="flex flex-col md:flex-row items-start md:items-center flex-wrap justify-between gap-2 mb-3 lg:mb-7.5">
-      <div
-        class="uppercase whitespace-nowrap text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold"
-      >
-        Your Nodes
-      </div>
-
-      <BaseButton class="w-full sm:w-auto h-[52px] flex items-center justify-center" @click="showModalCreateApi = true">
-        <svg class="mr-2" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M17 9H11V3C11 2.448 10.553 2 10 2C9.447 2 9 2.448 9 3V9H3C2.447 9 2 9.448 2 10C2 10.552 2.447 11 3 11H9V17C9 17.552 9.447 18 10 18C10.553 18 11 17.552 11 17V11H17C17.553 11 18 10.552 18 10C18 9.448 17.553 9 17 9Z"
-            fill="currentColor"
-          />
-        </svg>
-
-        Add Node
-      </BaseButton>
-    </div>
     <div v-if="$fetchState.pending" class="w-full h-[45vh] flex items-center justify-center">
       <svg
         class="animate-spin -ml-1 mr-3 h-5 w-5 text-primary"
@@ -49,24 +29,79 @@
     </div>
 
     <div v-else>
+      <!-- Zones -->
+      <div class="mt-15 lg:mb-7.5">
+        <div
+          class="
+            uppercase
+            whitespace-nowrap
+            text-heading-2
+            lg:text-title-2
+            text-neutral-darkset
+            font-medium
+            lg:font-bold
+          "
+        >
+          Zones
+        </div>
+
+        <NodeDashboardZones @selectZone="selectZone" />
+      </div>
+
+      <!-- Stats -->
+      <div class="mt-15 lg:mb-7.5">
+        <div
+          class="
+            uppercase
+            whitespace-nowrap
+            text-heading-2
+            lg:text-title-2
+            text-neutral-darkset
+            font-medium
+            lg:font-bold
+          "
+        >
+          Stats
+        </div>
+
+        <div class="mt-5 grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-7.5">
+          <template v-for="(chart, index) in charts">
+            <div :key="index" class="p-7.5 border border-primary-background rounded-xl">
+              <NodeDashboardApiChart
+                :title="chart.name"
+                :url="chart.url"
+                :filters="chart.filters"
+                :filter.sync="chart.filter"
+              />
+            </div>
+          </template>
+        </div>
+      </div>
+
+      <!-- Your Nodes -->
+      <div class="flex flex-col md:flex-row items-start md:items-center flex-wrap justify-between gap-2 mb-3">
+        <div
+          class="
+            mt-7.5
+            uppercase
+            whitespace-nowrap
+            text-heading-2
+            lg:text-title-2
+            text-neutral-darkset
+            font-medium
+            lg:font-bold
+          "
+        >
+          Your Nodes
+        </div>
+      </div>
       <div class="flex flex-col gap-y-2.5">
         <template v-for="(api, index) in apiList">
           <NodeDashboardApiCard :key="index" :api="api" @updateApiStatus="(value) => updateApiStatus(api, value)" />
         </template>
       </div>
 
-      <template v-for="(chart, index) in charts">
-        <NodeDashboardApiChart
-          class="my-10 lg:my-15"
-          :key="index"
-          :title="chart.name"
-          :url="chart.url"
-          :filters="chart.filters"
-          :filter.sync="chart.filter"
-        />
-      </template>
-
-      <NodeDashboardModalCreateApi :visible.sync="showModalCreateApi" />
+      <NodeDashboardModalCreateApi :visible.sync="showModalCreateApi" :zone="zone" />
     </div>
   </div>
 </template>
@@ -75,7 +110,246 @@
 import { mapGetters } from 'vuex';
 import _ from 'lodash';
 
-import chartConfig from '~/mixins/chartConfig';
+const charts = [
+  {
+    name: 'Total Requests',
+    url: 'https://gw.mbr.massbitroute.com/__internal_grafana/d-solo/6y_ACGKnk/sitestat?orgId=1&var-Instance=All&var-Host=p3v1vkrvkz89.eth-mainnet.massbitroute.com&panelId=1',
+    filters: [
+      {
+        name: 'Last 5 Minutes',
+        value: 'now|now-5m',
+      },
+      {
+        name: 'Last 30 Minutes',
+        value: 'now|now-30m',
+      },
+      {
+        name: 'Last 1 Hour',
+        value: 'now|now-1h',
+      },
+      {
+        name: 'Last 6 Hour',
+        value: 'now|now-6h',
+      },
+      {
+        name: 'Last 12 Hour',
+        value: 'now|now-12h',
+      },
+      {
+        name: 'Last 24 Hour',
+        value: 'now|now-24h',
+      },
+      {
+        name: 'Last 2 Days',
+        value: 'now|now-2d',
+      },
+      {
+        name: 'Last 7 Days',
+        value: 'now|now-7d',
+      },
+      {
+        name: 'Last 30 Days',
+        value: 'now|now-30d',
+      },
+      {
+        name: 'Last 90 Days',
+        value: 'now|now-90d',
+      },
+      {
+        name: 'Last 6 Months',
+        value: 'now|now-6M',
+      },
+      {
+        name: 'Last 1 Year',
+        value: 'now|now-1y',
+      },
+      {
+        name: 'Last 2 Year',
+        value: 'now|now-2y',
+      },
+      {
+        name: 'Last 5 Year',
+        value: 'now|now-5y',
+      },
+      {
+        name: 'Yesterday',
+        value: 'now-1d/d|now-1d/d',
+      },
+      {
+        name: 'Day Before Yesterday',
+        value: 'now-2d/d|now-2d/d',
+      },
+      {
+        name: 'This Day Last Week',
+        value: 'now-7d/d|now-7d/d',
+      },
+      {
+        name: 'Previous Week',
+        value: 'now-1w/w|now-1w/w',
+      },
+      {
+        name: 'Previous Month',
+        value: 'now-1M/M|now-1M/M',
+      },
+      {
+        name: 'Previous Year',
+        value: 'now-1y/y|now-1y/y',
+      },
+      {
+        name: 'Today',
+        value: 'now/d|now/d',
+      },
+      {
+        name: 'Today so far',
+        value: 'now|now/d',
+      },
+      {
+        name: 'This Week',
+        value: 'now/w|now/w',
+      },
+      {
+        name: 'This Week so far',
+        value: 'now|now/w',
+      },
+      {
+        name: 'This Month',
+        value: 'now/M|now/M',
+      },
+      {
+        name: 'This Month so far',
+        value: 'now|now/M',
+      },
+      {
+        name: 'This Year',
+        value: 'now/y|now/y',
+      },
+      {
+        name: 'This Year so far',
+        value: 'now|now/y',
+      },
+    ],
+    filter: 'now|now-6h',
+  }, // Total Requests
+  {
+    name: 'Total Bandwidth',
+    url: 'https://gw.mbr.massbitroute.com/__internal_grafana/d-solo/6y_ACGKnk/sitestat?orgId=1&var-Instance=All&var-Host=p3v1vkrvkz89.eth-mainnet.massbitroute.com&panelId=2',
+    filters: [
+      {
+        name: 'Last 5 Minutes',
+        value: 'now|now-5m',
+      },
+      {
+        name: 'Last 30 Minutes',
+        value: 'now|now-30m',
+      },
+      {
+        name: 'Last 1 Hour',
+        value: 'now|now-1h',
+      },
+      {
+        name: 'Last 6 Hour',
+        value: 'now|now-6h',
+      },
+      {
+        name: 'Last 12 Hour',
+        value: 'now|now-12h',
+      },
+      {
+        name: 'Last 24 Hour',
+        value: 'now|now-24h',
+      },
+      {
+        name: 'Last 2 Days',
+        value: 'now|now-2d',
+      },
+      {
+        name: 'Last 7 Days',
+        value: 'now|now-7d',
+      },
+      {
+        name: 'Last 30 Days',
+        value: 'now|now-30d',
+      },
+      {
+        name: 'Last 90 Days',
+        value: 'now|now-90d',
+      },
+      {
+        name: 'Last 6 Months',
+        value: 'now|now-6M',
+      },
+      {
+        name: 'Last 1 Year',
+        value: 'now|now-1y',
+      },
+      {
+        name: 'Last 2 Year',
+        value: 'now|now-2y',
+      },
+      {
+        name: 'Last 5 Year',
+        value: 'now|now-5y',
+      },
+      {
+        name: 'Yesterday',
+        value: 'now-1d/d|now-1d/d',
+      },
+      {
+        name: 'Day Before Yesterday',
+        value: 'now-2d/d|now-2d/d',
+      },
+      {
+        name: 'This Day Last Week',
+        value: 'now-7d/d|now-7d/d',
+      },
+      {
+        name: 'Previous Week',
+        value: 'now-1w/w|now-1w/w',
+      },
+      {
+        name: 'Previous Month',
+        value: 'now-1M/M|now-1M/M',
+      },
+      {
+        name: 'Previous Year',
+        value: 'now-1y/y|now-1y/y',
+      },
+      {
+        name: 'Today',
+        value: 'now/d|now/d',
+      },
+      {
+        name: 'Today so far',
+        value: 'now|now/d',
+      },
+      {
+        name: 'This Week',
+        value: 'now/w|now/w',
+      },
+      {
+        name: 'This Week so far',
+        value: 'now|now/w',
+      },
+      {
+        name: 'This Month',
+        value: 'now/M|now/M',
+      },
+      {
+        name: 'This Month so far',
+        value: 'now|now/M',
+      },
+      {
+        name: 'This Year',
+        value: 'now/y|now/y',
+      },
+      {
+        name: 'This Year so far',
+        value: 'now|now/y',
+      },
+    ],
+    filter: 'now|now-6h',
+  }, // Total Bandwidth
+];
 
 export default {
   name: 'Index',
@@ -83,8 +357,6 @@ export default {
   auth: true,
 
   layout: 'dashboard',
-
-  mixins: [chartConfig],
 
   async fetch() {
     await this.$store.dispatch('node/getListApi');
@@ -94,6 +366,8 @@ export default {
     return {
       apis: [],
       showModalCreateApi: false,
+      charts,
+      zone: '',
     };
   },
 
@@ -107,6 +381,12 @@ export default {
     async updateApiStatus(api, checked) {
       let _api = _.cloneDeep(api);
       await this.$store.dispatch('node/updateApi', Object.assign(_api, { status: checked ? 1 : 0 }));
+    },
+
+    selectZone(zone) {
+      console.log('zone :>> ', zone);
+      this.zone = zone;
+      this.showModalCreateApi = true;
     },
   },
 };
