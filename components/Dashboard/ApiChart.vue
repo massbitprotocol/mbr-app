@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="w-full flex items-center justify-between">
-      <div class="uppercase text-heading-2 text-neutral-darkset font-semibold">
+      <div class="uppercase text-heading-2 text-neutral-darkset font-medium">
         {{ title }}
       </div>
 
@@ -14,7 +14,7 @@
           border border-primary-background
           rounded-xl
           text-body-2 text-neutral-darker
-          font-semibold
+          font-medium
         "
       >
         <template v-for="item in filters">

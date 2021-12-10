@@ -1,7 +1,7 @@
 <template>
   <div class="mt-10 lg:mt-15">
     <div class="flex items-center justify-between">
-      <div class="uppercase text-heading-2 lg:text-title-2 text-neutral-darkset font-semibold lg:font-bold">
+      <div class="uppercase text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold">
         Entrypoints
       </div>
 
@@ -26,7 +26,7 @@
                 text-caption
                 bg-accent-green
                 text-white
-                font-semibold
+                font-medium
                 py-1
               "
             >
@@ -44,7 +44,7 @@
                 text-caption
                 bg-accent-red
                 text-white
-                font-semibold
+                font-medium
                 py-1
               "
             >
@@ -97,7 +97,7 @@ const columns = [
     title: 'ID',
     dataIndex: 'id',
     width: '180px',
-    class: 'text-body-1 text-neutral-darker font-semibold',
+    class: 'text-body-1 text-neutral-darker font-medium',
     filter: 'text',
     filterInput: '',
     sort: true,
@@ -106,7 +106,7 @@ const columns = [
     title: 'Type',
     dataIndex: 'type',
     width: '180px',
-    class: 'text-body-1 text-neutral-darker font-semibold',
+    class: 'text-body-1 text-neutral-darker font-medium',
     filter: 'select',
     filterInput: 'all',
     filterSelectSource: [
@@ -121,7 +121,7 @@ const columns = [
     title: 'Priority',
     dataIndex: 'priority',
     width: '180px',
-    class: 'text-body-1 text-neutral-darker font-semibold',
+    class: 'text-body-1 text-neutral-darker font-medium',
     filter: 'text',
     filterInput: '',
     sort: true,

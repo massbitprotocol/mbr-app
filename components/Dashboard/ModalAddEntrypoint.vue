@@ -11,7 +11,7 @@
         ></div>
       </div>
 
-      <div class="w-full mt-3 text-body-2 lg:text-body-1 text-neutral-normal font-semibold">
+      <div class="w-full mt-3 text-body-2 lg:text-body-1 text-neutral-normal font-medium">
         Add an Entrypoint to manage them
       </div>
 
@@ -29,7 +29,7 @@
                 >
                   <div>
                     <label
-                      class="block text-body-1 text-neutral-darkset font-semibold tracking-wide mb-2"
+                      class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2"
                       for="grid-api-key"
                     >
                       Provider
@@ -37,7 +37,7 @@
 
                     <BaseSearch
                       v-model="_form.type"
-                      itemClass="text-body-2 lg:text-body-1 font-semibold text-neutral-darker"
+                      itemClass="text-body-2 lg:text-body-1 font-medium text-neutral-darker"
                       :source="_providers"
                       @onChange="onChangeProvider"
                       placeholder="Select provider"
@@ -55,7 +55,7 @@
                 >
                   <div>
                     <label
-                      class="block text-body-1 text-neutral-darkset font-semibold tracking-wide mb-2"
+                      class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2"
                       for="grid-priority"
                     >
                       Priority
@@ -138,7 +138,7 @@
             <div class="flex flex-wrap -mx-3 mb-7.5">
               <div class="w-full flex items-center px-3">
                 <label
-                  class="block text-body-1 text-neutral-darkset font-semibold tracking-wide mr-2"
+                  class="block text-body-1 text-neutral-darkset font-medium tracking-wide mr-2"
                   for="grid-entrypoint-status"
                 >
                   Status
@@ -160,7 +160,7 @@
               >
                 <div class="w-full flex flex-wrap items-center mb-5">
                   <label
-                    class="block text-body-1 text-neutral-darkset font-semibold tracking-wide mb-2"
+                    class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2"
                     for="grid-project-id"
                   >
                     Project ID
@@ -199,7 +199,7 @@
               >
                 <div class="w-full flex flex-wrap items-center mb-5">
                   <label
-                    class="block text-body-1 text-neutral-darkset font-semibold tracking-wide mb-2"
+                    class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2"
                     for="grid-project-secret"
                   >
                     Project Secret
@@ -238,7 +238,7 @@
               >
                 <div class="w-full flex flex-wrap items-center mb-5">
                   <label
-                    class="block text-body-1 text-neutral-darkset font-semibold tracking-wide mb-2"
+                    class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2"
                     for="grid-api-key"
                   >
                     API Key
@@ -277,7 +277,7 @@
               >
                 <div class="w-full flex flex-wrap items-center mb-5">
                   <label
-                    class="block text-body-1 text-neutral-darkset font-semibold tracking-wide mb-2"
+                    class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2"
                     for="grid-api-uri"
                   >
                     API URI

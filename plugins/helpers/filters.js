@@ -1,11 +1,12 @@
 import Vue from 'vue';
+import dayjs from 'dayjs';
 
 const TRUNCATED_NAME_CHAR_LIMIT = 30;
 const TRUNCATED_ADDRESS_START_CHARS = 18;
 const TRUNCATED_ADDRESS_END_CHARS = 12;
 
 Vue.filter('shortenKey', (value) => {
-  if (value.length < TRUNCATED_NAME_CHAR_LIMIT) {
+  if (value && value.length < TRUNCATED_NAME_CHAR_LIMIT) {
     return value;
   }
 
@@ -13,7 +14,7 @@ Vue.filter('shortenKey', (value) => {
 });
 
 Vue.filter('shortenUrl', (value) => {
-  if (value.length < TRUNCATED_NAME_CHAR_LIMIT) {
+  if (value && value.length < TRUNCATED_NAME_CHAR_LIMIT) {
     return value;
   }
 
@@ -59,4 +60,26 @@ Vue.filter('numberText', (value) => {
   }
 
   return new Intl.NumberFormat().format(value);
+});
+
+Vue.filter('formatTimeDuration', (timestamp) => {
+  return dayjs(parseInt(timestamp) * 1000)
+    .utc(true)
+    .fromNow();
+});
+
+Vue.filter('formatTimeUTC', (timestamp) => {
+  return dayjs(parseInt(timestamp) * 1000)
+    .utc(true)
+    .format('MMMM DD, YYYY hh:mm:ss A +UTC');
+});
+
+Vue.filter('formatPrice', (number) => {
+  if (number) {
+    return parseFloat(number)
+      .toFixed(2)
+      .replace(/\d(?=(\d{3})+\.)/g, '$&,');
+  }
+
+  return '';
 });

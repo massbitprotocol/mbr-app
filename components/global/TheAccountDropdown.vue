@@ -15,9 +15,8 @@
           shadow-sm
           px-4
           py-2
-          bg-white
           text-body-2 text-primary
-          font-semibold
+          font-medium
           hover:bg-gray-50
           focus:outline-none focus:ring-0
         "
@@ -53,20 +52,20 @@
     >
       <div
         v-show="showMenu"
-        class="origin-top-right absolute right-0 mt-2 w-56 rounded-xl bg-white focus:outline-none"
+        class="origin-top-right absolute right-0 mt-2 w-56 rounded-xl bg-white focus:outline-none z-10"
         style="box-shadow: 0px 2px 16px rgba(33, 47, 96, 0.12)"
       >
         <div class="flex flex-col space-y-5 p-5">
           <NuxtLink
             :to="{ name: 'index' }"
-            class="flex text-body-2 text-primary-darker hover:text-primary-darker/90 font-semibold"
+            class="flex text-body-2 text-primary-darker hover:text-primary-darker/90 font-medium"
           >
             Setting
           </NuxtLink>
           <button
             type="button"
-            class="flex text-body-2 text-accent-red hover:text-accent-red/90 font-semibold"
-            @click="$auth.logout()"
+            class="flex text-body-2 text-accent-red hover:text-accent-red/90 font-medium"
+            @click="logout"
           >
             Sign out
           </button>
@@ -84,6 +83,14 @@ export default {
     return {
       showMenu: false,
     };
+  },
+
+  methods: {
+    logout() {
+      this.$auth.logout();
+
+      this.$router.push('/login');
+    },
   },
 };
 </script>

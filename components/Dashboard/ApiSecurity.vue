@@ -1,11 +1,11 @@
 <template>
   <div class="mt-10 lg:mt-15">
-    <div class="uppercase text-heading-2 lg:text-title-2 text-neutral-darkset font-semibold lg:font-bold">Security</div>
+    <div class="uppercase text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold">Security</div>
 
     <div class="mt-3 lg:mt-4 p-5 bg-white rounded-xl border border-primary-background">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-7.5">
         <div class="flex flex-col gap-2">
-          <div class="flex items-center text-body-1 text-neutral-darkset font-semibold">
+          <div class="flex items-center text-body-1 text-neutral-darkset font-medium">
             <span class="mr-2"> Per second requests rate-limiting </span>
 
             <BasePopover
@@ -25,7 +25,7 @@
               block
               w-full
               text-body-1 text-neutral-darkset
-              font-semibold
+              font-medium
               border border-primary-background
               rounded-lg
               py-3
@@ -37,7 +37,7 @@
         </div>
 
         <div class="flex flex-col gap-2">
-          <div class="flex items-center text-body-1 text-neutral-darkset font-semibold">
+          <div class="flex items-center text-body-1 text-neutral-darkset font-medium">
             <span class="mr-2"> Allowlist API request method </span>
 
             <BasePopover

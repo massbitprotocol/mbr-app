@@ -18,7 +18,7 @@
             >
               <div>
                 <label
-                  class="block text-body-1 text-neutral-darkset font-semibold tracking-wide mb-2"
+                  class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2"
                   for="grid-user-name"
                 >
                   User name
@@ -48,13 +48,13 @@
             <div class="w-full px-3 mb-5 md:mb-0">
               <div class="flex justify-between">
                 <label
-                  class="block text-body-1 text-neutral-darkset font-semibold tracking-wide mb-2"
+                  class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2"
                   for="grid-password"
                 >
                   Password
                 </label>
 
-                <NuxtLink class="text-body-2 text-accent-green font-semibold" :to="{ name: 'forgot-password' }">
+                <NuxtLink class="text-body-2 text-accent-green font-medium" :to="{ name: 'forgot-password' }">
                   Forgot password?
                 </NuxtLink>
               </div>
@@ -74,7 +74,7 @@
 
           <div class="flex flex-wrap -mx-3 mb-7.5">
             <div class="w-full px-3 mb-5 md:mb-0">
-              <label class="block text-body-2 text-neutral-darkset font-semibold cursor-pointer">
+              <label class="block text-body-2 text-neutral-darkset font-medium cursor-pointer">
                 <input class="mr-2 leading-tight focus:outline-none focus:ring-transparent" type="checkbox" />
                 <span class="text-sm"> Remeber me </span>
               </label>
@@ -102,7 +102,7 @@ export default {
 
   async asyncData({ $auth, redirect }) {
     if ($auth.loggedIn) {
-      redirect('/dashboard');
+      redirect('/');
     }
   },
 
@@ -126,7 +126,7 @@ export default {
           if (sid) {
             this.$auth.$storage.setUniversal('_slc_web_sid', sid);
 
-            this.$router.push('/dashboard');
+            this.$router.push('/');
           }
         }
       } catch (err) {

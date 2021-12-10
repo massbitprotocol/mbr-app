@@ -100,7 +100,7 @@
                         />
                       </svg>
 
-                      <span class="text-body-1 text-neutral-darkset font-semibold"> Dashboard </span>
+                      <span class="text-body-1 text-neutral-darkset font-medium"> Dashboard </span>
                     </div>
                   </NuxtLink>
 
@@ -123,7 +123,7 @@
                         />
                       </svg>
 
-                      <span class="text-body-1 text-neutral-darkset font-semibold"> Account Settings </span>
+                      <span class="text-body-1 text-neutral-darkset font-medium"> Account Settings </span>
                     </div>
                   </NuxtLink>
 
@@ -148,7 +148,7 @@
                         />
                       </svg>
 
-                      <span class="text-body-1 text-accent-red font-semibold"> Logout </span>
+                      <span class="text-body-1 text-accent-red font-medium"> Logout </span>
                     </div>
                   </NuxtLink>
                 </div>

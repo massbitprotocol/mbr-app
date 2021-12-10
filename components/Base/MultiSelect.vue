@@ -9,7 +9,7 @@
       :key="index"
       class="flex items-center justify-center my-2 px-3 py-1 rounded bg-neutral-lightest"
     >
-      <span class="mr-2 text-body-2 text-neutral-darkest font-semibold"> {{ getItemName(selectItem) }} </span>
+      <span class="mr-2 text-body-2 text-neutral-darkest font-medium"> {{ getItemName(selectItem) }} </span>
 
       <div
         @click.stop="removeItem(selectItem)"
@@ -51,7 +51,7 @@
             text-body-2
             lg:text-body-1
             text-neutral-darker
-            font-semibold
+            font-medium
             hover:bg-primary-background
             cursor-pointer
           "
@@ -60,7 +60,7 @@
         </div>
       </template>
 
-      <div v-else class="p-3 text-body-2 lg:text-body-1 text-neutral-lighter font-semibold">No data</div>
+      <div v-else class="p-3 text-body-2 lg:text-body-1 text-neutral-lighter font-medium">No data</div>
     </div>
   </div>
 </template>

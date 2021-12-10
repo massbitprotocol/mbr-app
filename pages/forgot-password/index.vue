@@ -17,7 +17,7 @@
               class="w-full px-3 mb-5 md:mb-0"
             >
               <div>
-                <label class="block text-body-1 text-neutral-darkset font-semibold tracking-wide mb-2" for="grid-email">
+                <label class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2" for="grid-email">
                   Email
                 </label>
                 <input
@@ -42,11 +42,11 @@
           </div>
 
           <div class="flex items-center justify-center mb-5">
-            <label class="block text-body-1 mr-2 text-neutral-darkset font-semibold tracking-wide">
+            <label class="block text-body-1 mr-2 text-neutral-darkset font-medium tracking-wide">
               Remember password?
             </label>
 
-            <NuxtLink class="text-body-1 text-accent-green font-semibold" :to="{ name: 'login' }"> Login </NuxtLink>
+            <NuxtLink class="text-body-1 text-accent-green font-medium" :to="{ name: 'login' }"> Login </NuxtLink>
           </div>
         </form>
       </ValidationObserver>

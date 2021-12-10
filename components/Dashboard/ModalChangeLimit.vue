@@ -11,7 +11,7 @@
         ></div>
       </div>
 
-      <div class="w-full mt-3 text-body-2 lg:text-body-1 text-neutral-normal font-semibold">
+      <div class="w-full mt-3 text-body-2 lg:text-body-1 text-neutral-normal font-medium">
         Choose the unlimited request volume, or set the number of requests to be spent over a certain period.
       </div>
 
@@ -27,7 +27,7 @@
             <label class="w-full inline-flex items-center">
               <input type="radio" name="limit" value="unlimit" v-model="_limitType" />
               <span
-                class="text-body-2 lg:text-body-1 text-neutral-darkest font-semibold ml-2"
+                class="text-body-2 lg:text-body-1 text-neutral-darkest font-medium ml-2"
                 :style="{ color: !(_limitType === 'unlimit') ? 'rgba(113, 117, 145, 0.6)' : null }"
               >
                 Unlimited
@@ -45,7 +45,7 @@
             <label class="w-full inline-flex items-center">
               <input type="radio" name="limit" value="limit" v-model="_limitType" />
               <span
-                class="text-body-2 lg:text-body-1 text-neutral-darkest font-semibold ml-2"
+                class="text-body-2 lg:text-body-1 text-neutral-darkest font-medium ml-2"
                 :style="{ color: !(_limitType === 'limit') ? 'rgba(113, 117, 145, 0.6)' : null }"
               >
                 Advanced limit settings
@@ -64,7 +64,7 @@
                   text-body-2
                   lg:text-body-1
                   text-neutral-darkset
-                  font-semibold
+                  font-medium
                   border border-primary-background
                   rounded-lg
                   py-3
@@ -75,7 +75,7 @@
                 type="number"
               />
               <span
-                class="whitespace-nowrap text-body-2 lg:text-body-1 text-neutral-darkest font-semibold"
+                class="whitespace-nowrap text-body-2 lg:text-body-1 text-neutral-darkest font-medium"
                 :style="{ color: !(_limitType === 'limit') ? 'rgba(113, 117, 145, 0.6)' : null }"
               >
                 per day
