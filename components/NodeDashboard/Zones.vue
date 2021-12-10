@@ -62,7 +62,6 @@ export default {
   name: 'NodeDashboardZones',
 
   async fetch() {
-    console.log('here ================');
     await this.$store.dispatch('node/getZoneSummary');
   },
 

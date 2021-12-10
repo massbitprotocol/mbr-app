@@ -90,7 +90,7 @@
       "
     >
       <button
-        @click="$router.push({ name: 'nodes-id', params: { id: api.id } })"
+        @click="$router.push({ name: 'users-id', params: { id: api.id } })"
         class="
           max-w-[189px]
           h-[52px]
@@ -112,7 +112,7 @@
       </button>
 
       <NuxtLink
-        :to="{ name: 'nodes-id', params: { id: api.id } }"
+        :to="{ name: 'users-id', params: { id: api.id } }"
         class="
           w-full
           flex

@@ -21,21 +21,21 @@
       "
     >
       <div class="flex items-center gap-4">
-        <div v-if="zone.key === 'asia'" class="w-[64px] h-[64px] bg-asia-pattern bg-center bg-no-repeat"></div>
-        <div v-if="zone.key === 'europe'" class="w-[64px] h-[64px] bg-europe-pattern bg-center bg-no-repeat"></div>
-        <div v-if="zone.key === 'america'" class="w-[64px] h-[64px] bg-america-pattern bg-center bg-no-repeat"></div>
-        <div v-if="zone.key === 'africa'" class="w-[64px] h-[64px] bg-africa-pattern bg-center bg-no-repeat"></div>
+        <div v-if="zone.key === 'AS'" class="w-[64px] h-[64px] bg-asia-pattern bg-center bg-no-repeat"></div>
+        <div v-if="zone.key === 'EU'" class="w-[64px] h-[64px] bg-europe-pattern bg-center bg-no-repeat"></div>
         <div
-          v-if="zone.key === 'australia'"
-          class="w-[64px] h-[64px] bg-australia-pattern bg-center bg-no-repeat"
+          v-if="zone.key === 'NA' || zone.key === 'SA'"
+          class="w-[64px] h-[64px] bg-america-pattern bg-center bg-no-repeat"
         ></div>
+        <div v-if="zone.key === 'AF'" class="w-[64px] h-[64px] bg-africa-pattern bg-center bg-no-repeat"></div>
+        <div v-if="zone.key === 'OC'" class="w-[64px] h-[64px] bg-australia-pattern bg-center bg-no-repeat"></div>
 
         <div class="grid grid-cols-1">
           <span class="test-body-1 text-neutral-normal font-medium">
             {{ zone.name }}
           </span>
 
-          <span class="text-heading-1 text-primary-darker font-bold"> {{ zone.value }} Gateways </span>
+          <span class="text-heading-1 text-primary-darker font-bold"> {{ zone.value }} Nodes </span>
         </div>
       </div>
 
@@ -60,6 +60,10 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'GatewayDashboardZones',
+
+  async fetch() {
+    await this.$store.dispatch('gateway/getZoneSummary');
+  },
 
   computed: {
     ...mapGetters({

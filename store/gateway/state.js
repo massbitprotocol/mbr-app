@@ -1,30 +1,36 @@
 export default () => ({
   list: [],
+  api: null,
   zones: [
     {
       name: 'Asia',
-      key: 'asia',
-      value: 20,
+      key: 'AS',
+      value: 0,
     },
     {
       name: 'Europe',
-      key: 'europe',
-      value: 128,
+      key: 'EU',
+      value: 0,
     },
     {
-      name: 'America',
-      key: 'america',
-      value: 206,
+      name: 'North america',
+      key: 'NA',
+      value: 0,
+    },
+    {
+      name: 'South america',
+      key: 'SA',
+      value: 0,
     },
     {
       name: 'Africa',
-      key: 'africa',
-      value: 10,
+      key: 'AF',
+      value: 0,
     },
     {
-      name: 'Australia',
-      key: 'australia',
-      value: 87,
+      name: 'Oceania',
+      key: 'OC',
+      value: 0,
     },
   ],
   api: null,

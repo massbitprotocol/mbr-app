@@ -93,7 +93,7 @@
           <DashboardOverview :api="api" />
         </div>
 
-        <div class="mt-7.5 grid grid-cols-2 gap-5">
+        <div class="mt-15 grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-7.5">
           <!-- Blockchain -->
           <div v-if="_blockchain" class="p-5 bg-white rounded-xl border border-primary-background">
             <div class="text-body-1 text-neutral-darkset font-medium">Blockchain</div>

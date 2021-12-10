@@ -101,7 +101,7 @@
         </template>
       </div>
 
-      <GatewayDashboardModalCreateApi :visible.sync="showModalCreateApi" />
+      <GatewayDashboardModalCreateApi :visible.sync="showModalCreateApi" :zone="zone" />
     </div>
   </div>
 </template>
@@ -366,6 +366,7 @@ export default {
       apis: [],
       showModalCreateApi: false,
       charts,
+      zone: '',
     };
   },
 
@@ -382,7 +383,8 @@ export default {
     },
 
     selectZone(zone) {
-      console.log('zone :>> ', zone);
+      this.zone = zone;
+
       this.showModalCreateApi = true;
     },
   },

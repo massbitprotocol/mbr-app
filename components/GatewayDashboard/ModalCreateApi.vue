@@ -128,6 +128,11 @@ export default {
       type: Boolean,
       default: false,
     },
+
+    zone: {
+      type: String,
+      default: '',
+    },
   },
 
   data() {
@@ -141,6 +146,14 @@ export default {
       },
       loading: false,
     };
+  },
+
+  watch: {
+    visible(value) {
+      if (value) {
+        this.form.zone = this.zone;
+      }
+    },
   },
 
   computed: {

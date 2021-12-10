@@ -11,6 +11,18 @@ export default {
     state.zones = zones;
   },
 
+  updateZonesValue(state, zonesSummary) {
+    let _zones = _.cloneDeep(state.zones);
+    _zones.map((zone) => {
+      if (Object.hasOwnProperty.call(zonesSummary, zone.key)) {
+        zone.value = zonesSummary[zone.key];
+      }
+      return zone;
+    });
+
+    state.zones = _zones;
+  },
+
   updateApi(state, api) {
     // Update current api
     state.api = api;

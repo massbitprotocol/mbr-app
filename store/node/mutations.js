@@ -15,17 +15,12 @@ export default {
 
   updateZonesValue(state, zonesSummary) {
     let _zones = _.cloneDeep(state.zones);
-    console.log('updateZonesValue :>> ', zonesSummary);
     _zones.map((zone) => {
       if (Object.hasOwnProperty.call(zonesSummary, zone.key)) {
-        console.log('ok -----------------------------');
         zone.value = zonesSummary[zone.key];
       }
-      console.log('zone :>> ', zone);
       return zone;
     });
-
-    console.log('_zones :>> ', _zones);
 
     state.zones = _zones;
   },
