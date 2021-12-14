@@ -30,7 +30,6 @@
 
           <input
             v-model="limitRatePerSec"
-            @blur="checkRateLimit"
             class="appearance-none block w-full text-body-1 text-neutral-darkset font-medium border border-primary-background rounded-lg py-3 px-4 leading-tight"
             type="text"
           />
