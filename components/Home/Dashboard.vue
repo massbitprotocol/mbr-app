@@ -1,15 +1,7 @@
 <template>
   <div class="min-h-[80vh] mx-auto w-full">
     <Portal to="banner" tag="div">
-      <div
-        class="
-          bg-vector-pattern bg-bottom bg-transparent bg-no-repeat
-          lg:min-h-[530px]
-          h-[55vh]
-          sm:h-[45vh]
-          lg:h-[75vh]
-        "
-      >
+      <div class="bg-vector-pattern bg-bottom bg-transparent bg-no-repeat h-[630px]">
         <div class="h-full">
           <TheHeader class="bg-neutral-lightest" style="border: none" />
 

@@ -176,13 +176,17 @@ export default {
     async createApi() {
       this.loading = true;
       try {
-        const { result } = await this.$axios.$post('/api/v1?action=gateway.create', this.form);
+        const { result, data } = await this.$axios.$post('/api/v1?action=gateway.create', this.form);
         if (result) {
           await this.$store.dispatch('gateway/getListApi');
 
           setTimeout(() => {
             this.$notify({ type: 'success', text: 'New gateway has been successfully created!' });
           }, 500);
+
+          if (data && data.id) {
+            this.$router.push({ name: 'gateways-id', params: { id: data.id } });
+          }
 
           this.loading = false;
           this._visible = false;

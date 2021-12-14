@@ -128,6 +128,12 @@ export default {
 
             this.$router.push('/');
           }
+        } else {
+          if (data.err) {
+            this.$notify({ type: 'error', text: data.err });
+          } else {
+            this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+          }
         }
       } catch (err) {
         console.log(err);

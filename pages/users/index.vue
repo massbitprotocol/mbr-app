@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-[80vh] mx-auto w-full">
+  <div class="min-h-[80vh] mx-auto w-full pb-30">
     <Portal to="banner" tag="div">
       <div class="bg-banner-user-pattern bg-neutral-darker h-[268px] flex items-center justify-center">
         <div class="container mx-auto">
@@ -53,7 +53,7 @@
         </template>
       </div>
 
-      <template v-for="(chart, index) in charts">
+      <!-- <template v-for="(chart, index) in charts">
         <DashboardApiChart
           class="my-10 lg:my-15"
           :key="index"
@@ -62,7 +62,7 @@
           :filters="chart.filters"
           :filter.sync="chart.filter"
         />
-      </template>
+      </template> -->
 
       <DashboardModalCreateApi :visible.sync="showModalCreateApi" />
     </div>

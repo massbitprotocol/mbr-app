@@ -140,7 +140,7 @@
         </div>
 
         <!-- Stats -->
-        <div class="mt-15 lg:mb-7.5">
+        <!-- <div class="mt-15 lg:mb-7.5">
           <div
             class="
               uppercase
@@ -167,7 +167,7 @@
               </div>
             </template>
           </div>
-        </div>
+        </div> -->
       </client-only>
     </div>
   </div>

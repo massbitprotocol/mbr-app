@@ -5,7 +5,7 @@
         <div class="container mx-auto">
           <div class="text-title-1 md:text-medium-title text-neutral-white font-bold">Welcome to Community Gateway</div>
 
-          <div class="mt-2 text-body-1 md:text-heading-2 font-medium text-primary-background">Content</div>
+          <!-- <div class="mt-2 text-body-1 md:text-heading-2 font-medium text-primary-background">Content</div> -->
         </div>
       </div>
     </Portal>
@@ -49,7 +49,7 @@
       </div>
 
       <!-- Stats -->
-      <div class="mt-15 lg:mb-7.5">
+      <!-- <div class="mt-15 lg:mb-7.5">
         <div
           class="
             uppercase
@@ -76,7 +76,7 @@
             </div>
           </template>
         </div>
-      </div>
+      </div> -->
 
       <!-- Your Gateway -->
       <div class="mt-15 flex flex-col md:flex-row items-start md:items-center flex-wrap justify-between gap-2">
