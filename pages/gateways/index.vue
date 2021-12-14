@@ -32,15 +32,7 @@
       <!-- Zones -->
       <div class="mt-15 lg:mb-7.5">
         <div
-          class="
-            uppercase
-            whitespace-nowrap
-            text-heading-2
-            lg:text-title-2
-            text-neutral-darkset
-            font-medium
-            lg:font-bold
-          "
+          class="uppercase whitespace-nowrap text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold"
         >
           Zones
         </div>
@@ -81,15 +73,7 @@
       <!-- Your Gateway -->
       <div class="mt-15 flex flex-col md:flex-row items-start md:items-center flex-wrap justify-between gap-2">
         <div
-          class="
-            uppercase
-            whitespace-nowrap
-            text-heading-2
-            lg:text-title-2
-            text-neutral-darkset
-            font-medium
-            lg:font-bold
-          "
+          class="uppercase whitespace-nowrap text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold"
         >
           Your Gateway
         </div>

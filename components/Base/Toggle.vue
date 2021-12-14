@@ -3,7 +3,7 @@
     <!-- toggle -->
     <div class="relative">
       <!-- input -->
-      <input v-model="_checked" type="checkbox" :id="`base-toggle-${refId}`" class="sr-only" />
+      <input v-model="_checked" type="checkbox" :id="`base-toggle-${refId}`" class="sr-only" :disabled="disabled" />
       <!-- line -->
       <div
         :class="{ 'block  w-14 h-8 rounded-full': true, 'bg-primary': checked, 'bg-primary-background': !checked }"
@@ -29,6 +29,11 @@ export default {
     refId: {
       type: String,
       default: '',
+    },
+
+    disabled: {
+      type: Boolean,
+      default: false,
     },
   },
 

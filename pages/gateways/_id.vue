@@ -32,18 +32,7 @@
                 @blur="updateApiName"
                 ref="apiName"
                 type="text"
-                class="
-                  text-2xl
-                  lg:text-medium-title
-                  text-neutral-darkset
-                  font-bold
-                  appearance-none
-                  block
-                  w-full
-                  border border-primary-background
-                  rounded
-                  leading-tight
-                "
+                class="text-2xl lg:text-medium-title text-neutral-darkset font-bold appearance-none block w-full border border-primary-background rounded leading-tight"
               />
             </template>
             <template v-else>
@@ -71,7 +60,7 @@
               content="Change status of the API key. If you don't want API key active, please switch it off."
               contentClass="w-[197px]"
             >
-              <BaseToggle :checked.sync="status" />
+              <BaseToggle :checked.sync="status" :disabled="!api.ip" />
             </BasePopover>
           </div>
         </div>
@@ -113,16 +102,7 @@
           <!-- Network -->
           <div
             v-if="api.network"
-            class="
-              flex
-              items-center
-              justify-between
-              p-5
-              bg-white
-              rounded-xl
-              border border-primary-background
-              capitalize
-            "
+            class="flex items-center justify-between p-5 bg-white rounded-xl border border-primary-background capitalize"
           >
             <div class="flex items-center">
               <div

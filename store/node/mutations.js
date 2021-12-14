@@ -31,7 +31,7 @@ export default {
 
     // Update list
     let _list = _.cloneDeep(state.list);
-    const index = _list.findIndex((item) => item.api_key === api.api_key);
+    const index = _list.findIndex((item) => item.id === api.id);
     if (index >= 0) {
       _list[index] = api;
     }

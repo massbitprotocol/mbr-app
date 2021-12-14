@@ -26,7 +26,7 @@
     <div class="hidden min-w-[64px] max-w-[150px] xl:grid grid-cols-1">
       <div class="text-body-2 text-neutral-normal font-medium">Status</div>
 
-      <BaseToggle class="mt-1" :refId="api.id" :checked.sync="status" />
+      <BaseToggle class="mt-1" :refId="api.id" :checked.sync="status" :disabled="!api.ip" />
     </div>
 
     <div class="flex-shrink px-5">
