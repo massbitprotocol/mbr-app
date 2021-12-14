@@ -47,10 +47,15 @@
     </div>
 
     <div v-else>
-      <div class="flex flex-col gap-y-2.5">
+      <div v-if="apiList && apiList.length > 0" class="flex flex-col gap-y-2.5">
         <template v-for="(api, index) in apiList">
           <DashboardApiCard :key="index" :api="api" @updateApiStatus="(value) => updateApiStatus(api, value)" />
         </template>
+      </div>
+
+      <div v-else class="text-heading-2 text-neutral-darker">
+        No api.<br />
+        Please create your own api.
       </div>
 
       <!-- <template v-for="(chart, index) in charts">

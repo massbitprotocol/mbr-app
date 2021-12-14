@@ -3,12 +3,14 @@
     class="w-full grid grid-cols-1 xl:flex items-center justify-between gap-5 mt-5 py-4 border rounded-2xl border-primary-background"
   >
     <div class="max-w-full xl:max-w-sm w-full flex flex-col justify-between px-0 xl:px-5">
+      <!-- Name -->
       <div
         class="px-5 xl:px-0 mb-4 xl:mb-0 text-heading-2 xl:text-heading-1 text-neutral-darkset font-bold overflow-ellipsis whitespace-nowrap break-words overflow-hidden"
       >
         {{ api.name }}
       </div>
 
+      <!-- API ke -->
       <div class="bg-primary-darker xl:bg-white py-4 xl:py-0 px-5 xl:px-0">
         <div class="block xl:hidden text-body-2 text-primary-background font-medium">API key</div>
 
@@ -23,12 +25,14 @@
       </div>
     </div>
 
+    <!-- Status -->
     <div class="hidden min-w-[64px] max-w-[150px] xl:grid grid-cols-1">
       <div class="text-body-2 text-neutral-normal font-medium">Status</div>
 
       <BaseToggle class="mt-1" :refId="api.id" :checked.sync="status" :disabled="!api.ip" />
     </div>
 
+    <!-- Created at -->
     <div class="flex-shrink px-5">
       <div class="grid grid-cols-1">
         <div class="text-body-2 text-neutral-normal font-medium">Created at</div>
@@ -38,7 +42,8 @@
       </div>
     </div>
 
-    <div class="flex-grow px-5">
+    <!-- Zone -->
+    <div class="max-w-[180px] w-full flex-grow px-5">
       <div class="grid grid-cols-1">
         <div class="text-body-2 text-neutral-normal font-medium">Zone</div>
         <div class="mt-1 text-body-1 text-neutral-darker font-medium truncate">
@@ -47,6 +52,7 @@
       </div>
     </div>
 
+    <!-- Gateway Settings -->
     <div
       class="flex flex-col items-end justify-center border-t xl:border-t-none border-primary-background xl:border-transparent px-5 pt-4 xl:pt-0"
     >

@@ -178,8 +178,6 @@ export default {
       try {
         const { result, data } = await this.$axios.$post('/api/v1?action=gateway.create', this.form);
         if (result) {
-          await this.$store.dispatch('gateway/getListApi');
-
           setTimeout(() => {
             this.$notify({ type: 'success', text: 'New gateway has been successfully created!' });
           }, 500);

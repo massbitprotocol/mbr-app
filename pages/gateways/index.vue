@@ -79,10 +79,14 @@
         </div>
       </div>
 
-      <div class="flex flex-col gap-y-2.5">
+      <div v-if="apiList && apiList.length > 0" class="flex flex-col gap-y-2.5">
         <template v-for="(api, index) in apiList">
           <GatewayDashboardApiCard :key="index" :api="api" @updateApiStatus="(value) => updateApiStatus(api, value)" />
         </template>
+      </div>
+      <div v-else class="mt-7.5 text-heading-2 text-neutral-darker">
+        No gateway.<br />
+        Please choose zone and create your own gateway.
       </div>
 
       <GatewayDashboardModalCreateApi :visible.sync="showModalCreateApi" :zone="zone" />

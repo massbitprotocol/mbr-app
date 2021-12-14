@@ -32,15 +32,7 @@
       <!-- Zones -->
       <div class="mt-15 lg:mb-7.5">
         <div
-          class="
-            uppercase
-            whitespace-nowrap
-            text-heading-2
-            lg:text-title-2
-            text-neutral-darkset
-            font-medium
-            lg:font-bold
-          "
+          class="uppercase whitespace-nowrap text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold"
         >
           Zones
         </div>
@@ -81,24 +73,20 @@
       <!-- Your Nodes -->
       <div class="flex flex-col md:flex-row items-start md:items-center flex-wrap justify-between gap-2 mb-3">
         <div
-          class="
-            mt-7.5
-            uppercase
-            whitespace-nowrap
-            text-heading-2
-            lg:text-title-2
-            text-neutral-darkset
-            font-medium
-            lg:font-bold
-          "
+          class="mt-7.5 uppercase whitespace-nowrap text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold"
         >
           Your Nodes
         </div>
       </div>
-      <div class="flex flex-col gap-y-2.5">
+
+      <div v-if="apiList && apiList.length > 0" class="flex flex-col gap-y-2.5">
         <template v-for="(api, index) in apiList">
           <NodeDashboardApiCard :key="index" :api="api" @updateApiStatus="(value) => updateApiStatus(api, value)" />
         </template>
+      </div>
+      <div v-else class="mt-7.5 text-heading-2 text-neutral-darker">
+        No node.<br />
+        Please choose zone and create your own node.
       </div>
 
       <NodeDashboardModalCreateApi :visible.sync="showModalCreateApi" :zone="zone" />
