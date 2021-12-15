@@ -35,7 +35,7 @@
             {{ zone.name }}
           </span>
 
-          <span class="text-heading-1 text-primary-darker font-bold"> {{ zone.value }} Nodes </span>
+          <span class="text-heading-1 text-primary-darker font-bold"> {{ zone.value }} Gateways </span>
         </div>
       </div>
 

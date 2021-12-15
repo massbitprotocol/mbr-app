@@ -65,16 +65,7 @@
                       <button
                         @click="priorityMinus"
                         type="button"
-                        class="
-                          min-w-[52px]
-                          py-3
-                          mb-2.5
-                          bg-neutral-darker
-                          hover:bg-neutral-darker/90
-                          text-white
-                          rounded-l
-                          outline-none
-                        "
+                        class="min-w-[52px] py-3 mb-2.5 bg-neutral-darker hover:bg-neutral-darker/90 text-white rounded-l outline-none"
                       >
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path
@@ -88,35 +79,16 @@
 
                       <input
                         v-model.trim="_form.priority"
+                        @blur="checkPriority"
                         id="grid-priority"
-                        class="
-                          w-full
-                          text-center
-                          appearance-none
-                          block
-                          text-body-2 text-gray-700
-                          border-top border-bottom border-primary-background
-                          py-3
-                          px-4
-                          mb-2.5
-                          leading-tight
-                        "
+                        class="w-full text-center appearance-none block text-body-2 text-gray-700 border-top border-bottom border-primary-background py-3 px-4 mb-2.5 leading-tight"
                         type="number"
                       />
 
                       <button
                         @click="priorityPlus"
                         type="button"
-                        class="
-                          min-w-[52px]
-                          py-3
-                          mb-2.5
-                          bg-neutral-darker
-                          hover:bg-neutral-darker/90
-                          text-white
-                          rounded-r
-                          outline-none
-                        "
+                        class="min-w-[52px] py-3 mb-2.5 bg-neutral-darker hover:bg-neutral-darker/90 text-white rounded-r outline-none"
                       >
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path
@@ -169,18 +141,7 @@
                   <input
                     v-model.trim="_form.project_id"
                     id="grid-project-id"
-                    class="
-                      appearance-none
-                      block
-                      w-full
-                      text-body-2 text-gray-700
-                      border border-primary-background
-                      rounded
-                      py-3
-                      px-4
-                      mb-2.5
-                      leading-tight
-                    "
+                    class="appearance-none block w-full text-body-2 text-gray-700 border border-primary-background rounded py-3 px-4 mb-2.5 leading-tight"
                     type="text"
                     placeholder="Your project ID"
                   />
@@ -208,18 +169,7 @@
                   <input
                     v-model.trim="_form.project_secret"
                     id="grid-project-secret"
-                    class="
-                      appearance-none
-                      block
-                      w-full
-                      text-body-2 text-gray-700
-                      border border-primary-background
-                      rounded
-                      py-3
-                      px-4
-                      mb-2.5
-                      leading-tight
-                    "
+                    class="appearance-none block w-full text-body-2 text-gray-700 border border-primary-background rounded py-3 px-4 mb-2.5 leading-tight"
                     type="text"
                     placeholder="Your project secret"
                   />
@@ -247,18 +197,7 @@
                   <input
                     v-model.trim="_form.api_key"
                     id="grid-api-key"
-                    class="
-                      appearance-none
-                      block
-                      w-full
-                      text-body-2 text-gray-700
-                      border border-primary-background
-                      rounded
-                      py-3
-                      px-4
-                      mb-2.5
-                      leading-tight
-                    "
+                    class="appearance-none block w-full text-body-2 text-gray-700 border border-primary-background rounded py-3 px-4 mb-2.5 leading-tight"
                     type="text"
                     placeholder="Your API key"
                   />
@@ -286,18 +225,7 @@
                   <input
                     v-model.trim="_form.api_uri"
                     id="grid-api-uri"
-                    class="
-                      appearance-none
-                      block
-                      w-full
-                      text-body-2 text-gray-700
-                      border border-primary-background
-                      rounded
-                      py-3
-                      px-4
-                      mb-2.5
-                      leading-tight
-                    "
+                    class="appearance-none block w-full text-body-2 text-gray-700 border border-primary-background rounded py-3 px-4 mb-2.5 leading-tight"
                     type="text"
                     placeholder="Your API URI"
                   />
@@ -424,6 +352,15 @@ export default {
       const priority = parseInt(this._form.priority) - 1;
       if (priority >= 0) {
         this._form.priority = priority;
+      }
+    },
+
+    checkPriority() {
+      const priority = parseInt(this._form.priority);
+      if (Number.isInteger(priority) && priority > 0) {
+        this._form.priority = priority > 10 ? 10 : priority;
+      } else {
+        this._form.priority = 0;
       }
     },
 

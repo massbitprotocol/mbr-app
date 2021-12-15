@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-[80vh] mx-auto w-full">
+  <div class="min-h-[80vh] mx-auto w-full pb-30">
     <Portal to="banner" tag="div">
       <div class="bg-banner-user-pattern bg-neutral-darker h-[268px] flex items-center justify-center">
         <div class="container mx-auto">
@@ -47,13 +47,18 @@
     </div>
 
     <div v-else>
-      <div class="flex flex-col gap-y-2.5">
+      <div v-if="apiList && apiList.length > 0" class="flex flex-col gap-y-2.5">
         <template v-for="(api, index) in apiList">
           <DashboardApiCard :key="index" :api="api" @updateApiStatus="(value) => updateApiStatus(api, value)" />
         </template>
       </div>
 
-      <template v-for="(chart, index) in charts">
+      <div v-else class="text-heading-2 text-neutral-darker">
+        No api.<br />
+        Please create your own api.
+      </div>
+
+      <!-- <template v-for="(chart, index) in charts">
         <DashboardApiChart
           class="my-10 lg:my-15"
           :key="index"
@@ -62,7 +67,7 @@
           :filters="chart.filters"
           :filter.sync="chart.filter"
         />
-      </template>
+      </template> -->
 
       <DashboardModalCreateApi :visible.sync="showModalCreateApi" />
     </div>

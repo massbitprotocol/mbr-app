@@ -176,13 +176,15 @@ export default {
     async createApi() {
       this.loading = true;
       try {
-        const { result } = await this.$axios.$post('/api/v1?action=node.create', this.form);
+        const { result, data } = await this.$axios.$post('/api/v1?action=node.create', this.form);
         if (result) {
-          await this.$store.dispatch('node/getListApi');
-
           setTimeout(() => {
             this.$notify({ type: 'success', text: 'New node has been successfully created!' });
           }, 500);
+
+          if (data && data.id) {
+            this.$router.push({ name: 'nodes-id', params: { id: data.id } });
+          }
 
           this.loading = false;
           this._visible = false;

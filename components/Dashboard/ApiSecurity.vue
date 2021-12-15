@@ -2,9 +2,19 @@
   <div class="mt-10 lg:mt-15">
     <div class="uppercase text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold">Security</div>
 
-    <div class="mt-3 lg:mt-4 p-5 bg-white rounded-xl border border-primary-background">
+    <ValidationObserver
+      v-slot="{ invalid }"
+      tag="div"
+      class="mt-3 lg:mt-4 p-5 bg-white rounded-xl border border-primary-background"
+    >
       <div class="grid grid-cols-1 md:grid-cols-2 gap-7.5">
-        <div class="flex flex-col gap-2">
+        <ValidationProvider
+          v-slot="{ errors }"
+          rules="required|min_value:0"
+          name="rate-limiting"
+          tag="div"
+          class="flex flex-col gap-2"
+        >
           <div class="flex items-center text-body-1 text-neutral-darkset font-medium">
             <span class="mr-2"> Per second requests rate-limiting </span>
 
@@ -20,21 +30,12 @@
 
           <input
             v-model="limitRatePerSec"
-            class="
-              appearance-none
-              block
-              w-full
-              text-body-1 text-neutral-darkset
-              font-medium
-              border border-primary-background
-              rounded-lg
-              py-3
-              px-4
-              leading-tight
-            "
+            class="appearance-none block w-full text-body-1 text-neutral-darkset font-medium border border-primary-background rounded-lg py-3 px-4 leading-tight"
             type="text"
           />
-        </div>
+
+          <p v-if="errors[0]" class="text-red-500 text-xs italic">{{ errors[0] }}</p>
+        </ValidationProvider>
 
         <div class="flex flex-col gap-2">
           <div class="flex items-center text-body-1 text-neutral-darkset font-medium">
@@ -53,11 +54,15 @@
           <BaseMultiSelect :sourceData.sync="apiMethods" :selected.sync="allowMethods" :source="getApiSource()" />
         </div>
       </div>
-
-      <BaseSecondaryButton class="w-full md:w-auto h-[52px] mt-7.5" @click="updateSecurity" :loading="loading">
+      <BaseSecondaryButton
+        class="w-full md:w-auto h-[52px] mt-7.5"
+        @click="updateSecurity"
+        :disabled="invalid"
+        :loading="loading"
+      >
         Update
       </BaseSecondaryButton>
-    </div>
+    </ValidationObserver>
   </div>
 </template>
 

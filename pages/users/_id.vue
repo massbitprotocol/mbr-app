@@ -25,25 +25,14 @@
         <div
           class="w-full flex flex-col sm:flex sm:flex-row sm:items-center sm:justify-between mt-5 mb-3 lg:mt-10 lg:mb-5"
         >
-          <div class="text-2xl lg:text-medium-title text-neutral-darkset font-bold">
+          <div class="w-full mr-5 text-2xl lg:text-medium-title text-neutral-darkset font-bold truncate">
             <template v-if="editName">
               <input
                 :value="_api.name"
                 @blur="updateApiName"
                 ref="apiName"
                 type="text"
-                class="
-                  text-2xl
-                  lg:text-medium-title
-                  text-neutral-darkset
-                  font-bold
-                  appearance-none
-                  block
-                  w-full
-                  border border-primary-background
-                  rounded
-                  leading-tight
-                "
+                class="text-2xl lg:text-medium-title text-neutral-darkset font-bold appearance-none block w-full border border-primary-background rounded leading-tight"
               />
             </template>
             <template v-else>
@@ -88,7 +77,7 @@
 
         <DashboardApiEntrypoints />
 
-        <div class="mt-10 lg:mt-15">
+        <!-- <div class="mt-10 lg:mt-15">
           <div class="flex items-center justify-between">
             <div class="uppercase text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold">
               Stats
@@ -104,7 +93,7 @@
               :filter.sync="chart.filter"
             />
           </template>
-        </div>
+        </div> -->
       </client-only>
     </div>
   </div>
@@ -200,14 +189,19 @@ export default {
     async updateApiName() {
       let apiName = this.$refs.apiName.value;
       if (apiName) {
-        if (apiName !== this.api.name) {
-          let _api = _.cloneDeep(this.api);
-          const result = await this.$store.dispatch('api/updateApi', Object.assign(_api, { name: apiName }));
-          if (result) {
-            this.$notify({ type: 'success', text: 'The name of your API key has been successfully changed!' });
-          } else {
-            this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+        // Validate name
+        if (apiName.length <= 120) {
+          if (apiName !== this.api.name) {
+            let _api = _.cloneDeep(this.api);
+            const result = await this.$store.dispatch('api/updateApi', Object.assign(_api, { name: apiName }));
+            if (result) {
+              this.$notify({ type: 'success', text: 'The name of your API key has been successfully changed!' });
+            } else {
+              this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+            }
           }
+        } else {
+          this.$notify({ type: 'error', text: 'The length of the name is too long. The maximum length is 120' });
         }
       } else {
         this.$notify({ type: 'error', text: 'Please enter the name' });

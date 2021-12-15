@@ -5,7 +5,7 @@
         <div class="container mx-auto">
           <div class="text-title-1 md:text-medium-title text-neutral-white font-bold">Welcome to Community Gateway</div>
 
-          <div class="mt-2 text-body-1 md:text-heading-2 font-medium text-primary-background">Content</div>
+          <!-- <div class="mt-2 text-body-1 md:text-heading-2 font-medium text-primary-background">Content</div> -->
         </div>
       </div>
     </Portal>
@@ -32,15 +32,7 @@
       <!-- Zones -->
       <div class="mt-15 lg:mb-7.5">
         <div
-          class="
-            uppercase
-            whitespace-nowrap
-            text-heading-2
-            lg:text-title-2
-            text-neutral-darkset
-            font-medium
-            lg:font-bold
-          "
+          class="uppercase whitespace-nowrap text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold"
         >
           Zones
         </div>
@@ -49,7 +41,7 @@
       </div>
 
       <!-- Stats -->
-      <div class="mt-15 lg:mb-7.5">
+      <!-- <div class="mt-15 lg:mb-7.5">
         <div
           class="
             uppercase
@@ -76,29 +68,25 @@
             </div>
           </template>
         </div>
-      </div>
+      </div> -->
 
       <!-- Your Gateway -->
       <div class="mt-15 flex flex-col md:flex-row items-start md:items-center flex-wrap justify-between gap-2">
         <div
-          class="
-            uppercase
-            whitespace-nowrap
-            text-heading-2
-            lg:text-title-2
-            text-neutral-darkset
-            font-medium
-            lg:font-bold
-          "
+          class="uppercase whitespace-nowrap text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold"
         >
           Your Gateway
         </div>
       </div>
 
-      <div class="flex flex-col gap-y-2.5">
+      <div v-if="apiList && apiList.length > 0" class="flex flex-col gap-y-2.5">
         <template v-for="(api, index) in apiList">
           <GatewayDashboardApiCard :key="index" :api="api" @updateApiStatus="(value) => updateApiStatus(api, value)" />
         </template>
+      </div>
+      <div v-else class="mt-7.5 text-heading-2 text-neutral-darker">
+        No gateway.<br />
+        Please choose zone and create your own gateway.
       </div>
 
       <GatewayDashboardModalCreateApi :visible.sync="showModalCreateApi" :zone="zone" />
