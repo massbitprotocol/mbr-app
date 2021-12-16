@@ -104,7 +104,7 @@
                     </div>
                   </NuxtLink>
 
-                  <NuxtLink :to="{ name: 'index' }">
+                  <!-- <NuxtLink :to="{ name: 'index' }">
                     <div class="flex items-center">
                       <svg
                         class="mr-2"
@@ -125,7 +125,7 @@
 
                       <span class="text-body-1 text-neutral-darkset font-medium"> Account Settings </span>
                     </div>
-                  </NuxtLink>
+                  </NuxtLink> -->
 
                   <NuxtLink :to="{ name: 'index' }">
                     <div class="flex items-center">
