@@ -5,21 +5,7 @@
       <button
         type="button"
         @click="showMenu = !showMenu"
-        class="
-          inline-flex
-          items-center
-          justify-center
-          w-full
-          rounded-lg
-          border border-primary
-          shadow-sm
-          px-4
-          py-2
-          text-body-2 text-primary
-          font-medium
-          hover:bg-gray-50
-          focus:outline-none focus:ring-0
-        "
+        class="inline-flex items-center justify-center w-full rounded-lg border border-primary shadow-sm px-4 py-2 text-body-2 text-primary font-medium hover:bg-gray-50 focus:outline-none focus:ring-0"
       >
         Account
         <svg
@@ -56,12 +42,12 @@
         style="box-shadow: 0px 2px 16px rgba(33, 47, 96, 0.12)"
       >
         <div class="flex flex-col space-y-5 p-5">
-          <NuxtLink
+          <!-- <NuxtLink
             :to="{ name: 'index' }"
             class="flex text-body-2 text-primary-darker hover:text-primary-darker/90 font-medium"
           >
             Setting
-          </NuxtLink>
+          </NuxtLink> -->
           <button
             type="button"
             class="flex text-body-2 text-accent-red hover:text-accent-red/90 font-medium"
