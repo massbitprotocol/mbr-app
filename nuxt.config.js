@@ -6,7 +6,7 @@ const color = `#2C3ACF`;
 const config = {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'mbr-app',
+    title: 'MassBit Route',
     htmlAttrs: {
       lang: 'en',
     },
