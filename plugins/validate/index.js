@@ -96,6 +96,14 @@ extend('min_dimensions', {
   ],
   message: 'The {_field_} field must be greater than {width} pixels by {height} pixels',
 });
+extend('url', {
+  validate: (url) => {
+    const reg = /^(http|https)?:\/\/?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm;
+
+    return reg.test(url);
+  },
+  message: 'The {_field_} is not a valid URL',
+});
 
 localize('en', en);
 
