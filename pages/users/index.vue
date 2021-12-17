@@ -5,7 +5,7 @@
         <div class="container mx-auto">
           <div class="text-title-1 md:text-medium-title text-neutral-white font-bold">Welcome to Decentralized API</div>
 
-          <div class="mt-2 text-body-1 md:text-heading-2 font-medium text-primary-background">Content</div>
+          <!-- <div class="mt-2 text-body-1 md:text-heading-2 font-medium text-primary-background">Content</div> -->
         </div>
       </div>
     </Portal>

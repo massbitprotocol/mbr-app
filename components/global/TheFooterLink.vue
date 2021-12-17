@@ -1,73 +1,149 @@
 <template>
   <div class="grid grid-cols-2 md:grid-cols-4 grid-flow-row gap-x-4 gap-y-8">
+    <TheCopyright class="lg:order-first pt-10 lg:pt-0" />
+
     <div class="space-y-4">
-      <h3 class="font-bold uppercase">Information</h3>
-      <ul class="space-y-3 text-sm">
-        <li><a href="#" class="hover:underline">Company</a></li>
-        <li><a href="#" class="hover:underline">Products</a></li>
-        <li><a href="#" class="hover:underline">Career</a></li>
-        <li><a href="#" class="hover:underline">Contact</a></li>
-      </ul>
-    </div>
-    <div class="space-y-4">
-      <h3 class="font-bold uppercase">Build with MassBit</h3>
-      <ul class="space-y-3 text-sm">
-        <li><a href="#" class="hover:underline">Github</a></li>
-        <li><a href="#" class="hover:underline">Developer Doc</a></li>
-      </ul>
-    </div>
-    <div class="space-y-4">
-      <h3 class="font-bold uppercase">Useful links</h3>
-      <ul class="space-y-3 text-sm">
-        <li><a href="#" class="hover:underline">MassBit Foundation</a></li>
-        <li><a href="#" class="hover:underline">Privacy Policy</a></li>
-        <li><a href="#" class="hover:underline">Term of Use</a></li>
-        <li><a href="#" class="hover:underline">Security</a></li>
-      </ul>
-    </div>
-    <div class="space-y-4">
-      <h3 class="font-bold uppercase">Official channel</h3>
+      <div class="text-body-1 font-bold uppercase">Products</div>
       <ul class="space-y-3 text-sm">
         <li>
-          <a href="#" class="flex items-center space-x-1.5 hover:underline">
-            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
-              <path
-                d="M19 4.65601C18.3253 4.94246 17.6108 5.13029 16.8796 5.21338C17.6471 4.77521 18.2242 4.08035 18.5032 3.25864C17.776 3.67017 16.9829 3.96004 16.1569 4.11613C15.8091 3.76194 15.3907 3.48035 14.9273 3.28854C14.4638 3.09673 13.9651 2.99873 13.4614 3.00051C11.422 3.00051 9.7687 4.58426 9.7687 6.5355C9.7687 6.812 9.8011 7.08238 9.8641 7.3405C8.40122 7.27286 6.9689 6.90948 5.65855 6.27356C4.3482 5.63764 3.18858 4.74314 2.2537 3.64714C1.92594 4.18474 1.75367 4.79844 1.7551 5.42338C1.7551 6.651 2.4067 7.73338 3.3967 8.366C2.81124 8.34762 2.23842 8.19566 1.7245 7.92237V7.96612C1.7245 9.67937 2.998 11.1082 4.6855 11.4337C4.36835 11.5156 4.04162 11.557 3.7135 11.5571C3.475 11.5571 3.2437 11.5352 3.0178 11.4915C3.25908 12.1984 3.7208 12.8148 4.33884 13.2549C4.95688 13.6951 5.70056 13.9372 6.4666 13.9476C5.15266 14.9316 3.53964 15.4631 1.8811 15.4587C1.5823 15.4587 1.2889 15.4412 1 15.4097C2.69313 16.4516 4.65633 17.0033 6.6601 17.0005C13.4524 17.0005 17.1658 11.6131 17.1658 6.9415L17.1532 6.48388C17.8776 5.98834 18.5033 5.369 19 4.65601Z"
-                fill="#CCD2D9"
-              />
-            </svg>
-            <span>Twitter</span>
+          <a
+            href="https://massbit.io/coming-soon.html"
+            target="_blank"
+            class="text-primary-background/80 hover:underline"
+          >
+            MassBit Route
           </a>
         </li>
         <li>
-          <a href="#" class="flex items-center space-x-1.5 hover:underline">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="20" height="20">
-              <path
-                fill="#CCD2D9"
-                d="M446.7 98.6l-67.6 318.8c-5.1 22.5-18.4 28.1-37.3 17.5l-103-75.9-49.7 47.8c-5.5 5.5-10.1 10.1-20.7 10.1l7.4-104.9 190.9-172.5c8.3-7.4-1.8-11.5-12.9-4.1L117.8 284 16.2 252.2c-22.1-6.9-22.5-22.1 4.6-32.7L418.2 66.4c18.4-6.9 34.5 4.1 28.5 32.2z"
-              />
-            </svg>
-            <span>Telegram</span>
+          <a
+            href="https://massbit.io/coming-soon.html"
+            target="_blank"
+            class="text-primary-background/80 hover:underline"
+          >
+            Cross-chain Indexing
           </a>
         </li>
         <li>
-          <a href="#" class="flex items-center space-x-1.5 hover:underline">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" width="20" height="20">
-              <path
-                fill="#CCD2D9"
-                d="M524.531,69.836a1.5,1.5,0,0,0-.764-.7A485.065,485.065,0,0,0,404.081,32.03a1.816,1.816,0,0,0-1.923.91,337.461,337.461,0,0,0-14.9,30.6,447.848,447.848,0,0,0-134.426,0,309.541,309.541,0,0,0-15.135-30.6,1.89,1.89,0,0,0-1.924-.91A483.689,483.689,0,0,0,116.085,69.137a1.712,1.712,0,0,0-.788.676C39.068,183.651,18.186,294.69,28.43,404.354a2.016,2.016,0,0,0,.765,1.375A487.666,487.666,0,0,0,176.02,479.918a1.9,1.9,0,0,0,2.063-.676A348.2,348.2,0,0,0,208.12,430.4a1.86,1.86,0,0,0-1.019-2.588,321.173,321.173,0,0,1-45.868-21.853,1.885,1.885,0,0,1-.185-3.126c3.082-2.309,6.166-4.711,9.109-7.137a1.819,1.819,0,0,1,1.9-.256c96.229,43.917,200.41,43.917,295.5,0a1.812,1.812,0,0,1,1.924.233c2.944,2.426,6.027,4.851,9.132,7.16a1.884,1.884,0,0,1-.162,3.126,301.407,301.407,0,0,1-45.89,21.83,1.875,1.875,0,0,0-1,2.611,391.055,391.055,0,0,0,30.014,48.815,1.864,1.864,0,0,0,2.063.7A486.048,486.048,0,0,0,610.7,405.729a1.882,1.882,0,0,0,.765-1.352C623.729,277.594,590.933,167.465,524.531,69.836ZM222.491,337.58c-28.972,0-52.844-26.587-52.844-59.239S193.056,219.1,222.491,219.1c29.665,0,53.306,26.82,52.843,59.239C275.334,310.993,251.924,337.58,222.491,337.58Zm195.38,0c-28.971,0-52.843-26.587-52.843-59.239S388.437,219.1,417.871,219.1c29.667,0,53.307,26.82,52.844,59.239C470.715,310.993,447.538,337.58,417.871,337.58Z"
-              />
-            </svg>
-            <span>Discord</span>
+          <a
+            href="https://massbit.io/coming-soon.html"
+            target="_blank"
+            class="text-primary-background/80 hover:underline"
+          >
+            MassBit Insights
           </a>
         </li>
       </ul>
     </div>
+
+    <div class="space-y-4">
+      <div class="text-body-1 font-bold uppercase">ABOUT</div>
+      <ul class="space-y-3 text-sm text-primary-background">
+        <li>
+          <a
+            href="https://docs.massbit.io/about/introduction"
+            target="_blank"
+            class="text-primary-background/80 hover:underline"
+            >Whitepaper</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://massbit.io/coming-soon.html"
+            target="_blank"
+            class="text-primary-background/80 hover:underline"
+            >One page</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://massbit.io/coming-soon.html"
+            target="_blank"
+            class="text-primary-background/80 hover:underline"
+            >Products</a
+          >
+        </li>
+        <li>
+          <a href="https://codelight.breezy.hr/" target="_blank" class="text-primary-background/80 hover:underline"
+            >Careers</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://docs.massbit.io/about/contact-us"
+            target="_blank"
+            class="text-primary-background/80 hover:underline"
+            >Customer Support</a
+          >
+        </li>
+      </ul>
+    </div>
+
+    <ValidationObserver v-slot="{ handleSubmit, invalid }" tag="div" class="space-y-7.5">
+      <div class="space-y-4">
+        <div class="text-body-1 font-bold uppercase">Get The Latest News In Your Inbox</div>
+        <form @submit.prevent="handleSubmit(subscribeMassbit)" class="text-sm">
+          <ValidationProvider v-slot="{ errors }" rules="required|email" name="email" tag="div">
+            <div class="rounded-lg p-1 bg-white inline-flex items-center">
+              <input
+                class="text-body-2 text-neutral-normal bg-transparent border-0 outline-0 focus:ring-0"
+                placeholder="Your email address"
+                type="text"
+                v-model="email"
+              />
+
+              <BaseButton type="submit" :disabled="invalid" :loading="loading"> Subscribe </BaseButton>
+            </div>
+
+            <p v-if="errors[0]" class="text-red-500 text-xs italic">{{ errors[0] }}</p>
+          </ValidationProvider>
+        </form>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <a href="https://twitter.com/massbitprotocol" target="_blank">
+          <img src="https://massbit.io/images/socials/twitter.svg" alt="Twitter" />
+        </a>
+        <a href="https://massbit.medium.com/" target="_blank">
+          <img src="https://massbit.io/images/socials/medium.svg" alt="Medium" />
+        </a>
+        <a href="https://t.me/massbit" target="_blank">
+          <img src="https://massbit.io/images/socials/telegram.svg" alt="Telegram" />
+        </a>
+        <a href="https://www.youtube.com/channel/UCMdDh0sCnsW_dyEpG-MlnfA" target="_blank">
+          <img src="https://massbit.io/images/socials/youtube.svg" alt="Youtube" />
+        </a>
+        <a href="https://www.facebook.com/massbit.io" target="_blank">
+          <img src="https://massbit.io/images/socials/facebook.svg" alt="Facebook" />
+        </a>
+        <a href="https://www.instagram.com/massbit.io/" target="_blank">
+          <img src="https://massbit.io/images/socials/instagram.svg" alt="Instagram" />
+        </a>
+        <a href="https://github.com/massbitprotocol/" target="_blank">
+          <img src="https://massbit.io/images/socials/github.svg" alt="Github" />
+        </a>
+        <a href="coming-soon.html" target="_blank">
+          <img src="https://massbit.io/images/socials/discord.svg" alt="Discord" />
+        </a>
+      </div>
+    </ValidationObserver>
   </div>
 </template>
 
 <script>
 export default {
   name: 'TheFooterLink',
+
+  data() {
+    return {
+      email: '',
+      loading: false,
+    };
+  },
+
+  methods: {
+    subscribeMassbit() {
+      //
+    },
+  },
 };
 </script>
