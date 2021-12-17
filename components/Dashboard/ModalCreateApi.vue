@@ -97,7 +97,7 @@ const networks = [
   },
   {
     name: 'Testnet',
-    key: 'Testnet',
+    key: 'testnet',
   },
 ];
 export default {

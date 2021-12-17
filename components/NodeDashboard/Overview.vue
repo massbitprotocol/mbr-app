@@ -124,9 +124,32 @@
             <tr class="w-full grid md:table-row">
               <td class="text-body-2 text-neutral-normal font-medium py-3 whitespace-nowrap">Data source</td>
               <td>
-                <span class="text-body-2 text-neutral-darkset font-medium py-3">
-                  {{ api.data_url }}
-                </span>
+                <div class="flex items-center">
+                  <input
+                    v-if="editDataSource"
+                    :value="api.data_url"
+                    @blur="updateDataSource"
+                    ref="apiDataSource"
+                    type="text"
+                    class="text-text-body-2 text-neutral-normal font-medium py-3 appearance-none block w-full max-w-lg border border-primary-background rounded leading-tight"
+                  />
+
+                  <template v-else>
+                    <span v-if="api.data_url" class="text-body-2 text-neutral-darkset font-medium py-3">
+                      {{ api.data_url }}
+                    </span>
+
+                    <span v-else class="text-body-2 text-neutral-lighter py-3"> </span>
+                  </template>
+
+                  <!-- <BasePopover
+                    class="flex items-center"
+                    content="Change the data source of the Node"
+                    contentClass="w-[197px]"
+                  >
+                    <BaseIconButton class="w-[36px] h-[36px] ml-2" icon="edit" @click="showEditDataSource" />
+                  </BasePopover> -->
+                </div>
               </td>
             </tr>
           </template>
@@ -221,6 +244,7 @@ export default {
       isShowFullScript: false,
       isShowCopyTootip: false,
       copyTimeout: null,
+      editDataSource: false,
     };
   },
 
@@ -243,6 +267,17 @@ export default {
         this.copyTimeout = setTimeout(() => {
           this.isShowCopyTootip = false;
         }, 1500);
+      });
+    },
+
+    updateDataSource() {
+      this.editDataSource = false;
+    },
+
+    showEditDataSource() {
+      this.editDataSource = true;
+      this.$nextTick(() => {
+        this.$refs.apiDataSource.focus();
       });
     },
   },
