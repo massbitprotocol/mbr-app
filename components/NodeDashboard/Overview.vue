@@ -60,6 +60,7 @@
         <col class="w-full md:w-40" />
         <col />
       </colgroup>
+
       <tbody>
         <template v-if="api.ip">
           <tr class="w-full grid md:table-row">
@@ -119,6 +120,15 @@
                 </span>
               </td>
             </tr>
+
+            <tr class="w-full grid md:table-row">
+              <td class="text-body-2 text-neutral-normal font-medium py-3 whitespace-nowrap">Data source</td>
+              <td>
+                <span class="text-body-2 text-neutral-darkset font-medium py-3">
+                  {{ api.data_url }}
+                </span>
+              </td>
+            </tr>
           </template>
 
           <tr class="w-full grid md:table-row">
@@ -153,15 +163,7 @@
             <td>
               <div class="flex items-center">
                 <input
-                  class="
-                    w-full
-                    h-[44px]
-                    text-body-2 text-neutral-darkset
-                    font-medium
-                    bg-neutral-white
-                    border-t border-b border-l border-r-0 border-primary-background
-                    rounded-l-lg
-                  "
+                  class="w-full h-[44px] text-body-2 text-neutral-darkset font-medium bg-neutral-white border-t border-b border-l border-r-0 border-primary-background rounded-l-lg"
                   type="text"
                   :value="installScript"
                   disabled
@@ -170,18 +172,7 @@
                   Copy
                   <div v-show="isShowCopyTootip" class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2">
                     <div
-                      class="
-                        text-[0.625rem]
-                        leading-4
-                        tracking-wide
-                        text-white
-                        bg-neutral-darkest
-                        px-3
-                        py-1
-                        rounded-md
-                        font-medium
-                        uppercase
-                      "
+                      class="text-[0.625rem] leading-4 tracking-wide text-white bg-neutral-darkest px-3 py-1 rounded-md font-medium uppercase"
                     >
                       <svg
                         width="16"
