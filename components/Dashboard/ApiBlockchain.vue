@@ -20,10 +20,10 @@
     <div class="p-5 bg-white rounded-xl border border-primary-background">
       <div class="text-body-1 text-neutral-darkset font-medium">API Interface</div>
 
-      <div v-if="apiInterface" class="h-[44px] flex items-center justify-between">
+      <div class="h-[44px] flex items-center justify-between">
         <div class="flex items-center mt-2">
           <div class="text-body-1 text-neutral-darkset font-medium">
-            {{ apiInterface.value ? apiInterface.value : 'JSON-RPC' }}
+            {{ apiInterface && apiInterface.value ? apiInterface.value : 'JSON-RPC' }}
           </div>
         </div>
       </div>
