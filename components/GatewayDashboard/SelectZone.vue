@@ -7,17 +7,7 @@
         ref="input"
         type="text"
         :placeholder="placeholder"
-        class="
-          appearance-none
-          block
-          w-full
-          text-body-2 text-gray-700
-          border border-primary-background
-          rounded
-          py-3
-          px-4
-          leading-tight
-        "
+        class="appearance-none block w-full text-body-2 text-gray-700 border border-primary-background rounded py-3 px-4 leading-tight"
       />
       <div class="pointer-events-none absolute top-1/2 transform -translate-y-1/2 right-3">
         <!-- Caret up -->
@@ -54,22 +44,7 @@
       <div
         v-show="showDropdown"
         ref="select"
-        class="
-          origin-center
-          fixed
-          z-10
-          right-0
-          mt-2
-          w-full
-          rounded
-          shadow-lg
-          bg-white
-          divide-y
-          primary-background
-          focus:outline-none
-          overflow-auto
-          max-h-[45vh]
-        "
+        class="origin-center fixed z-10 right-0 mt-2 w-full rounded shadow-lg bg-white divide-y primary-background focus:outline-none overflow-auto max-h-[45vh]"
       >
         <template v-for="(item, index) in filterSource">
           <div
@@ -144,7 +119,6 @@ export default {
         return this.value;
       },
       set(value) {
-        console.log('value :>> ', value);
         this.$emit('input', value);
       },
     },
@@ -193,8 +167,7 @@ export default {
     onSelectItem(item) {
       this.filter = item.name;
       this.key = item.key;
-      console.log('this.filter :>> ', this.filter);
-      console.log('this.key :>> ', this.key);
+
       this.$emit('onChange', item.key);
 
       this.$nextTick(() => this.onHideDropdown());

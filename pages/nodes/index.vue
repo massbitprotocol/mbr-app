@@ -372,7 +372,6 @@ export default {
     },
 
     selectZone(zone) {
-      console.log('zone :>> ', zone);
       this.zone = zone;
       this.showModalCreateApi = true;
     },

@@ -214,10 +214,6 @@ export default {
     };
   },
 
-  created() {
-    console.log('this.api :>> ', this.api);
-  },
-
   computed: {
     installScript() {
       if (this.api) {
