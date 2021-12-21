@@ -4,6 +4,7 @@ export default function ({ $axios, app, redirect }) {
 
     if (data && data.err_code === 100) {
       app.$auth.logout();
+
       redirect('/login');
     }
   });

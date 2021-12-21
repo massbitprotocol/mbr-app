@@ -77,7 +77,7 @@
 
         <DashboardApiEntrypoints />
 
-        <!-- <div class="mt-10 lg:mt-15">
+        <div class="mt-10 lg:mt-15">
           <div class="flex items-center justify-between">
             <div class="uppercase text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold">
               Stats
@@ -93,7 +93,7 @@
               :filter.sync="chart.filter"
             />
           </template>
-        </div> -->
+        </div>
       </client-only>
     </div>
   </div>

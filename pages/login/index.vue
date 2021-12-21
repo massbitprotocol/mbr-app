@@ -102,7 +102,7 @@ export default {
 
   async asyncData({ $auth, redirect }) {
     if ($auth.loggedIn) {
-      redirect('/');
+      redirect('/users');
     }
   },
 
@@ -116,6 +116,14 @@ export default {
     };
   },
 
+  computed: {
+    to() {
+      if (this.$route.query && this.$route.query.to) return this.$route.query.to;
+
+      return 'users';
+    },
+  },
+
   methods: {
     async userLogin() {
       this.loading = true;
@@ -126,7 +134,7 @@ export default {
           if (sid) {
             // this.$auth.$storage.setUniversal('_slc_web_sid', sid);
 
-            this.$router.push('/');
+            this.$router.push({ name: this.to });
           }
         } else {
           if (data.err) {
