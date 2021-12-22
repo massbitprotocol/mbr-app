@@ -148,9 +148,9 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import _ from 'lodash';
 
 import chartFilters from '~/mixins/chartFilters';
-import _ from 'lodash';
 
 export default {
   name: 'NodesDashboardDetail',

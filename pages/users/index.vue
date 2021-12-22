@@ -58,16 +58,17 @@
         Please create your own api.
       </div>
 
-      <!-- <template v-for="(chart, index) in charts">
-        <DashboardApiChart
+      <template v-for="(chart, index) in charts">
+        <DashboardStatsNew
           class="my-10 lg:my-15"
           :key="index"
           :title="chart.name"
           :url="chart.url"
-          :filters="chart.filters"
+          :filters="filters"
+          :params="chart.params"
           :filter.sync="chart.filter"
         />
-      </template> -->
+      </template>
 
       <DashboardModalCreateApi :visible.sync="showModalCreateApi" />
     </div>
@@ -78,7 +79,7 @@
 import { mapGetters } from 'vuex';
 import _ from 'lodash';
 
-import chartConfig from '~/mixins/chartConfig';
+import chartFilters from '~/mixins/chartFilters';
 
 export default {
   name: 'Index',
@@ -87,7 +88,7 @@ export default {
 
   layout: 'dashboard',
 
-  mixins: [chartConfig],
+  mixins: [chartFilters],
 
   async fetch() {
     await this.$store.dispatch('api/getListApi');
@@ -96,6 +97,34 @@ export default {
   data() {
     return {
       apis: [],
+      charts: [
+        {
+          name: 'Total Requests',
+          url: 'https://stat.mbr.massbitroute.com/__internal_grafana/d-solo/zb9F6co7k/mbrg',
+          filter: 'now|now-6h',
+          params: {
+            orgId: 1,
+            theme: 'light',
+            'var-Instance': 'All',
+            'var-FilterName': 'All',
+            'var-Filter': `All::dapi::api_method`,
+            panelId: 2,
+          },
+        },
+        {
+          name: 'Total Bandwidth',
+          url: 'https://stat.mbr.massbitroute.com/__internal_grafana/d-solo/zb9F6co7k/mbrg',
+          filter: 'now|now-6h',
+          params: {
+            orgId: 1,
+            theme: 'light',
+            'var-Instance': 'All',
+            'var-FilterName': 'All',
+            'var-Filter': `All::dapi::api_method`,
+            panelId: 4,
+          },
+        },
+      ],
       showModalCreateApi: false,
     };
   },
