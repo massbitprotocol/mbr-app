@@ -3,7 +3,6 @@
     <div class="max-w-[570px] w-full bg-white p-5 rounded-lg z-10 text-left overflow-hidden">
       <div class="w-full flex items-center justify-between">
         <div class="text-heading-2 text-neutral-darkset font-bold">{{ isAddNew ? 'Add' : 'Edit' }} Entrypoint</div>
-
         <div
           @click="_visible = false"
           class="flex items-center text-neutral-darkset cursor-pointer"
@@ -367,9 +366,9 @@ export default {
     onChangeProvider(key) {
       const _provider = this.providers.find((provider) => provider.type === key);
       if (_provider && _provider.form_config) {
-        this._form = _.pick(this._form, ['type', 'priority', 'status', ..._provider.form_config]);
+        this._form = _.pick(this._form, ['id', 'type', 'priority', 'status', ..._provider.form_config]);
       } else {
-        this._form = _.pick(this._form, ['type', 'priority', 'status']);
+        this._form = _.pick(this._form, ['id', 'type', 'priority', 'status']);
       }
     },
   },

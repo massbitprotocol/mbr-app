@@ -17,36 +17,14 @@
           <div>
             <div
               v-if="parseInt(item) === 1"
-              class="
-                w-[63px]
-                inline-flex
-                items-center
-                rounded
-                justify-center
-                text-caption
-                bg-accent-green
-                text-white
-                font-medium
-                py-1
-              "
+              class="w-[63px] inline-flex items-center rounded justify-center text-caption bg-accent-green text-white font-medium py-1"
             >
               Enable
             </div>
 
             <div
               v-else
-              class="
-                w-[63px]
-                inline-flex
-                items-center
-                rounded
-                justify-center
-                text-caption
-                bg-accent-red
-                text-white
-                font-medium
-                py-1
-              "
+              class="w-[63px] inline-flex items-center rounded justify-center text-caption bg-accent-red text-white font-medium py-1"
             >
               Disable
             </div>
@@ -257,6 +235,7 @@ export default {
 
       let _api = _.cloneDeep(this.api);
       let _entrypoints = _.cloneDeep(_api.entrypoints);
+
       if (this.isAddNew) {
         // Add new entrypoint
         if (_entrypoints && Array.isArray(_entrypoints)) {
