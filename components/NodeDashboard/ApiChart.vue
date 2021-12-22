@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mt-5 lg:mt-7.5">
     <div class="w-full flex items-center justify-between">
       <div class="uppercase text-heading-2 text-neutral-darkset font-medium">
         {{ title }}
@@ -7,15 +7,7 @@
 
       <select
         v-model="_filter"
-        class="
-          h-[44px]
-          px-5
-          cursor-pointer
-          border border-primary-background
-          rounded-xl
-          text-body-2 text-neutral-darker
-          font-medium
-        "
+        class="h-[44px] px-5 cursor-pointer border border-primary-background rounded-xl text-body-2 text-neutral-darker font-medium"
       >
         <template v-for="item in filters">
           <option :key="item.value" :value="item.value">{{ item.name }}</option>
@@ -31,7 +23,7 @@
 
 <script>
 export default {
-  name: 'NodeDashboardApiChart',
+  name: 'DashboardStatsNew',
 
   props: {
     title: {
@@ -53,6 +45,11 @@ export default {
       type: String,
       default: '',
     },
+
+    params: {
+      type: Object,
+      default: () => ({}),
+    },
   },
 
   computed: {
@@ -71,6 +68,22 @@ export default {
     },
 
     chartUrL() {
+      if (Object.keys(this.params).length > 0) {
+        let _url = this.url;
+        let step = 0;
+        for (const key in this.params) {
+          if (Object.hasOwnProperty.call(this.params, key)) {
+            const value = this.params[key];
+            let paramPath = step === 0 ? '?' : '&';
+            _url += `${paramPath}${key}=${value}`;
+
+            step++;
+          }
+        }
+
+        return `${_url}&from=${this.parsedFilter[0]}&to=${this.parsedFilter[1]}`;
+      }
+
       return `${this.url}&from=${this.parsedFilter[0]}&to=${this.parsedFilter[1]}`;
     },
   },
