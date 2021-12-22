@@ -85,11 +85,12 @@
           </div>
 
           <template v-for="(chart, index) in charts">
-            <DashboardStats
+            <DashboardStatsNew
               :key="index"
               :title="chart.name"
               :url="chart.url"
-              :filters="chart.filters"
+              :filters="filters"
+              :params="chart.params"
               :filter.sync="chart.filter"
             />
           </template>
@@ -103,7 +104,7 @@
 import { mapGetters } from 'vuex';
 import _ from 'lodash';
 
-import chartConfig from '~/mixins/chartConfig';
+import chartFilters from '~/mixins/chartFilters';
 
 export default {
   name: 'DashboardDetail',
@@ -111,7 +112,7 @@ export default {
   middleware: ['auth'],
   auth: true,
 
-  mixins: [chartConfig],
+  mixins: [chartFilters],
 
   async fetch() {
     const api = await this.$store.dispatch('api/getApi', this.id);
@@ -123,6 +124,22 @@ export default {
   data() {
     return {
       editName: false,
+      charts: [
+        {
+          name: 'Total Requests',
+          url: 'https://stat.mbr.massbitroute.com/__internal_grafana/d-solo/zb9F6co7k/mbrg',
+          filter: 'now|now-6h',
+          params: {
+            orgId: 1,
+            theme: 'light',
+            'var-Instance': 'All',
+            'var-FilterName': 'All',
+            'var-Filter':
+              'https://7374yk0q2ouz.eth-mainnet.massbitroute.com/63fbb1b8-7fa4-49fe-b6bd-3b65ce47619b/::dapi::api_method',
+            panelId: 2,
+          },
+        },
+      ],
     };
   },
 
