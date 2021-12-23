@@ -31,6 +31,28 @@
           </div>
         </template>
 
+        <template #backup="{ item }">
+          <div>
+            <div
+              v-if="parseInt(item) === 1"
+              class="w-[63px] inline-flex items-center rounded justify-center text-caption bg-accent-green text-white font-medium py-1"
+            >
+              Enable
+            </div>
+
+            <div
+              v-else
+              class="w-[63px] inline-flex items-center rounded justify-center text-caption bg-accent-red text-white font-medium py-1"
+            >
+              Disable
+            </div>
+          </div>
+        </template>
+
+        <template #priority="{ item }">
+          {{ item }}
+        </template>
+
         <template #action="{ record }">
           <div class="w-full inline-flex gap-3 items-center justify-end">
             <BasePopover class="flex items-center" content="Change entrypoint information" contentClass="w-[197px]">
@@ -98,6 +120,7 @@ const columns = [
   {
     title: 'Priority',
     dataIndex: 'priority',
+    slotScope: 'priority',
     width: '180px',
     class: 'text-body-1 text-neutral-darker font-medium',
     filter: 'text',
@@ -109,6 +132,29 @@ const columns = [
     dataIndex: 'status',
     width: '180px',
     slotScope: 'status',
+    filter: 'select',
+    filterInput: 'all',
+    filterSelectSource: [
+      {
+        name: 'All',
+        value: 'all',
+      },
+      {
+        name: 'Enable',
+        value: '1',
+      },
+      {
+        name: 'Disable',
+        value: '0',
+      },
+    ],
+    sort: true,
+  },
+  {
+    title: 'Backup',
+    dataIndex: 'backup',
+    width: '180px',
+    slotScope: 'backup',
     filter: 'select',
     filterInput: 'all',
     filterSelectSource: [
@@ -150,6 +196,7 @@ export default {
         type: 'MASSBIT',
         priority: 1,
         status: 1,
+        backup: 0,
       },
     };
   },
