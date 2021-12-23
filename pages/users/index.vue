@@ -108,7 +108,7 @@ export default {
             'var-Instance': 'All',
             'var-FilterName': 'All',
             'var-Filter': `All`,
-            panelId: 6,
+            panelId: 2,
           },
         },
         {
@@ -121,7 +121,7 @@ export default {
             'var-Instance': 'All',
             'var-FilterName': 'All',
             'var-Filter': `All`,
-            panelId: 8,
+            panelId: 4,
           },
         },
       ],
