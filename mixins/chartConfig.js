@@ -1,7 +1,7 @@
 const charts = [
   {
     name: 'Total Requests',
-    url: 'https://stat.mbr.massbitroute.com/__internal_grafana/d-solo/zb9F6co7k/mbrg?orgId=1&theme=light&var-Instance=All&var-FilterName=All&var-Filter=https://7374yk0q2ouz.eth-mainnet.massbitroute.com/63fbb1b8-7fa4-49fe-b6bd-3b65ce47619b/::dapi::api_method&panelId=2',
+    url: 'https://stat.mbr.massbitroute.com/__internal_grafana/d-solo/zb9F6co7k/mbrg?orgId=1&theme=light&var-Instance=All&var-FilterName=All&var-Filter=All&panelId=2',
 
     filter: 'now|now-6h',
   }, // Total Requests
