@@ -244,7 +244,12 @@ export default {
     },
 
     onShowModalUpdateEntrypoint(record) {
-      this.form = { ...record };
+      this.form = _.cloneDeep(record);
+      if (!this.form.backup) {
+        // Init feild
+        this.form.backup = 0;
+      }
+      console.log('this.form :>> ', this.form);
       this.isAddNew = false;
       this.showModalAddEntrypoint = true;
     },
@@ -279,7 +284,6 @@ export default {
 
     async onSave(form) {
       this.loading = true;
-
       let _api = _.cloneDeep(this.api);
       let _entrypoints = _.cloneDeep(_api.entrypoints);
 
@@ -309,11 +313,7 @@ export default {
         this.$notify({ type: 'success', text: 'New entrypoint has been successfully created!' });
 
         // Reset form
-        this.form = {
-          type: 'INFURA',
-          priority: 0,
-          status: 1,
-        };
+        this.resetForm();
 
         this.showModalAddEntrypoint = false;
       } else {
@@ -321,6 +321,15 @@ export default {
       }
 
       this.loading = false;
+    },
+
+    resetForm() {
+      this.form = {
+        type: 'MASSBIT',
+        priority: 1,
+        status: 1,
+        backup: 0,
+      };
     },
   },
 };
