@@ -147,8 +147,8 @@ export default {
       loadingRemoveEntrypoint: false,
       idRemoveEntrypoint: null,
       form: {
-        type: 'INFURA',
-        priority: 0,
+        type: 'MASSBIT',
+        priority: 1,
         status: 1,
       },
     };

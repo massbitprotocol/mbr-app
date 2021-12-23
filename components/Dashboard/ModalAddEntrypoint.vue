@@ -47,7 +47,7 @@
 
                 <ValidationProvider
                   v-slot="{ errors }"
-                  rules="required"
+                  rules="required|min_value:1|max_value:10"
                   name="priority"
                   tag="div"
                   class="w-full px-3 mb-5 md:mb-0"

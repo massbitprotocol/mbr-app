@@ -4,7 +4,6 @@
       <div class="container mx-auto">
         <div class="grid py-10 gap-14 divide-y divide-blue-900 lg:divide-none">
           <TheFooterLink class="lg:col-span-4" />
-          <!-- <TheCopyright class="lg:order-first pt-10 lg:pt-0" /> -->
         </div>
       </div>
     </div>
