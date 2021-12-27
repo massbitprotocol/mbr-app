@@ -25,7 +25,7 @@
         <div
           class="w-full flex flex-col sm:flex sm:flex-row sm:items-center sm:justify-between mt-5 mb-3 lg:mt-10 lg:mb-5"
         >
-          <div class="w-full mr-5 text-2xl lg:text-medium-title text-neutral-darkset font-bold truncate">
+          <div class="w-full h-[52px] mr-5 text-2xl lg:text-medium-title text-neutral-darkset font-bold truncate">
             <template v-if="editName">
               <input
                 :value="_api.name"

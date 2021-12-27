@@ -63,6 +63,7 @@
 
       <tbody>
         <template v-if="api.ip">
+          <!-- IP Addres -->
           <tr class="w-full grid md:table-row">
             <td class="text-body-2 text-neutral-normal font-medium py-3 whitespace-nowrap">IP Address</td>
             <td>
@@ -74,6 +75,7 @@
 
           <!-- Geo -->
           <template v-if="api.geo">
+            <!-- Continent Name -->
             <tr class="w-full grid md:table-row" v-if="api.geo">
               <td class="text-body-2 text-neutral-normal font-medium py-3 whitespace-nowrap">Continent Name</td>
 
@@ -84,6 +86,7 @@
               </td>
             </tr>
 
+            <!-- Country Name -->
             <tr class="w-full grid md:table-row">
               <td class="text-body-2 text-neutral-normal font-medium py-3 whitespace-nowrap">Country Name</td>
 
@@ -94,6 +97,7 @@
               </td>
             </tr>
 
+            <!-- City Name -->
             <tr class="w-full grid md:table-row">
               <td class="text-body-2 text-neutral-normal font-medium py-3 whitespace-nowrap">City Name</td>
               <td>
@@ -103,6 +107,7 @@
               </td>
             </tr>
 
+            <!-- Latitude -->
             <tr class="w-full grid md:table-row">
               <td class="text-body-2 text-neutral-normal font-medium py-3 whitespace-nowrap">Latitude</td>
               <td>
@@ -112,6 +117,7 @@
               </td>
             </tr>
 
+            <!-- Longitude -->
             <tr class="w-full grid md:table-row">
               <td class="text-body-2 text-neutral-normal font-medium py-3 whitespace-nowrap">Longitude</td>
               <td>
@@ -121,6 +127,7 @@
               </td>
             </tr>
 
+            <!-- Data source -->
             <tr class="w-full grid md:table-row">
               <td class="text-body-2 text-neutral-normal font-medium py-3 whitespace-nowrap">Data source</td>
               <td>
@@ -128,10 +135,11 @@
                   <input
                     v-if="editDataSource"
                     :value="api.data_url"
+                    :disabled="loadingUpdateApi"
                     @blur="updateDataSource"
                     ref="apiDataSource"
                     type="text"
-                    class="text-text-body-2 text-neutral-normal font-medium py-3 appearance-none block w-full max-w-lg border border-primary-background rounded leading-tight"
+                    class="text-text-body-2 text-neutral-normal font-normal py-3 appearance-none block border border-primary-background rounded leading-tight"
                   />
 
                   <template v-else>
@@ -142,18 +150,34 @@
                     <span v-else class="text-body-2 text-neutral-lighter py-3"> </span>
                   </template>
 
-                  <!-- <BasePopover
+                  <svg
+                    v-if="loadingUpdateApi"
+                    class="animate-spin ml-2 h-5 w-5 text-primary"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  <BasePopover
+                    v-else
                     class="flex items-center"
                     content="Change the data source of the Node"
                     contentClass="w-[197px]"
                   >
                     <BaseIconButton class="w-[36px] h-[36px] ml-2" icon="edit" @click="showEditDataSource" />
-                  </BasePopover> -->
+                  </BasePopover>
                 </div>
               </td>
             </tr>
           </template>
 
+          <!-- Install script -->
           <tr class="w-full grid md:table-row">
             <td class="text-body-2 text-neutral-normal font-medium py-3 whitespace-nowrap">Install script</td>
             <td>
@@ -176,6 +200,7 @@
           </tr>
         </template>
 
+        <!-- Init by script -->
         <div v-else class="w-full">
           <div class="mb-10 text-body-1 text-accent-red font-medium">
             You haven’t installed the script. Please install it for...
@@ -245,6 +270,7 @@ export default {
       isShowCopyTootip: false,
       copyTimeout: null,
       editDataSource: false,
+      loadingUpdateApi: false,
     };
   },
 
@@ -274,8 +300,29 @@ export default {
       });
     },
 
-    updateDataSource() {
-      this.editDataSource = false;
+    async updateDataSource() {
+      let dataSource = this.$refs.apiDataSource.value;
+      const reg = /^(http|https)?:\/\/?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm;
+      if (reg.test(dataSource)) {
+        this.loadingUpdateApi = true;
+        setTimeout(async () => {
+          let _api = _.cloneDeep(this.api);
+          const result = await this.$store.dispatch('node/updateApi', Object.assign(_api, { data_url: dataSource }));
+          if (result) {
+            this.$notify({ type: 'success', text: 'The name of your API key has been successfully changed!' });
+          } else {
+            this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+          }
+
+          this.editDataSource = false;
+          this.loadingUpdateApi = false;
+        }, 1500);
+      } else {
+        this.editDataSource = false;
+        this.loadingUpdateApi = false;
+
+        this.$notify({ type: 'error', text: 'The feild is not a valid URL' });
+      }
     },
 
     showEditDataSource() {
