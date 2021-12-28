@@ -126,12 +126,14 @@ const config = {
   },
 };
 
+config.server = {
+  port: process.env.PORT || 3000,
+};
+
 if (process.env.NODE_ENV === 'development') {
-  config.server = {
-    https: {
-      key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
-      cert: fs.readFileSync(path.resolve(__dirname, 'server.crt')),
-    },
+  config.server.https = {
+    key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
+    cert: fs.readFileSync(path.resolve(__dirname, 'server.crt')),
   };
 }
 
