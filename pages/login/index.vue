@@ -76,7 +76,7 @@
             <div class="w-full px-3 mb-5 md:mb-0">
               <label class="block text-body-2 text-neutral-darkset font-medium cursor-pointer">
                 <input class="mr-2 leading-tight focus:outline-none focus:ring-transparent" type="checkbox" />
-                <span class="text-sm"> Remeber me </span>
+                <span class="text-sm"> Remember me </span>
               </label>
             </div>
           </div>
