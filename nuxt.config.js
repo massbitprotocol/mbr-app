@@ -81,7 +81,7 @@ const config = {
     plugins: [{ src: '~/plugins/axios', ssr: true }, { src: '~/plugins/auth' }, { src: '~/plugins/helpers/filters' }],
     redirect: {
       login: '/login',
-      logout: '/',
+      logout: '/login',
       home: '/',
       callback: '/login',
     },

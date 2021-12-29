@@ -73,8 +73,11 @@ export default {
 
   methods: {
     logout() {
-      this.$auth.logout();
+      // Call api logout
+      this.$store.dispatch('user/logout');
 
+      // Clear local store and push to login
+      this.$auth.logout();
       this.$router.push('/login');
     },
   },
