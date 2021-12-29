@@ -106,6 +106,10 @@ const config = {
     },
   },
 
+  router: {
+    middleware: 'maintenance',
+  },
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     // Add exception

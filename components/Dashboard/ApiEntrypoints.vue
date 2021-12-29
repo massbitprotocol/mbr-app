@@ -249,7 +249,7 @@ export default {
         // Init feild
         this.form.backup = 0;
       }
-      console.log('this.form :>> ', this.form);
+
       this.isAddNew = false;
       this.showModalAddEntrypoint = true;
     },
