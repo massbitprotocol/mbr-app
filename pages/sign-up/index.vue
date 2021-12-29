@@ -149,7 +149,7 @@
                     'border-red-500': false,
                   }"
                   type="text"
-                  placeholder="Referral"
+                  placeholder="Referral username"
                 />
                 <p v-if="errors[0]" class="text-red-500 text-xs italic">{{ errors[0] }}</p>
               </div>
@@ -189,6 +189,12 @@ export default {
   async asyncData({ $auth, redirect }) {
     if ($auth.loggedIn) {
       redirect('/users');
+    }
+  },
+
+  created() {
+    if (this.$route.query.referral) {
+      this.form.referral = this.$route.query.referral;
     }
   },
 
