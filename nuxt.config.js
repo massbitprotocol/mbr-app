@@ -100,7 +100,7 @@ const config = {
         endpoints: {
           login: { url: '/api/v1?action=user.login', method: 'post', withCredentials: true },
           logout: false,
-          user: false,
+          user: { url: '/api/v1?action=user.ping', method: 'get', withCredentials: true },
         },
       },
     },
