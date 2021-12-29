@@ -24,14 +24,6 @@ export default {
 
   mode: 'out-in',
 
-  async created() {
-    await this.initApi();
-
-    if (this.providers.length === 0) {
-      await this.initData();
-    }
-  },
-
   computed: {
     ...mapGetters({
       providers: 'providers/list',
@@ -43,25 +35,6 @@ export default {
       setBlockchains: 'blockchains/setList',
       setproviders: 'providers/setList',
     }),
-
-    async initApi() {
-      try {
-        const data = await this.$axios.$post(
-          '/api/v1/hello',
-          {},
-          {
-            headers: {
-              mbrid: 1,
-            },
-          },
-        );
-        if (data) {
-          this.$axios.defaults.headers.common = Object.assign({ mbrid: data }, this.$axios.defaults.headers.common);
-        }
-      } catch (error) {
-        console.log('error :>> ', error);
-      }
-    },
 
     async initData() {
       try {

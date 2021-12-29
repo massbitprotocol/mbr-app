@@ -141,8 +141,6 @@ export default {
         if (data.result) {
           let sid = data.data.sid || null;
           if (sid) {
-            // this.$auth.$storage.setUniversal('_slc_web_sid', sid);
-
             this.$router.push({ name: this.to });
           }
         } else {

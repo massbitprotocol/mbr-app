@@ -93,6 +93,7 @@ export default {
   async fetch() {
     await this.$store.dispatch('api/getListApi');
   },
+  fetchOnServer: false,
 
   data() {
     return {
