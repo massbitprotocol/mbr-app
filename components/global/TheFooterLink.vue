@@ -141,8 +141,19 @@ export default {
   },
 
   methods: {
-    subscribeMassbit() {
-      //
+    async subscribeMassbit() {
+      try {
+        let bodyFormData = new FormData();
+        bodyFormData.append('EMAIL', this.email);
+
+        const data = await this.$axios.$post(
+          'https://a5f651f1.sibforms.com/serve/MUIEAK8orXdmPYsPcPyMh1o6AZapz2jJWTVp2uZtUp38kr5gNy-B8EREL2fOU9tC7lx1fzy3lneVWPOY0bMqw3pUsBT92YBSJtSqxSXIpEW7yTc0wRZAhjnDCj5K6sMPM4DUPu4_0lm21DDKifncX8X-jXJvYa1ZhpbU7usbhjmx5cDjTjzTKBjroMJ2uY6YY25Lf78qGgFYHoHi?isAjax=1',
+          bodyFormData,
+        );
+        console.log('data :>> ', data);
+      } catch (error) {
+        console.log('error :>> ', error);
+      }
     },
   },
 };

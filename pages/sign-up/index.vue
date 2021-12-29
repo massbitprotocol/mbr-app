@@ -20,6 +20,7 @@
                 >
                   Username <span class="text-accent-red">*</span>
                 </label>
+
                 <input
                   v-model.trim="form.username"
                   id="grid-user-name"
