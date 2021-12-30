@@ -95,12 +95,17 @@ const config = {
           type: false,
         },
         user: {
-          property: false,
+          property: 'data',
         },
         endpoints: {
           login: { url: '/api/v1?action=user.login', method: 'post', withCredentials: true },
           logout: false,
-          user: { url: '/api/v1?action=user.ping', method: 'get', withCredentials: true },
+          // user: { url: '/api/v1?action=user.ping', method: 'get', withCredentials: true },
+          user: {
+            url: '/api/v1?action=user.get',
+            method: 'get',
+            withCredentials: true,
+          },
         },
       },
     },

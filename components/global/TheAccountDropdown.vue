@@ -42,12 +42,13 @@
         style="box-shadow: 0px 2px 16px rgba(33, 47, 96, 0.12)"
       >
         <div class="flex flex-col space-y-5 p-5">
-          <!-- <NuxtLink
-            :to="{ name: 'index' }"
+          <NuxtLink
+            :to="{ name: 'my-profile' }"
             class="flex text-body-2 text-primary-darker hover:text-primary-darker/90 font-medium"
           >
-            Setting
-          </NuxtLink> -->
+            My profile
+          </NuxtLink>
+
           <button
             type="button"
             class="flex text-body-2 text-accent-red hover:text-accent-red/90 font-medium"
@@ -73,8 +74,10 @@ export default {
 
   methods: {
     logout() {
-      // Call api logout
-      this.$store.dispatch('user/logout');
+      setTimeout(() => {
+        // Call api logout
+        this.$store.dispatch('user/logout');
+      }, 0);
 
       // Clear local store and push to login
       this.$auth.logout();
