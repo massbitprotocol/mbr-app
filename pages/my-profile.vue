@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full flex gap-15 py-15 min-h-[90vh]">
+  <div class="w-full flex gap-15 py-15 min-h-[91vh]">
     <div class="w-[234px] flex flex-col gap-3">
       <!-- Personal Info -->
       <NuxtLink
@@ -60,7 +60,7 @@
       </NuxtLink>
     </div>
 
-    <div>
+    <div class="w-full">
       <nuxt-child />
     </div>
   </div>
