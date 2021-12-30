@@ -100,7 +100,7 @@
             v-slot="{ errors }"
             vid="confirm"
             rules="required|confirmed:password"
-            name="password"
+            name="confirm password"
             tag="div"
             class="flex flex-wrap -mx-3 mb-5"
           >
@@ -128,13 +128,7 @@
           </ValidationProvider>
 
           <div class="flex flex-wrap -mx-3 mb-5">
-            <ValidationProvider
-              v-slot="{ errors }"
-              rules="required"
-              name="referral"
-              tag="div"
-              class="w-full px-3 mb-5 md:mb-0"
-            >
+            <ValidationProvider v-slot="{ errors }" name="referral" tag="div" class="w-full px-3 mb-5 md:mb-0">
               <div>
                 <label
                   class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2"
