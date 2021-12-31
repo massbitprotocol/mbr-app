@@ -109,9 +109,9 @@ export default {
   middleware: ['auth'],
   auth: false,
 
-  async asyncData({ $auth, redirect }) {
+  async asyncData({ $auth, redirect, route }) {
     if ($auth.loggedIn) {
-      redirect('/users');
+      redirect({ name: route.query.to || 'users' });
     }
   },
 
