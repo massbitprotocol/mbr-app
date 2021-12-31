@@ -142,7 +142,7 @@ export default {
         const { result, data } = await this.$axios.$post('/api/v1?action=api.create', this.form);
         if (result) {
           setTimeout(() => {
-            this.$notify({ type: 'success', text: 'New entrypoint has been successfully created!' });
+            this.$notify({ type: 'success', text: 'New API has been successfully created!' });
           }, 500);
 
           if (data && data.id) {
