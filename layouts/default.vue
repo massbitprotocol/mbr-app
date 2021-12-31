@@ -24,12 +24,6 @@ export default {
 
   mode: 'out-in',
 
-  async created() {
-    if (this.providers.length === 0) {
-      await this.initData();
-    }
-  },
-
   computed: {
     ...mapGetters({
       providers: 'providers/list',

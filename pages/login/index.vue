@@ -76,7 +76,7 @@
             <div class="w-full px-3 mb-5 md:mb-0">
               <label class="block text-body-2 text-neutral-darkset font-medium cursor-pointer">
                 <input class="mr-2 leading-tight focus:outline-none focus:ring-transparent" type="checkbox" />
-                <span class="text-sm"> Remeber me </span>
+                <span class="text-sm"> Remember me </span>
               </label>
             </div>
           </div>
@@ -86,6 +86,15 @@
               <BaseButton class="w-full h-[52px]" type="submit" :disabled="invalid" :loading="loading">
                 Login
               </BaseButton>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap -mx-3 mb-15 mt-3">
+            <div class="w-full px-3 mb-5 md:mb-0 text-body-2">
+              <span class="text-neutral-normal">Not a member?</span>
+              <span class="text-accent-green font-medium cursor-pointer" @click="$router.push({ name: 'sign-up' })">
+                Sign up
+              </span>
             </div>
           </div>
         </form>
@@ -102,7 +111,7 @@ export default {
 
   async asyncData({ $auth, redirect }) {
     if ($auth.loggedIn) {
-      redirect('/');
+      redirect('/users');
     }
   },
 
@@ -116,6 +125,14 @@ export default {
     };
   },
 
+  computed: {
+    to() {
+      if (this.$route.query && this.$route.query.to) return this.$route.query.to;
+
+      return 'users';
+    },
+  },
+
   methods: {
     async userLogin() {
       this.loading = true;
@@ -124,12 +141,11 @@ export default {
         if (data.result) {
           let sid = data.data.sid || null;
           if (sid) {
-            // this.$auth.$storage.setUniversal('_slc_web_sid', sid);
-
-            this.$router.push('/');
+            this.$router.push({ name: this.to });
           }
         } else {
           if (data.err) {
+            console.log('here ==================');
             this.$notify({ type: 'error', text: data.err });
           } else {
             this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });

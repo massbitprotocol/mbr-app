@@ -3,6 +3,7 @@ import { ValidationObserver, ValidationProvider, extend, localize } from 'vee-va
 import {
   required,
   min_value as minValue,
+  max_value as maxValue,
   email,
   confirmed,
   min,
@@ -37,6 +38,7 @@ extend('numeric', numeric);
 extend('max', max);
 extend('min', min);
 extend('min_value', minValue);
+extend('max_value', maxValue);
 extend('double', double);
 extend('email', email);
 extend('image', image);

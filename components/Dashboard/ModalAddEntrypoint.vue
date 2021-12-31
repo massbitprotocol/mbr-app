@@ -3,7 +3,6 @@
     <div class="max-w-[570px] w-full bg-white p-5 rounded-lg z-10 text-left overflow-hidden">
       <div class="w-full flex items-center justify-between">
         <div class="text-heading-2 text-neutral-darkset font-bold">{{ isAddNew ? 'Add' : 'Edit' }} Entrypoint</div>
-
         <div
           @click="_visible = false"
           class="flex items-center text-neutral-darkset cursor-pointer"
@@ -48,7 +47,7 @@
 
                 <ValidationProvider
                   v-slot="{ errors }"
-                  rules="required"
+                  rules="required|min_value:1|max_value:10"
                   name="priority"
                   tag="div"
                   class="w-full px-3 mb-5 md:mb-0"
@@ -107,7 +106,7 @@
               </div>
             </div>
 
-            <div class="flex flex-wrap -mx-3 mb-7.5">
+            <div class="flex items-center gap-3 -mx-3 mb-7.5">
               <div class="w-full flex items-center px-3">
                 <label
                   class="block text-body-1 text-neutral-darkset font-medium tracking-wide mr-2"
@@ -116,7 +115,18 @@
                   Status
                 </label>
 
-                <BaseToggle id="grid-entrypoint-status" refId="add-entrypoint" :checked.sync="_status" />
+                <BaseToggle id="grid-entrypoint-status" refId="add-entrypoint-status" :checked.sync="_status" />
+              </div>
+
+              <div class="w-full flex items-center px-3">
+                <label
+                  class="block text-body-1 text-neutral-darkset font-medium tracking-wide mr-2"
+                  for="grid-entrypoint-backup"
+                >
+                  Backup
+                </label>
+
+                <BaseToggle id="grid-entrypoint-backup" refId="add-entrypoint-backup" :checked.sync="_backup" />
               </div>
             </div>
 
@@ -330,6 +340,15 @@ export default {
         this._form.status = value ? 1 : 0;
       },
     },
+
+    _backup: {
+      get() {
+        return !!parseInt(this._form.backup);
+      },
+      set(value) {
+        this._form.backup = value ? 1 : 0;
+      },
+    },
   },
 
   methods: {
@@ -367,9 +386,9 @@ export default {
     onChangeProvider(key) {
       const _provider = this.providers.find((provider) => provider.type === key);
       if (_provider && _provider.form_config) {
-        this._form = _.pick(this._form, ['type', 'priority', 'status', ..._provider.form_config]);
+        this._form = _.pick(this._form, ['id', 'type', 'priority', 'status', ..._provider.form_config]);
       } else {
-        this._form = _.pick(this._form, ['type', 'priority', 'status']);
+        this._form = _.pick(this._form, ['id', 'type', 'priority', 'status']);
       }
     },
   },

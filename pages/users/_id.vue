@@ -25,7 +25,7 @@
         <div
           class="w-full flex flex-col sm:flex sm:flex-row sm:items-center sm:justify-between mt-5 mb-3 lg:mt-10 lg:mb-5"
         >
-          <div class="w-full mr-5 text-2xl lg:text-medium-title text-neutral-darkset font-bold truncate">
+          <div class="w-full h-[52px] mr-5 text-2xl lg:text-medium-title text-neutral-darkset font-bold truncate">
             <template v-if="editName">
               <input
                 :value="_api.name"
@@ -77,7 +77,7 @@
 
         <DashboardApiEntrypoints />
 
-        <!-- <div class="mt-10 lg:mt-15">
+        <div class="mt-10 lg:mt-15">
           <div class="flex items-center justify-between">
             <div class="uppercase text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold">
               Stats
@@ -85,15 +85,16 @@
           </div>
 
           <template v-for="(chart, index) in charts">
-            <DashboardStats
+            <DashboardStatsNew
               :key="index"
               :title="chart.name"
               :url="chart.url"
-              :filters="chart.filters"
+              :filters="filters"
+              :params="chart.params"
               :filter.sync="chart.filter"
             />
           </template>
-        </div> -->
+        </div>
       </client-only>
     </div>
   </div>
@@ -103,7 +104,7 @@
 import { mapGetters } from 'vuex';
 import _ from 'lodash';
 
-import chartConfig from '~/mixins/chartConfig';
+import chartFilters from '~/mixins/chartFilters';
 
 export default {
   name: 'DashboardDetail',
@@ -111,7 +112,7 @@ export default {
   middleware: ['auth'],
   auth: true,
 
-  mixins: [chartConfig],
+  mixins: [chartFilters],
 
   async fetch() {
     const api = await this.$store.dispatch('api/getApi', this.id);
@@ -120,9 +121,14 @@ export default {
     }
   },
 
+  created() {
+    this.initChartConfig();
+  },
+
   data() {
     return {
       editName: false,
+      charts: [],
     };
   },
 
@@ -207,6 +213,37 @@ export default {
         this.$notify({ type: 'error', text: 'Please enter the name' });
       }
       this.editName = false;
+    },
+
+    initChartConfig() {
+      this.charts = [
+        {
+          name: 'Total Requests',
+          url: 'https://stat.mbr.massbitroute.com/__internal_grafana/d-solo/zb9F6co7k/mbrg',
+          filter: 'now|now-6h',
+          params: {
+            orgId: 1,
+            theme: 'light',
+            'var-Instance': 'All',
+            'var-FilterName': 'All',
+            'var-Filter': `${this.id}::dapi::api_method`,
+            panelId: 2,
+          },
+        },
+        {
+          name: 'Total Bandwidth',
+          url: 'https://stat.mbr.massbitroute.com/__internal_grafana/d-solo/zb9F6co7k/mbrg',
+          filter: 'now|now-6h',
+          params: {
+            orgId: 1,
+            theme: 'light',
+            'var-Instance': 'All',
+            'var-FilterName': 'All',
+            'var-Filter': `${this.id}::dapi::api_method`,
+            panelId: 4,
+          },
+        },
+      ];
     },
   },
 };

@@ -56,21 +56,7 @@
               <input
                 v-model="_limitRatePerDay"
                 :disabled="!(_limitType === 'limit')"
-                class="
-                  mt-2
-                  appearance-none
-                  block
-                  w-full
-                  text-body-2
-                  lg:text-body-1
-                  text-neutral-darkset
-                  font-medium
-                  border border-primary-background
-                  rounded-lg
-                  py-3
-                  px-4
-                  leading-tight
-                "
+                class="mt-2 appearance-none block w-full text-body-2 lg:text-body-1 text-neutral-darkset font-medium border border-primary-background rounded-lg py-3 px-4 leading-tight"
                 :style="{ color: !(_limitType === 'limit') ? 'rgba(113, 117, 145, 0.6)' : null }"
                 type="number"
               />

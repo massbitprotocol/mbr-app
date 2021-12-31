@@ -81,7 +81,7 @@ const config = {
     plugins: [{ src: '~/plugins/axios', ssr: true }, { src: '~/plugins/auth' }, { src: '~/plugins/helpers/filters' }],
     redirect: {
       login: '/login',
-      logout: '/',
+      logout: '/login',
       home: '/',
       callback: '/login',
     },
@@ -100,10 +100,19 @@ const config = {
         endpoints: {
           login: { url: '/api/v1?action=user.login', method: 'post', withCredentials: true },
           logout: false,
-          user: false,
+          // user: { url: '/api/v1?action=user.ping', method: 'get', withCredentials: true },
+          user: {
+            url: '/api/v1?action=user.get',
+            method: 'get',
+            withCredentials: true,
+          },
         },
       },
     },
+  },
+
+  router: {
+    middleware: 'maintenance',
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -126,12 +135,14 @@ const config = {
   },
 };
 
+config.server = {
+  port: process.env.PORT || 3000,
+};
+
 if (process.env.NODE_ENV === 'development') {
-  config.server = {
-    https: {
-      key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
-      cert: fs.readFileSync(path.resolve(__dirname, 'server.crt')),
-    },
+  config.server.https = {
+    key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
+    cert: fs.readFileSync(path.resolve(__dirname, 'server.crt')),
   };
 }
 

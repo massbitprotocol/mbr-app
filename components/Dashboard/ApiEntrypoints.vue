@@ -17,40 +17,40 @@
           <div>
             <div
               v-if="parseInt(item) === 1"
-              class="
-                w-[63px]
-                inline-flex
-                items-center
-                rounded
-                justify-center
-                text-caption
-                bg-accent-green
-                text-white
-                font-medium
-                py-1
-              "
+              class="w-[63px] inline-flex items-center rounded justify-center text-caption bg-accent-green text-white font-medium py-1"
             >
               Enable
             </div>
 
             <div
               v-else
-              class="
-                w-[63px]
-                inline-flex
-                items-center
-                rounded
-                justify-center
-                text-caption
-                bg-accent-red
-                text-white
-                font-medium
-                py-1
-              "
+              class="w-[63px] inline-flex items-center rounded justify-center text-caption bg-accent-red text-white font-medium py-1"
             >
               Disable
             </div>
           </div>
+        </template>
+
+        <template #backup="{ item }">
+          <div>
+            <div
+              v-if="parseInt(item) === 1"
+              class="w-[63px] inline-flex items-center rounded justify-center text-caption bg-accent-green text-white font-medium py-1"
+            >
+              Enable
+            </div>
+
+            <div
+              v-else
+              class="w-[63px] inline-flex items-center rounded justify-center text-caption bg-accent-red text-white font-medium py-1"
+            >
+              Disable
+            </div>
+          </div>
+        </template>
+
+        <template #priority="{ item }">
+          {{ item }}
         </template>
 
         <template #action="{ record }">
@@ -120,6 +120,7 @@ const columns = [
   {
     title: 'Priority',
     dataIndex: 'priority',
+    slotScope: 'priority',
     width: '180px',
     class: 'text-body-1 text-neutral-darker font-medium',
     filter: 'text',
@@ -131,6 +132,29 @@ const columns = [
     dataIndex: 'status',
     width: '180px',
     slotScope: 'status',
+    filter: 'select',
+    filterInput: 'all',
+    filterSelectSource: [
+      {
+        name: 'All',
+        value: 'all',
+      },
+      {
+        name: 'Enable',
+        value: '1',
+      },
+      {
+        name: 'Disable',
+        value: '0',
+      },
+    ],
+    sort: true,
+  },
+  {
+    title: 'Backup',
+    dataIndex: 'backup',
+    width: '180px',
+    slotScope: 'backup',
     filter: 'select',
     filterInput: 'all',
     filterSelectSource: [
@@ -169,9 +193,10 @@ export default {
       loadingRemoveEntrypoint: false,
       idRemoveEntrypoint: null,
       form: {
-        type: 'INFURA',
-        priority: 0,
+        type: 'MASSBIT',
+        priority: 1,
         status: 1,
+        backup: 0,
       },
     };
   },
@@ -219,7 +244,12 @@ export default {
     },
 
     onShowModalUpdateEntrypoint(record) {
-      this.form = { ...record };
+      this.form = _.cloneDeep(record);
+      if (!this.form.backup) {
+        // Init feild
+        this.form.backup = 0;
+      }
+
       this.isAddNew = false;
       this.showModalAddEntrypoint = true;
     },
@@ -254,9 +284,9 @@ export default {
 
     async onSave(form) {
       this.loading = true;
-
       let _api = _.cloneDeep(this.api);
       let _entrypoints = _.cloneDeep(_api.entrypoints);
+
       if (this.isAddNew) {
         // Add new entrypoint
         if (_entrypoints && Array.isArray(_entrypoints)) {
@@ -283,11 +313,7 @@ export default {
         this.$notify({ type: 'success', text: 'New entrypoint has been successfully created!' });
 
         // Reset form
-        this.form = {
-          type: 'INFURA',
-          priority: 0,
-          status: 1,
-        };
+        this.resetForm();
 
         this.showModalAddEntrypoint = false;
       } else {
@@ -295,6 +321,15 @@ export default {
       }
 
       this.loading = false;
+    },
+
+    resetForm() {
+      this.form = {
+        type: 'MASSBIT',
+        priority: 1,
+        status: 1,
+        backup: 0,
+      };
     },
   },
 };
