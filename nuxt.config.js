@@ -95,7 +95,7 @@ const config = {
           type: false,
         },
         user: {
-          property: 'data',
+          property: false,
         },
         endpoints: {
           login: { url: '/api/v1?action=user.login', method: 'post', withCredentials: true },

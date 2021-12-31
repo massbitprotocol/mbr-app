@@ -18,8 +18,8 @@
 
       <!-- Username -->
       <div class="flex items-center mt-3">
-        <span class="text-body-2 font-medium text-primary">{{ $auth.user.username }}</span>
-        <TheCopyButton class="ml-3" buttonClass="bg-primary-background" :textToCopy="$auth.user.username" />
+        <span class="text-body-2 font-medium text-primary">{{ $auth.data.user.username }}</span>
+        <TheCopyButton class="ml-3" buttonClass="bg-primary-background" :textToCopy="$auth.data.user.username" />
       </div>
     </div>
 
@@ -44,7 +44,7 @@ export default {
 
   computed: {
     referralUrl() {
-      return `${window.location.origin}/sign-up?referral=${this.$auth.user.username}`;
+      return `${window.location.origin}/sign-up?referral=${this.$auth.data.user.username}`;
     },
   },
 };

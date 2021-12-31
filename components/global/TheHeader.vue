@@ -4,13 +4,35 @@
       <div class="h-full flex items-center justify-between">
         <TheLogoDark />
 
-        <client-only>
-          <BaseGhostButton v-if="!$auth.loggedIn" class="hidden lg:block" @click="$router.push({ name: 'login' })">
-            Login
-          </BaseGhostButton>
+        <!-- <client-only> -->
+        <template v-if="!$auth.loggedIn">
+          <div class="flex items-center gap-3">
+            <BaseGhostButton class="hidden lg:block" @click="$router.push({ name: 'login' })"> Login </BaseGhostButton>
 
-          <TheAccountDropdown v-else class="hidden lg:block"> Account </TheAccountDropdown>
-        </client-only>
+            <BaseButton class="hidden lg:block" @click="$router.push({ name: 'sign-up' })"> Register </BaseButton>
+          </div>
+        </template>
+
+        <div v-else class="flex items-center gap-7.5">
+          <div
+            class="flex items-center text-body-2 font-medium text-primary hover:text-primary/80 gap-2 cursor-pointer"
+            @click="redirectToMassbit()"
+          >
+            <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M17.5 9.00025H5.91401L9.20701 5.70725C9.59801 5.31625 9.59801 4.68425 9.20701 4.29325C8.81601 3.90225 8.18401 3.90225 7.79301 4.29325L2.79301 9.29325C2.40201 9.68425 2.40201 10.3163 2.79301 10.7073L7.79301 15.7072C7.98801 15.9022 8.24401 16.0002 8.50001 16.0002C8.75601 16.0002 9.01201 15.9022 9.20701 15.7072C9.59801 15.3162 9.59801 14.6842 9.20701 14.2933L5.91401 11.0002H17.5C18.053 11.0002 18.5 10.5522 18.5 10.0002C18.5 9.44825 18.053 9.00025 17.5 9.00025Z"
+                fill="currentColor"
+              />
+            </svg>
+
+            Back to MassBit.io
+          </div>
+
+          <TheAccountDropdown class="hidden lg:block"> Account </TheAccountDropdown>
+        </div>
+        <!-- </client-only> -->
 
         <div
           class="flex items-center justify-center lg:hidden w-[40px] h-[40px] bg-neutral-lightest rounded"
@@ -169,6 +191,12 @@ export default {
     return {
       isShowSideBar: false,
     };
+  },
+
+  methods: {
+    redirectToMassbit() {
+      window.location.href = 'https://massbit.io/';
+    },
   },
 };
 </script>

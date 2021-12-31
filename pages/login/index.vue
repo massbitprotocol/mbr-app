@@ -145,6 +145,7 @@ export default {
           }
         } else {
           if (data.err) {
+            console.log('here ==================');
             this.$notify({ type: 'error', text: data.err });
           } else {
             this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
