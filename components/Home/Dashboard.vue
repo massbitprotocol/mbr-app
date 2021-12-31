@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-[80vh] mx-auto w-full">
+  <div class="mx-auto w-full">
     <Portal to="banner" tag="div">
       <div class="bg-vector-pattern bg-bottom bg-transparent bg-no-repeat h-[630px]">
         <div class="h-full">
@@ -29,7 +29,7 @@
       </div>
     </Portal>
 
-    <div class="mt-15 grid grid-cols-1 lg:grid-cols-3 gap-3 lg:gap-5">
+    <div class="py-30 mb-15 grid grid-cols-1 lg:grid-cols-3 gap-3 lg:gap-5">
       <!-- User -->
       <div class="grid grid-cols-1 p-6 rounded-xl bg-statistic-price-pattern bg-neutral-darkset bg-no-repeat bg-right">
         <div class="text-title-2 font-bold text-neutral-white">Decentralized API</div>
