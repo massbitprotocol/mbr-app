@@ -72,9 +72,5 @@ export default {
 
   middleware: ['auth'],
   auth: true,
-
-  created() {
-    console.log('this.$auth :>> ', this.$auth);
-  },
 };
 </script>

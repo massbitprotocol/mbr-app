@@ -187,6 +187,12 @@ export default {
     }
   },
 
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      vm.query = from.query;
+    });
+  },
+
   created() {
     if (this.$route.query.referral) {
       this.form.referral = this.$route.query.referral;
@@ -201,6 +207,7 @@ export default {
         password: '',
         confirm_password: '',
       },
+      query: {},
       loading: false,
     };
   },
@@ -224,7 +231,7 @@ export default {
         if (result && data.id) {
           this.$notify({ type: 'success', text: 'Your new account has been created!' });
 
-          this.$router.push({ name: 'login' });
+          this.$router.push({ name: 'login', query: this.query });
         } else {
           if (err) {
             this.$notify({ type: 'error', text: err });

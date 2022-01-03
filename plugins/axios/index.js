@@ -1,4 +1,6 @@
-export default async function ({ $axios, app, redirect }) {
+import _ from 'lodash';
+
+export default async function ({ $axios, app, redirect, from, route }) {
   if (!$axios.defaults.headers.common.mbrid) {
     // Init mbri code
     const data = await $axios.$post(
@@ -19,6 +21,7 @@ export default async function ({ $axios, app, redirect }) {
     const { data } = response;
 
     if (data && data.err_code === 100) {
+      app.$cookies.set('from', route.fullPath);
       app.$auth.logout();
 
       redirect('/login');

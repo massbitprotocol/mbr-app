@@ -141,7 +141,13 @@ export default {
         if (data.result) {
           let sid = data.data.sid || null;
           if (sid) {
-            this.$router.push({ name: this.to });
+            const from = this.$cookies.get('from');
+            if (from) {
+              this.$cookies.remove('from');
+              this.$router.push(from);
+            } else {
+              this.$router.push({ name: this.to });
+            }
           }
         } else {
           if (data.err) {
