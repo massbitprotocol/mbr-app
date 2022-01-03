@@ -37,6 +37,7 @@ const config = {
     { src: '~/plugins/notifications/ssr', ssr: true },
     { src: '~/plugins/notifications/client', ssr: false },
     '~/plugins/tooltip',
+    '~/plugins/qrcode',
   ],
 
   publicRuntimeConfig: {
