@@ -84,7 +84,9 @@ export default {
 
   methods: {
     async genImageReferralQRCode() {
-      return await this.$qrcode.toDataURL(this.referralUrl);
+      return await this.$qrcode.toDataURL(this.referralUrl, {
+        errorCorrectionLevel: 'H',
+      });
     },
   },
 };
