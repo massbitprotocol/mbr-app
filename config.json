@@ -1,155 +1,267 @@
 {
-  "providers": [
-    {
-      "type": "MASSBIT",
-      "name": "MASSBIT",
-      "form_config": [
-        "priority"
-      ]
-    },
-    {
-      "type": "INFURA",
-      "name": "INFURA",
-      "form_config": [
-        "priority",
-        "project_id",
-        "project_secret"
-      ]
-    },
-    {
-      "type": "GETBLOCK",
-      "name": "GETBLOCK",
-      "form_config": [
-        "priority",
-        "api_key"
-      ]
-    },
-    {
-      "type": "QUICKNODE",
-      "name": "QUICKNODE",
-      "form_config": [
-        "priority",
-        "api_uri"
-      ]
-    },
-    {
-      "type": "CUSTOM",
-      "name": "CUSTOM",
-      "form_config": [
-        "priority",
-        "api_uri"
-      ]
-    }
-  ],
-  "blockchains": [
-    {
-      "id": "eth",
-      "value": "Ethereum",
-      "icon": "https://dapi.massbit.io/icons/eth.svg",
-      "methods": [
-        "eth_blockNumber",
-        "eth_accounts",
-        "eth_getBalance"
-      ],
-      "api_interface": [
-        {
-          "id": "jsonrpc",
-          "value": "JSON-RPC"
-        }
-      ],
-      "network": [
-        {
-          "id": "mainnet",
-          "value": "Mainnet"
-        }
-      ]
-    },
-  
-    {
-      "id": "bsc",
-      "value": "Binance Smart Chain",
-      "icon": "https://dapi.massbit.io/icons/bsc.svg",
-      "methods": [],
-      "api_interface": [
-        {
-          "id": "jsonrpc",
-          "value": "JSON-RPC"
-        },
-        {
-          "id": "ws",
-          "value": "WS"
-        }
-      ],
-      "network": [
-        {
-          "id": "mainnet",
-          "value": "Mainnet"
-        },
-        {
-          "id": "testnet",
-          "value": "Testnet"
-        }
-      ]
-    },
-    {
-      "id": "sol",
-      "value": "Solana",
-      "icon": "https://dapi.massbit.io/icons/sol.svg",
-      "methods": [
-        "getAccountInfo",
-        "getBalance",
-        "getSlot"
-      ],
-      "api_interface": [
-        {
-          "id": "jsonrpc",
-          "value": "JSON-RPC"
-        },
-        {
-          "id": "ws",
-          "value": "WS"
-        }
-      ],
-      "network": [
-        {
-          "id": "mainnet",
-          "value": "Mainnet"
-        },
-        {
-          "id": "testnet",
-          "value": "Testnet"
-        },
-        {
-          "id": "devnet",
-          "value": "Devnet"
-        }
-      ]
-    },
+    "providers": [
+	{
+	    "type": "MASSBIT",
+	    "name": "MASSBIT",
+	    "form_config": [
+		"priority"
+	    ]
+	},
+	{
+	    "type": "INFURA",
+	    "name": "INFURA",
+	    "form_config": [
+		"priority",
+		"project_id",
+		"project_secret"
+	    ]
+	},
+	{
+	    "type": "GETBLOCK",
+	    "name": "GETBLOCK",
+	    "form_config": [
+		"priority",
+		"api_key"
+	    ]
+	},
+	{
+	    "type": "QUICKNODE",
+	    "name": "QUICKNODE",
+	    "form_config": [
+		"priority",
+		"api_uri"
+	    ]
+	},
+	{
+	    "type": "CUSTOM",
+	    "name": "CUSTOM",
+	    "form_config": [
+		"priority",
+		"api_uri"
+	    ]
+	}
+    ],
+    "blockchains": [
+	{
+	    "id": "eth",
+	    "value": "Ethereum",
+	    "icon": "https://dapi.massbit.io/icons/eth.svg",
+	    "methods": [
+		"eth_blockNumber",
+		"eth_accounts",
+		"eth_getBalance"
+	    ],
+	    "api_interface": [
+		{
+		    "id": "jsonrpc",
+		    "value": "JSON-RPC"
+		}
+	    ],
+	    "network": [
+		{
+		    "id": "mainnet",
+		    "value": "Mainnet"
+		}
+	    ]
+	},
+	{
+	    "id": "near",
+	    "value": "NEAR",
+	    "icon": "https://dapi.massbit.io/icons/near.svg",
+	    "methods": [
 
-    {
-      "id": "dot",
-      "value": "Palkadot",
-      "methods": [],
-      "api_interface": [
+	    ],
+	    "api_interface": [
+		{
+		    "id": "jsonrpc",
+		    "value": "JSON-RPC"
+		}
+	    ],
+	    "network": [
+		{
+		    "id": "mainnet",
+		    "value": "Mainnet"
+		}
+	    ]
+	},
         {
-          "id": "jsonrpc",
-          "value": "JSON-RPC"
-        }
-      ],
-      "network": [
+	    "id": "hmny",
+	    "value": "Harmony",
+	    "icon": "https://dapi.massbit.io/icons/hmny.svg",
+	    "methods": [
+
+	    ],
+	    "api_interface": [
+		{
+		    "id": "jsonrpc",
+		    "value": "JSON-RPC"
+		}
+	    ],
+	    "network": [
+		{
+		    "id": "mainnet",
+		    "value": "Mainnet"
+		}
+	    ]
+	},
         {
-          "id": "mainnet",
-          "value": "Mainnet"
-        },
+	    "id": "dot",
+	    "value": "Polkadot",
+	    "icon": "https://dapi.massbit.io/icons/dot.svg",
+	    "methods": [
+
+	    ],
+	    "api_interface": [
+		{
+		    "id": "jsonrpc",
+		    "value": "JSON-RPC"
+		}
+	    ],
+	    "network": [
+		{
+		    "id": "mainnet",
+		    "value": "Mainnet"
+		}
+	    ]
+	},
         {
-          "id": "testnet",
-          "value": "Testnet"
-        }
-      ]
-    },
-    {
-      "id": "matic",
-      "value": "Polygon"
-    }
-  ]
+	    "id": "avax",
+	    "value": "Avalanche",
+	    "icon": "https://dapi.massbit.io/icons/avax.svg",
+	    "methods": [
+
+	    ],
+	    "api_interface": [
+		{
+		    "id": "jsonrpc",
+		    "value": "JSON-RPC"
+		}
+	    ],
+	    "network": [
+		{
+		    "id": "mainnet",
+		    "value": "Mainnet"
+		}
+	    ]
+	},
+	{
+	    "id": "fmt",
+	    "value": "Fantom",
+	    "icon": "https://dapi.massbit.io/icons/fmt.svg",
+	    "methods": [
+
+	    ],
+	    "api_interface": [
+		{
+		    "id": "jsonrpc",
+		    "value": "JSON-RPC"
+		}
+	    ],
+	    "network": [
+		{
+		    "id": "mainnet",
+		    "value": "Mainnet"
+		}
+	    ]
+	},
+        {
+	    "id": "matic",
+	    "value": "Polygon",
+	    "icon": "https://dapi.massbit.io/icons/matic.svg",
+	    "methods": [
+
+	    ],
+	    "api_interface": [
+		{
+		    "id": "jsonrpc",
+		    "value": "JSON-RPC"
+		}
+	    ],
+	    "network": [
+		{
+		    "id": "mainnet",
+		    "value": "Mainnet"
+		}
+	    ]
+	},
+	
+	{
+	    "id": "bsc",
+	    "value": "Binance Smart Chain",
+	    "icon": "https://dapi.massbit.io/icons/bsc.svg",
+	    "methods": [],
+	    "api_interface": [
+		{
+		    "id": "jsonrpc",
+		    "value": "JSON-RPC"
+		}
+	    ],
+	    "network": [
+		{
+		    "id": "mainnet",
+		    "value": "Mainnet"
+		}
+		
+	    ]
+	},
+	{
+	    "id": "sol",
+	    "value": "Solana",
+	    "icon": "https://dapi.massbit.io/icons/sol.svg",
+	    "methods": [
+		"getAccountInfo",
+		"getBalance",
+		"getSlot"
+	    ],
+	    "api_interface": [
+		{
+		    "id": "jsonrpc",
+		    "value": "JSON-RPC"
+		}
+	    ],
+	    "network": [
+		{
+		    "id": "mainnet",
+		    "value": "Mainnet"
+		}
+	    ]
+	},
+
+	{
+	    "id": "dot",
+	    "value": "Palkadot",
+	    "icon": "https://dapi.massbit.io/icons/dot.svg",
+	    "methods": [],
+	    "api_interface": [
+		{
+		    "id": "jsonrpc",
+		    "value": "JSON-RPC"
+		}
+	    ],
+	    "network": [
+		{
+		    "id": "mainnet",
+		    "value": "Mainnet"
+		}
+	    ]
+	},
+	{
+	    "id": "matic",
+	    "value": "Polygon",
+	    "icon": "https://dapi.massbit.io/icons/matic.svg",
+	    "methods": [],
+	    "api_interface": [
+		{
+		    "id": "jsonrpc",
+		    "value": "JSON-RPC"
+		}
+	    ],
+	    "network": [
+		{
+		    "id": "mainnet",
+		    "value": "Mainnet"
+		}
+	    ]
+	}
+    ]
 }
