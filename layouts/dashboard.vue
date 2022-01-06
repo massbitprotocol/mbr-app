@@ -20,6 +20,7 @@
 
 <script>
 import { mapMutations, mapGetters } from 'vuex';
+const getConfig = () => import('~/config.json').then((res) => res);
 
 export default {
   name: 'Dashboard',
@@ -46,7 +47,7 @@ export default {
 
     async initData() {
       try {
-        const data = await this.$axios.$get('config.json');
+        const data = await getConfig();
         if (data.blockchains) {
           this.setBlockchains(data.blockchains);
         }

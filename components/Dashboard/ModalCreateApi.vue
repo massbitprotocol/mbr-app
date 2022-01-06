@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import blockchains from '~/mixins/blockchains';
+import { mapGetters } from 'vuex';
 
 const networks = [
   {
@@ -102,8 +102,6 @@ const networks = [
 ];
 export default {
   name: 'DashboardModalCreateApi',
-
-  mixins: [blockchains],
 
   props: {
     visible: {
@@ -125,6 +123,9 @@ export default {
   },
 
   computed: {
+    ...mapGetters({
+      blockchains: 'blockchains/list',
+    }),
     _visible: {
       get() {
         return this.visible;

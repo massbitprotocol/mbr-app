@@ -7,17 +7,7 @@
         ref="input"
         type="text"
         :placeholder="placeholder"
-        class="
-          appearance-none
-          block
-          w-full
-          text-body-2 text-gray-700
-          border border-primary-background
-          rounded
-          py-3
-          px-4
-          leading-tight
-        "
+        class="appearance-none block w-full text-body-2 text-gray-700 border border-primary-background rounded py-3 px-4 leading-tight"
       />
       <div class="pointer-events-none absolute top-1/2 transform -translate-y-1/2 right-3">
         <!-- Caret up -->
@@ -54,22 +44,7 @@
       <div
         v-show="showDropdown"
         ref="select"
-        class="
-          origin-center
-          fixed
-          z-10
-          right-0
-          mt-2
-          w-full
-          rounded
-          shadow-lg
-          bg-white
-          divide-y
-          primary-background
-          focus:outline-none
-          overflow-auto
-          max-h-[45vh]
-        "
+        class="origin-center fixed z-10 right-0 mt-2 w-full rounded shadow-lg bg-white divide-y primary-background focus:outline-none overflow-auto max-h-[45vh]"
       >
         <template v-for="(item, index) in filterSource">
           <div
@@ -77,7 +52,7 @@
             class="flex items-center px-4 py-2 text-base hover:bg-primary-background"
             :key="index"
           >
-            <img class="mr-2" v-if="item.icon" :src="item.icon" />
+            <img class="w-6 mr-2" v-if="item.icon" :src="item.icon" />
             {{ item.value }}
           </div>
         </template>
