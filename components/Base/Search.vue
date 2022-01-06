@@ -44,7 +44,7 @@
       <div
         v-show="showDropdown"
         ref="select"
-        class="origin-center fixed z-10 right-0 mt-2 w-full rounded shadow-lg bg-white divide-y primary-background focus:outline-none overflow-auto max-h-[45vh]"
+        class="origin-center fixed z-10 right-0 mt-2 w-full rounded shadow-lg bg-white divide-y primary-background focus:outline-none overflow-auto max-h-[45vh] p"
       >
         <template v-for="(item, index) in filterSource">
           <div
