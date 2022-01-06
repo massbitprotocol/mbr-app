@@ -7,6 +7,7 @@
           :key="index"
           :class="[
             _key === item.key ? 'text-white bg-primary' : 'text-primary bg-transparent',
+            source.length === 1 ? 'rounded-r' : '',
             'w-full h-[52px] border-l border-t border-b border-primary font-medium uppercase text-body-2 px-4 py-2 rounded-l outline-none focus:outline-none mb-1 ease-linear transition-all duration-100',
           ]"
           type="button"

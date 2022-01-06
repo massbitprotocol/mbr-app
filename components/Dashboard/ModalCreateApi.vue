@@ -64,7 +64,7 @@
                 </div>
               </ValidationProvider>
 
-              <div class="w-full px-3 mb-5 md:mb-0">
+              <div v-if="networks.length > 0" class="w-full px-3 mb-5 md:mb-0">
                 <label class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2" for="grid-api-key">
                   Network
                 </label>
@@ -90,16 +90,16 @@
 <script>
 import { mapGetters } from 'vuex';
 
-const networks = [
-  {
-    name: 'Mainnet',
-    key: 'mainnet',
-  },
-  {
-    name: 'Testnet',
-    key: 'testnet',
-  },
-];
+// const networks = [
+//   {
+//     name: 'Mainnet',
+//     key: 'mainnet',
+//   },
+//   {
+//     name: 'Testnet',
+//     key: 'testnet',
+//   },
+// ];
 export default {
   name: 'DashboardModalCreateApi',
 
@@ -112,7 +112,7 @@ export default {
 
   data() {
     return {
-      networks,
+      // networks,
       form: {
         name: '',
         blockchain: '',
@@ -126,6 +126,7 @@ export default {
     ...mapGetters({
       blockchains: 'blockchains/list',
     }),
+
     _visible: {
       get() {
         return this.visible;
@@ -133,6 +134,15 @@ export default {
       set(value) {
         this.$emit('update:visible', value);
       },
+    },
+
+    networks() {
+      const blockchain = this.blockchains.find((data) => data.id === this.form.blockchain);
+      if (blockchain && blockchain.network) {
+        return blockchain.network.map((network) => ({ name: network.value, key: network.id }));
+      }
+
+      return [];
     },
   },
 
