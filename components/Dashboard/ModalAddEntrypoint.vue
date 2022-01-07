@@ -353,7 +353,14 @@ export default {
 
   methods: {
     addEntrypoint() {
-      this.$emit('onSave', this._form);
+      if (this._loading) {
+        return;
+      }
+
+      this._loading = true;
+      setTimeout(() => {
+        this.$emit('onSave', this._form);
+      }, 300);
     },
 
     priorityPlus() {

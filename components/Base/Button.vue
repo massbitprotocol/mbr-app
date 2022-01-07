@@ -2,10 +2,12 @@
   <button
     v-bind="$attrs"
     v-on="$listeners"
+    :disabled="disabled"
     :class="{
       'flex items-center justify-center cursor-pointer text-white text-body-1 font-medium h-[40px] px-7.5 rounded-lg hover:bg-primary/90': true,
       'bg-primary': !loading,
       'bg-primary/90': loading,
+      'cursor-not-allowed bg-primary/70 hover:bg-primary/70': disabled === true,
     }"
   >
     <svg

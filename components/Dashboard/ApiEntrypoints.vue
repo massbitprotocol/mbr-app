@@ -291,10 +291,6 @@ export default {
     },
 
     async onSave(form) {
-      if (this.loading) {
-        return;
-      }
-
       this.loading = true;
       let _api = _.cloneDeep(this.api);
       let _entrypoints = _.cloneDeep(_api.entrypoints);
@@ -323,11 +319,10 @@ export default {
       );
       if (result) {
         this.$notify({ type: 'success', text: 'New entrypoint has been successfully created!' });
+        this.showModalAddEntrypoint = false;
 
         // Reset form
         this.resetForm();
-
-        this.showModalAddEntrypoint = false;
       } else {
         this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
       }
