@@ -110,16 +110,6 @@
 <script>
 import { mapGetters } from 'vuex';
 
-const networks = [
-  {
-    name: 'Mainnet',
-    key: 'mainnet',
-  },
-  {
-    name: 'Testnet',
-    key: 'testnet',
-  },
-];
 export default {
   name: 'GatewayDashboardModalCreateApi',
 
@@ -137,7 +127,6 @@ export default {
 
   data() {
     return {
-      networks,
       form: {
         name: '',
         blockchain: '',
@@ -169,6 +158,15 @@ export default {
       set(value) {
         this.$emit('update:visible', value);
       },
+    },
+
+    networks() {
+      const blockchain = this.blockchains.find((data) => data.id === this.form.blockchain);
+      if (blockchain && blockchain.network) {
+        return blockchain.network.map((network) => ({ name: network.value, key: network.id }));
+      }
+
+      return [];
     },
   },
 
