@@ -213,6 +213,14 @@ export default {
     }
   },
 
+  watch: {
+    showModalAddEntrypoint(isShow) {
+      if (!isShow) {
+        this.resetForm();
+      }
+    },
+  },
+
   computed: {
     ...mapGetters({
       api: 'api/value',
@@ -283,6 +291,10 @@ export default {
     },
 
     async onSave(form) {
+      if (this.loading) {
+        return;
+      }
+
       this.loading = true;
       let _api = _.cloneDeep(this.api);
       let _entrypoints = _.cloneDeep(_api.entrypoints);

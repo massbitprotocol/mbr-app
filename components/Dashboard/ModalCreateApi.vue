@@ -90,16 +90,6 @@
 <script>
 import { mapGetters } from 'vuex';
 
-// const networks = [
-//   {
-//     name: 'Mainnet',
-//     key: 'mainnet',
-//   },
-//   {
-//     name: 'Testnet',
-//     key: 'testnet',
-//   },
-// ];
 export default {
   name: 'DashboardModalCreateApi',
 
@@ -112,7 +102,6 @@ export default {
 
   data() {
     return {
-      // networks,
       form: {
         name: '',
         blockchain: '',
@@ -148,6 +137,10 @@ export default {
 
   methods: {
     async createApi() {
+      if (this.loading) {
+        return;
+      }
+
       this.loading = true;
       try {
         const { result, data } = await this.$axios.$post('/api/v1?action=api.create', this.form);

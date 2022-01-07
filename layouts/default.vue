@@ -31,6 +31,12 @@ export default {
     }),
   },
 
+  async created() {
+    if (this.providers.length === 0) {
+      await this.initData();
+    }
+  },
+
   methods: {
     ...mapMutations({
       setBlockchains: 'blockchains/setList',
