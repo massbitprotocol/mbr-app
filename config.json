@@ -137,9 +137,9 @@
       ]
     },
     {
-      "id": "fmt",
+      "id": "ftm",
       "value": "Fantom",
-      "icon": "https://dapi.massbit.io/icons/fmt.svg",
+      "icon": "https://dapi.massbit.io/icons/ftm.svg",
       "methods": [],
       "api_interface": [
         {
