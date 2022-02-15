@@ -298,6 +298,15 @@ export default {
       if (this.isAddNew) {
         // Add new entrypoint
         if (_entrypoints && Array.isArray(_entrypoints)) {
+          // Check exists massbit provider
+          const isExists = _entrypoints.findIndex((entrypoint) => entrypoint.type === 'MASSBIT') > -1;
+          if (isExists) {
+            this.$notify({ type: 'error', text: 'Provider MASSBIT is exists!' });
+            this.loading = false;
+
+            return;
+          }
+
           _entrypoints.push({ id: this.$dayjs().unix() * 1000, ...form });
         } else {
           _entrypoints = [{ id: this.$dayjs().unix() * 1000, ...form }];
