@@ -277,7 +277,7 @@ export default {
   computed: {
     installScript() {
       if (this.api) {
-        return `sh -c "$(curl -sSfL '${this.$config.curlNodeURL}?id=${this.api.id}&user_id=${
+        return `sudo bash -c "$(curl -sSfL '${this.$config.curlNodeURL}?id=${this.api.id}&user_id=${
           this.api.user_id
         }&blockchain=${this.api.blockchain}&network=${this.api.network}&zone=${this.api.zone}&data_url=${
           this.api.data_url || 'http://127.0.0.1:8545'
