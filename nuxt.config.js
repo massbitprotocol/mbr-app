@@ -36,6 +36,7 @@ const config = {
     { src: '~/plugins/axios', ssr: true },
     { src: '~/plugins/notifications/ssr', ssr: true },
     { src: '~/plugins/notifications/client', ssr: false },
+    { src: '~/plugins/polkadot-wallet', ssr: false },
     '~/plugins/tooltip',
     '~/plugins/qrcode',
   ],
@@ -79,7 +80,11 @@ const config = {
   ],
 
   auth: {
-    plugins: [{ src: '~/plugins/axios', ssr: true }, { src: '~/plugins/auth' }, { src: '~/plugins/helpers/filters' }],
+    plugins: [
+      { src: '~/plugins/axios', ssr: true },
+      { src: '~/plugins/auth' },
+      { src: '~/plugins/helpers/filters' },
+    ],
     redirect: {
       login: '/login',
       logout: '/login',
@@ -119,7 +124,43 @@ const config = {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     // Add exception
-    transpile: ['vee-validate/dist/rules'],
+    transpile: [
+      'vee-validate/dist/rules',
+      '@polkadot/api',
+      '@polkadot/rpc-core',
+      '@polkadot/rpc-provider',
+      '@polkadot/types',
+      '@polkadot/extension-dapp',
+      '@polkadot/util-crypto',
+      '@polkadot/keyring',
+      '@polkadot/ui-keyring',
+      '@polkadot/ui-settings',
+      '@polkadot/hw-ledger',
+      '@polkadot/types-codec',
+    ],
+    extend: function (config) {
+      config.module.rules.push({
+        test: /\.js$/,
+        loader: require.resolve('@open-wc/webpack-import-meta-loader'),
+      })
+      config.resolve.alias.vue = 'vue/dist/vue.common' //https://github.com/nuxt/nuxt.js/issues/1142#issuecomment-317272538
+      config.node = {
+        fs: 'empty',
+      }
+    },
+    presets({ isServer }, [preset, options]) {
+      return [
+        [
+          preset,
+          {
+            ...options
+          }
+        ],
+        [
+         "@babel/plugin-proposal-private-methods"
+        ]
+      ]
+      }
   },
 
   axios: {
@@ -139,12 +180,5 @@ const config = {
 config.server = {
   port: process.env.PORT || 3000,
 };
-
-if (process.env.NODE_ENV === 'development') {
-  config.server.https = {
-    key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
-    cert: fs.readFileSync(path.resolve(__dirname, 'server.crt')),
-  };
-}
 
 export default config;
