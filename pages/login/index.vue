@@ -89,6 +89,14 @@
             </div>
           </div>
 
+          <div class="flex flex-wrap -mx-3 mb-5">
+            <div class="w-full px-3 mb-5 md:mb-0">
+              <BaseGhostButton class="w-full h-[52px]" :loading="loading" @click="loginWithWallet">
+                Login with wallet
+              </BaseGhostButton>
+            </div>
+          </div>
+
           <div class="flex flex-wrap -mx-3 mb-15 mt-3">
             <div class="w-full px-3 mb-5 md:mb-0 text-body-2">
               <span class="text-neutral-normal">Not a member?</span>
@@ -104,6 +112,8 @@
 </template>
 
 <script>
+import { stringToHex } from '@polkadot/util';
+
 export default {
   name: 'Login',
   middleware: ['auth'],
@@ -160,6 +170,29 @@ export default {
         console.log(err);
       }
       this.loading = false;
+    },
+
+    async loginWithWallet() {
+      const isEnable = await this.$polkadotWallet.isEnableApp();
+      if (isEnable) {
+        const accounts = await this.$polkadotWallet.getListAcount();
+        console.log('accounts :>> ', accounts);
+
+        if (accounts && accounts.length) {
+          const account = accounts[0];
+          const signer = await this.$polkadotWallet.getSigner(account);
+          try {
+            const { signature } = await signer({
+              address: account.address,
+              data: stringToHex('message to sign'),
+              type: 'bytes',
+            });
+            console.log('signature :>> ', signature);
+          } catch (error) {
+            console.log('error :>> ', error);
+          }
+        }
+      }
     },
   },
 };
