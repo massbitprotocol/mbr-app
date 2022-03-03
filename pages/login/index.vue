@@ -5,7 +5,6 @@
       <div class="mt-3 text-center text-body-2 lg:text-body-1 text-neutral-normal">
         See your growth and get consulting support!
       </div>
-
       <ValidationObserver v-slot="{ handleSubmit, invalid }" tag="div">
         <form class="mx-auto w-full max-w-md mt-7" @submit.prevent="handleSubmit(userLogin)">
           <div class="flex flex-wrap -mx-3 mb-5">
@@ -91,7 +90,7 @@
 
           <div class="flex flex-wrap -mx-3 mb-5">
             <div class="w-full px-3 mb-5 md:mb-0">
-              <BaseGhostButton class="w-full h-[52px]" :loading="loading" @click="loginWithWallet">
+              <BaseGhostButton class="w-full h-[52px]" type="button" :loading="loading" @click="loginWithWallet">
                 Login with wallet
               </BaseGhostButton>
             </div>
@@ -147,17 +146,14 @@ export default {
     async userLogin() {
       this.loading = true;
       try {
-        const { data } = await this.$auth.loginWith('cookie', { data: this.form });
-        if (data.result) {
-          let sid = data.data.sid || null;
-          if (sid) {
-            const from = this.$cookies.get('from');
-            if (from) {
-              this.$cookies.remove('from');
-              this.$router.push(from);
-            } else {
-              this.$router.push({ name: this.to });
-            }
+        const { data } = await this.$auth.loginWith('local', { data: this.form });
+        if (data.accessToken) {
+          const from = this.$cookies.get('from');
+          if (from) {
+            this.$cookies.remove('from');
+            this.$router.push(from);
+          } else {
+            this.$router.push({ name: this.to });
           }
         } else {
           if (data.err) {
@@ -192,6 +188,8 @@ export default {
             console.log('error :>> ', error);
           }
         }
+      } else {
+        this.$notify({ type: 'error', text: 'Cant not find polkadot wallet!' });
       }
     },
   },

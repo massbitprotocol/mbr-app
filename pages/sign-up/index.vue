@@ -1,6 +1,15 @@
 <template>
   <div class="min-h-[80vh] grid items-center mx-auto max-w-lg py-7.5 lg:py-10">
-    <div>
+    <div v-if="showWaringCheckEmailConfirm" class="flex flex-col items-center">
+      <div
+        class="flex items-center justify-center font-medium text-heading-1 text-center whitespace-nowrap text-neutral-darker"
+      >
+        A verification link has been sent to your email account
+      </div>
+
+      <div class="mt-2 text-center text-heading-2 text-gray-700">Please click on the link to verify your account</div>
+    </div>
+    <div v-else>
       <div class="text-center text-title-2 lg:text-title-1 text-neutral-darkset font-bold">Sign Up</div>
 
       <ValidationObserver v-slot="{ handleSubmit, invalid }" tag="div">
@@ -114,7 +123,7 @@
                 </label>
               </div>
               <input
-                v-model.trim="form.confirm_password"
+                v-model.trim="form.passwordConfirm"
                 id="grid-confirm-password"
                 :class="{
                   'appearance-none block w-full text-body-2 text-gray-700 border border-primary-background rounded py-3 px-4  leading-tight': true,
@@ -205,10 +214,11 @@ export default {
         username: '',
         email: '',
         password: '',
-        confirm_password: '',
+        passwordConfirm: '',
       },
       query: {},
       loading: false,
+      showWaringCheckEmailConfirm: false,
     };
   },
 
@@ -225,13 +235,10 @@ export default {
       this.loading = true;
       try {
         const _form = _.cloneDeep(this.form);
-        delete _form.confirm_password;
-
-        const { result, data, err } = await this.$axios.$post('/api/v1?action=user.register', _form);
-        if (result && data.id) {
+        const res = await this.$axios.$post('/auth/register', _form);
+        if (res && res.id) {
+          this.showWaringCheckEmailConfirm = true;
           this.$notify({ type: 'success', text: 'Your new account has been created!' });
-
-          this.$router.push({ name: 'login', query: this.query });
         } else {
           if (err) {
             this.$notify({ type: 'error', text: err });
@@ -241,8 +248,12 @@ export default {
         }
       } catch (err) {
         console.log(err);
-
-        this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+        if (err.response) {
+          const { data } = err.response;
+          this.$notify({ type: 'error', text: data.message || 'Something was wrong. Please try again!' });
+        } else {
+          this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+        }
       }
       this.loading = false;
     },
