@@ -80,38 +80,36 @@ const config = {
   ],
 
   auth: {
-    plugins: [
-      { src: '~/plugins/axios', ssr: true },
-      { src: '~/plugins/auth' },
-      { src: '~/plugins/helpers/filters' },
-    ],
     redirect: {
       login: '/login',
-      logout: '/login',
+      logout: '/',
       home: '/',
       callback: '/login',
     },
-    cookie: {
-      prefix: '',
-    },
     strategies: {
-      cookie: {
+      local: {
+        scheme: 'refresh',
         token: {
-          required: false,
-          type: false,
+          property: 'accessToken',
+          maxAge: 60 * 60 * 24 * 1,
+          global: true,
+          type: 'Bearer',
+        },
+        refreshToken: {
+          property: '',
+          maxAge: 60 * 60 * 24 * 7,
         },
         user: {
-          property: false,
+          property: '',
         },
         endpoints: {
-          login: { url: '/api/v1?action=user.login', method: 'post', withCredentials: true },
-          logout: false,
-          // user: { url: '/api/v1?action=user.ping', method: 'get', withCredentials: true },
+          login: { url: '/auth/login', method: 'post' },
+          refresh: { url: '/auth/token', method: 'post' },
           user: {
-            url: '/api/v1?action=user.get',
+            url: 'user/info',
             method: 'get',
-            withCredentials: true,
           },
+          logout: false,
         },
       },
     },
@@ -142,25 +140,23 @@ const config = {
       config.module.rules.push({
         test: /\.js$/,
         loader: require.resolve('@open-wc/webpack-import-meta-loader'),
-      })
-      config.resolve.alias.vue = 'vue/dist/vue.common' //https://github.com/nuxt/nuxt.js/issues/1142#issuecomment-317272538
+      });
+      config.resolve.alias.vue = 'vue/dist/vue.common'; //https://github.com/nuxt/nuxt.js/issues/1142#issuecomment-317272538
       config.node = {
         fs: 'empty',
-      }
+      };
     },
     presets({ isServer }, [preset, options]) {
       return [
         [
           preset,
           {
-            ...options
-          }
+            ...options,
+          },
         ],
-        [
-         "@babel/plugin-proposal-private-methods"
-        ]
-      ]
-      }
+        ['@babel/plugin-proposal-private-methods'],
+      ];
+    },
   },
 
   axios: {

@@ -19,8 +19,6 @@ export default (ctx, inject) => {
     async isEnableApp() {
       const extensions = await web3Enable('Massbit Route');
       if (extensions.length === 0) {
-        // no extension installed, or the user did not accept the authorization
-        // in this case we should inform the use and give a link to the extension
         return false;
       }
 
@@ -28,18 +26,14 @@ export default (ctx, inject) => {
     },
 
     async getListAcount() {
-      return await web3Accounts({ ss58Format: 2 });
+      return await web3Accounts({ ss58Format: 0 });
     },
 
     async getSigner(account) {
       const keyring = new Keyring();
-      const _address = keyring.encodeAddress(account.address, 2);
-      console.log('_address :>> ', _address);
+      const _address = keyring.encodeAddress(account.address, 0);
 
-      const injector = await web3FromAddress(_address);
-      const provider = await injector.provider.connect();
-      console.log('provider :>> ', provider);
-      console.log('injector :>> ', injector);
+      const injector = await web3FromAddress(account.address);
 
       const signRaw = injector?.signer?.signRaw;
 
