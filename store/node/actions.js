@@ -35,9 +35,9 @@ export default {
   },
 
   async updateApi({ commit }, api) {
-    const { result } = await this.$axios.$post('/api/v1?action=node.update', api);
-    if (result) {
-      commit('updateApi', api);
+    const result = await this.$axios.$put(`/mbr/node/${api.id}`, api);
+    if (result.id) {
+      commit('updateApi', result);
     }
 
     return result;

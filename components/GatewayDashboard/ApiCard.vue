@@ -25,11 +25,14 @@
       </div>
     </div>
 
-    <!-- Status -->
-    <div class="hidden min-w-[64px] max-w-[150px] xl:grid grid-cols-1">
-      <div class="text-body-2 text-neutral-normal font-medium">Status</div>
-
-      <BaseToggle class="mt-1" :refId="api.id" :checked.sync="status" :disabled="!api.ip" />
+    <!-- Created at -->
+    <div class="flex-shrink px-5">
+      <div class="grid grid-cols-1">
+        <div class="text-body-2 text-neutral-normal font-medium">Status</div>
+        <div class="mt-1 text-body-1 text-neutral-darker font-medium truncate">
+          {{ api.status }}
+        </div>
+      </div>
     </div>
 
     <!-- Created at -->
@@ -37,7 +40,7 @@
       <div class="grid grid-cols-1">
         <div class="text-body-2 text-neutral-normal font-medium">Created at</div>
         <div class="mt-1 text-body-1 text-neutral-darker font-medium truncate">
-          {{ api.created_at | formatTimeUTC }}
+          {{ api.createdAt | formatTimeUTC }}
         </div>
       </div>
     </div>
@@ -47,7 +50,7 @@
       <div class="grid grid-cols-1">
         <div class="text-body-2 text-neutral-normal font-medium">Zone</div>
         <div class="mt-1 text-body-1 text-neutral-darker font-medium truncate">
-          {{ api.geo && api.geo.continent_name ? api.geo.continent_name : '-' }}
+          {{ api.geo && api.geo.continentName ? api.geo.continentName : api.zone }}
         </div>
       </div>
     </div>

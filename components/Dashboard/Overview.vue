@@ -61,12 +61,12 @@
         <col />
       </colgroup>
       <tbody>
-        <template v-if="api.ip">
+        <template v-if="api.geo.ip">
           <tr class="w-full grid md:table-row">
             <td class="text-body-2 text-neutral-normal font-medium py-3 whitespace-nowrap">IP Address</td>
             <td>
               <span class="text-body-2 text-neutral-darkset font-medium py-3">
-                {{ api.ip }}
+                {{ api.geo.ip }}
               </span>
             </td>
           </tr>
@@ -78,7 +78,7 @@
 
               <td>
                 <span class="text-body-2 text-neutral-darkset font-medium py-3">
-                  {{ api.geo.continent_name }}
+                  {{ api.geo.continentName }}
                 </span>
               </td>
             </tr>
@@ -88,7 +88,7 @@
 
               <td>
                 <span class="text-body-2 text-neutral-darkset font-medium py-3">
-                  {{ api.geo.country_name }}
+                  {{ api.geo.countryName }}
                 </span>
               </td>
             </tr>
@@ -97,7 +97,7 @@
               <td class="text-body-2 text-neutral-normal font-medium py-3 whitespace-nowrap">City Name</td>
               <td>
                 <span class="text-body-2 text-neutral-darkset font-medium py-3">
-                  {{ api.geo.city }}
+                  {{ api.geo.cityName }}
                 </span>
               </td>
             </tr>
@@ -217,7 +217,7 @@ export default {
   computed: {
     installScript() {
       if (this.api) {
-        return `sudo bash -c "$(curl -sSfL '${this.$config.curlGatewayURL}?id=${this.api.id}&user_id=${this.api.user_id}&blockchain=${this.api.blockchain}&network=${this.api.network}&zone=${this.api.zone}')"`;
+        return `sudo bash -c "$(curl -sSfL '${this.$config.curlGatewayURL}?id=${this.api.id}&user_id=${this.api.userId}&blockchain=${this.api.blockchain}&network=${this.api.network}&zone=${this.api.zone}&appKey=${this.api.appKey}')"`;
       }
 
       return '';

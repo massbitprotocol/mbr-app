@@ -1,10 +1,10 @@
 export default {
   async getListApi({ commit }) {
-    const { data, result } = await this.$axios.$get('/api/v1', { params: { action: 'gateway.list' } });
-    if (result) {
-      commit('setList', data);
+    const res = await this.$axios.$get('/mbr/gateway/list');
+    if (res) {
+      commit('setList', res);
 
-      return data;
+      return res;
     }
 
     commit('setList', []);
@@ -12,11 +12,11 @@ export default {
   },
 
   async getApi({ commit }, id) {
-    const { data, result } = await this.$axios.$get('/api/v1?action=gateway.get', { params: { id } });
-    if (result) {
-      commit('setApi', data);
+    const res = await this.$axios.$get(`/mbr/gateway/${id}`);
+    if (res) {
+      commit('setApi', res);
 
-      return data;
+      return res;
     }
 
     commit('setApi', null);
@@ -35,9 +35,9 @@ export default {
   },
 
   async updateApi({ commit }, api) {
-    const { result } = await this.$axios.$post('/api/v1?action=gateway.update', api);
-    if (result) {
-      commit('updateApi', api);
+    const result = await this.$axios.$put(`/mbr/gateway/${api.id}`, api);
+    if (result.id) {
+      commit('updateApi', result);
     }
 
     return result;
