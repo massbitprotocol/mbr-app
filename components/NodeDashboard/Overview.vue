@@ -62,13 +62,13 @@
       </colgroup>
 
       <tbody>
-        <template v-if="api.ip">
+        <template v-if="api.geo">
           <!-- IP Addres -->
           <tr class="w-full grid md:table-row">
             <td class="text-body-2 text-neutral-normal font-medium py-3 whitespace-nowrap">IP Address</td>
             <td>
               <span class="text-body-2 text-neutral-darkset font-medium py-3">
-                {{ api.ip }}
+                {{ api.geo.ip }}
               </span>
             </td>
           </tr>
@@ -81,7 +81,7 @@
 
               <td>
                 <span class="text-body-2 text-neutral-darkset font-medium py-3">
-                  {{ api.geo.continent_name }}
+                  {{ api.geo.continentName }}
                 </span>
               </td>
             </tr>
@@ -92,7 +92,7 @@
 
               <td>
                 <span class="text-body-2 text-neutral-darkset font-medium py-3">
-                  {{ api.geo.country_name }}
+                  {{ api.geo.countryName }}
                 </span>
               </td>
             </tr>
@@ -102,7 +102,7 @@
               <td class="text-body-2 text-neutral-normal font-medium py-3 whitespace-nowrap">City Name</td>
               <td>
                 <span class="text-body-2 text-neutral-darkset font-medium py-3">
-                  {{ api.geo.city }}
+                  {{ api.geo.cityName }}
                 </span>
               </td>
             </tr>
@@ -134,7 +134,7 @@
                 <div class="flex items-center">
                   <input
                     v-if="editDataSource"
-                    :value="api.data_url"
+                    :value="api.dataSource"
                     :disabled="loadingUpdateApi"
                     @blur="updateDataSource"
                     ref="apiDataSource"
@@ -143,8 +143,8 @@
                   />
 
                   <template v-else>
-                    <span v-if="api.data_url" class="text-body-2 text-neutral-darkset font-medium py-3">
-                      {{ api.data_url }}
+                    <span v-if="api.dataSource" class="text-body-2 text-neutral-darkset font-medium py-3">
+                      {{ api.dataSource }}
                     </span>
 
                     <span v-else class="text-body-2 text-neutral-lighter py-3"> </span>
@@ -279,8 +279,8 @@ export default {
       if (this.api) {
         return `sudo bash -c "$(curl -sSfL '${this.$config.curlNodeURL}?id=${this.api.id}&user_id=${
           this.api.user_id
-        }&blockchain=${this.api.blockchain}&network=${this.api.network}&zone=${this.api.zone}&data_url=${
-          this.api.data_url || 'http://127.0.0.1:8545'
+        }&blockchain=${this.api.blockchain}&network=${this.api.network}&zone=${this.api.zone}&dataSource=${
+          this.api.dataSource || 'http://127.0.0.1:8545'
         }')"`;
       }
 
@@ -307,7 +307,7 @@ export default {
         this.loadingUpdateApi = true;
         setTimeout(async () => {
           let _api = _.cloneDeep(this.api);
-          const result = await this.$store.dispatch('node/updateApi', Object.assign(_api, { data_url: dataSource }));
+          const result = await this.$store.dispatch('node/updateApi', Object.assign(_api, { dataSource: dataSource }));
           if (result) {
             this.$notify({ type: 'success', text: 'The name of your API key has been successfully changed!' });
           } else {

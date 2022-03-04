@@ -4,11 +4,21 @@
       <div class="w-full flex items-center justify-between">
         <div class="text-heading-2 text-neutral-darkset font-bold">Add New Node</div>
 
-        <div
-          @click="_visible = false"
+        <svg
           class="flex items-center text-neutral-darkset cursor-pointer"
-          v-html="require(`~/assets/svg/icon/close.svg?raw`)"
-        ></div>
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M11.4141 10L15.7071 5.70701C16.0981 5.31601 16.0981 4.68401 15.7071 4.29301C15.3161 3.90201 14.6841 3.90201 14.2931 4.29301L10.0001 8.58601L5.7071 4.29301C5.3161 3.90201 4.6841 3.90201 4.2931 4.29301C3.9021 4.68401 3.9021 5.31601 4.2931 5.70701L8.5861 10L4.2931 14.293C3.9021 14.684 3.9021 15.316 4.2931 15.707C4.4881 15.902 4.7441 16 5.0001 16C5.2561 16 5.5121 15.902 5.7071 15.707L10.0001 11.414L14.2931 15.707C14.4881 15.902 14.7441 16 15.0001 16C15.2561 16 15.5121 15.902 15.7071 15.707C16.0981 15.316 16.0981 14.684 15.7071 14.293L11.4141 10Z"
+            fill="currentColor"
+          />
+        </svg>
       </div>
 
       <div class="mt-5">
@@ -100,7 +110,7 @@
                   </label>
 
                   <input
-                    v-model="form.data_url"
+                    v-model="form.dataSource"
                     class="mb-2.5 appearance-none block w-full text-body-2 text-gray-700 border border-primary-background rounded py-3 px-4 leading-tight"
                     type="text"
                   />
@@ -164,7 +174,7 @@ export default {
         name: '',
         blockchain: '',
         zone: '',
-        data_url: 'http://127.0.0.1:8545',
+        dataSource: 'http://127.0.0.1:8545',
         network: 'mainnet',
       },
       loading: false,
@@ -200,21 +210,25 @@ export default {
     async createApi() {
       this.loading = true;
       try {
-        const { result, data } = await this.$axios.$post('/api/v1?action=node.create', this.form);
-        if (result) {
+        const res = await this.$axios.$post('/mbr/node', this.form);
+        if (res && res.id) {
           setTimeout(() => {
             this.$notify({ type: 'success', text: 'New node has been successfully created!' });
           }, 500);
 
-          if (data && data.id) {
-            this.$router.push({ name: 'nodes-id', params: { id: data.id } });
-          }
+          this.$router.push({ name: 'nodes-id', params: { id: res.id } });
 
           this.loading = false;
           this._visible = false;
         }
       } catch (error) {
-        this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+        console.log('error :>> ', error);
+        if (error.response) {
+          const { data } = error.response;
+          this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+        } else {
+          this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+        }
       }
       this.loading = false;
     },

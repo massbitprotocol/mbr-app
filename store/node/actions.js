@@ -1,10 +1,10 @@
 export default {
   async getListApi({ commit }) {
-    const { data, result } = await this.$axios.$get('/api/v1', { params: { action: 'node.list' } });
-    if (result) {
-      commit('setList', data);
+    const res = await this.$axios.$get('/mbr/node/list');
+    if (res) {
+      commit('setList', res);
 
-      return data;
+      return res;
     }
 
     commit('setList', []);
@@ -12,11 +12,11 @@ export default {
   },
 
   async getApi({ commit }, id) {
-    const { data, result } = await this.$axios.$get('/api/v1?action=node.get', { params: { id } });
-    if (result) {
-      commit('setApi', data);
+    const res = await this.$axios.$get(`/mbr/node/${id}`);
+    if (res) {
+      commit('setApi', res);
 
-      return data;
+      return res;
     }
 
     commit('setApi', null);
