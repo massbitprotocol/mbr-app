@@ -62,7 +62,7 @@
       </colgroup>
 
       <tbody>
-        <template v-if="api.geo">
+        <template v-if="api.geo.ip">
           <!-- IP Addres -->
           <tr class="w-full grid md:table-row">
             <td class="text-body-2 text-neutral-normal font-medium py-3 whitespace-nowrap">IP Address</td>
@@ -278,10 +278,10 @@ export default {
     installScript() {
       if (this.api) {
         return `sudo bash -c "$(curl -sSfL '${this.$config.curlNodeURL}?id=${this.api.id}&user_id=${
-          this.api.user_id
+          this.api.userId
         }&blockchain=${this.api.blockchain}&network=${this.api.network}&zone=${this.api.zone}&dataSource=${
           this.api.dataSource || 'http://127.0.0.1:8545'
-        }')"`;
+        }&appKey=${this.api.appKey}')"`;
       }
 
       return '';

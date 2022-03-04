@@ -67,8 +67,8 @@
 
         <div class="grid items-center grid-cols-1 lg:grid-cols-3 gap-5">
           <DashboardApiID :apiKey="api.id" />
-          <DashboardApiCreatedAt :createdAt="api.created_at" />
-          <DashboardApiUpdatedAt :updatedAt="api.updated_at" />
+          <DashboardApiCreatedAt :createdAt="api.createdAt" />
+          <DashboardApiUpdatedAt :updatedAt="api.updatedAt" />
         </div>
 
         <!-- Overview -->

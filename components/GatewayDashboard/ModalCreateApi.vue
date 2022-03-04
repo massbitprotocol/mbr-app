@@ -174,15 +174,13 @@ export default {
     async createApi() {
       this.loading = true;
       try {
-        const { result, data } = await this.$axios.$post('/api/v1?action=gateway.create', this.form);
-        if (result) {
+        const result = await this.$axios.$post('/mbr/gateway', this.form);
+        if (result && result.id) {
           setTimeout(() => {
             this.$notify({ type: 'success', text: 'New gateway has been successfully created!' });
           }, 500);
 
-          if (data && data.id) {
-            this.$router.push({ name: 'gateways-id', params: { id: data.id } });
-          }
+          this.$router.push({ name: 'gateways-id', params: { id: result.id } });
 
           this.loading = false;
           this._visible = false;
