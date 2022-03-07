@@ -30,11 +30,7 @@ export default (ctx, inject) => {
     },
 
     async getSigner(account) {
-      const keyring = new Keyring();
-      const _address = keyring.encodeAddress(account.address, 0);
-
       const injector = await web3FromAddress(account.address);
-
       const signRaw = injector?.signer?.signRaw;
 
       return signRaw;

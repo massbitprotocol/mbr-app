@@ -39,6 +39,7 @@ const config = {
     { src: '~/plugins/polkadot-wallet', ssr: false },
     '~/plugins/tooltip',
     '~/plugins/qrcode',
+    '~/plugins/helpers/filters.js',
   ],
 
   publicRuntimeConfig: {
@@ -104,6 +105,31 @@ const config = {
         },
         endpoints: {
           login: { url: '/auth/login', method: 'post' },
+          refresh: { url: '/auth/token', method: 'post' },
+          user: {
+            url: 'user/info',
+            method: 'get',
+          },
+          logout: false,
+        },
+      },
+      localWallet: {
+        scheme: 'refresh',
+        token: {
+          property: 'accessToken',
+          maxAge: 60 * 60 * 24 * 1,
+          global: true,
+          type: 'Bearer',
+        },
+        refreshToken: {
+          property: '',
+          maxAge: 60 * 60 * 24 * 7,
+        },
+        user: {
+          property: '',
+        },
+        endpoints: {
+          login: { url: '/auth/login/wallet', method: 'post' },
           refresh: { url: '/auth/token', method: 'post' },
           user: {
             url: 'user/info',
