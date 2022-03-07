@@ -32,6 +32,16 @@ export default {
   },
 
   async created() {
+    if (!this.$auth.loggedIn) {
+      this.$router.push({ name: 'login' });
+      return;
+    }
+
+    if (this.$auth.user.status === 'init_user' || this.$auth.user.status === 'verify_email') {
+      this.$router.push({ name: 'sign-up' });
+      return;
+    }
+
     if (this.providers.length === 0) {
       await this.initData();
     }

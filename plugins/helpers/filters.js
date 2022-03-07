@@ -68,10 +68,8 @@ Vue.filter('formatTimeDuration', (timestamp) => {
     .fromNow();
 });
 
-Vue.filter('formatTimeUTC', (timestamp) => {
-  return dayjs(parseInt(timestamp) * 1000)
-    .utc(true)
-    .format('MMMM DD, YYYY hh:mm:ss A +UTC');
+Vue.filter('formatTimeUTC', (datetime) => {
+  return dayjs(datetime).utc(true).format('MMMM DD, YYYY hh:mm:ss A +UTC');
 });
 
 Vue.filter('formatPrice', (number) => {

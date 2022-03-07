@@ -136,7 +136,7 @@
             </div>
           </ValidationProvider>
 
-          <div class="flex flex-wrap -mx-3 mb-5">
+          <!-- <div class="flex flex-wrap -mx-3 mb-5">
             <ValidationProvider v-slot="{ errors }" name="referral" tag="div" class="w-full px-3 mb-5 md:mb-0">
               <div>
                 <label
@@ -158,7 +158,7 @@
                 <p v-if="errors[0]" class="text-red-500 text-xs italic">{{ errors[0] }}</p>
               </div>
             </ValidationProvider>
-          </div>
+          </div> -->
 
           <div class="flex flex-wrap -mx-3 mt-7.5">
             <div class="w-full px-3 mb-5 md:mb-0">
@@ -168,14 +168,14 @@
             </div>
           </div>
 
-          <div class="flex flex-wrap -mx-3 mb-15 mt-3">
+          <!-- <div class="flex flex-wrap -mx-3 mb-15 mt-3">
             <div class="w-full px-3 mb-5 md:mb-0 text-body-2">
               <span class="text-neutral-normal">Already have an account?</span>
               <span class="text-accent-green font-medium cursor-pointer" @click="$router.push({ name: 'login' })">
                 Login
               </span>
             </div>
-          </div>
+          </div> -->
         </form>
       </ValidationObserver>
     </div>
@@ -187,19 +187,26 @@ import _ from 'lodash';
 
 export default {
   name: 'SignUp',
-  middleware: ['auth'],
-  auth: false,
 
   async asyncData({ $auth, redirect }) {
-    if ($auth.loggedIn) {
-      redirect('/users');
+    if ($auth.user.status !== 'init_user' && $auth.user.status !== 'verify_email') {
+      redirect('/');
+      return;
     }
-  },
 
-  beforeRouteEnter(to, from, next) {
-    next((vm) => {
-      vm.query = from.query;
-    });
+    if ($auth.user.status === 'verify_email') {
+      return {
+        form: {
+          username: '',
+          email: '',
+          password: '',
+          passwordConfirm: '',
+        },
+        query: {},
+        loading: false,
+        showWaringCheckEmailConfirm: true,
+      };
+    }
   },
 
   created() {
@@ -235,7 +242,7 @@ export default {
       this.loading = true;
       try {
         const _form = _.cloneDeep(this.form);
-        const res = await this.$axios.$post('/auth/register', _form);
+        const res = await this.$axios.$post('/auth/register', { ..._form, id: this.$auth.user.id });
         if (res && res.id) {
           this.showWaringCheckEmailConfirm = true;
           this.$notify({ type: 'success', text: 'Your new account has been created!' });
@@ -250,7 +257,15 @@ export default {
         console.log(err);
         if (err.response) {
           const { data } = err.response;
-          this.$notify({ type: 'error', text: data.message || 'Something was wrong. Please try again!' });
+          let message = 'Something was wrong. Please try again!';
+          if (data.message) {
+            if (Array.isArray(data.message)) {
+              message = data.message[0];
+            } else {
+              message = data.message;
+            }
+          }
+          this.$notify({ type: 'error', text: message || 'Something was wrong. Please try again!' });
         } else {
           this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
         }
