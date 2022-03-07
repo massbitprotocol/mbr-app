@@ -7,7 +7,7 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
-    "vercel-build": "yarn global add node-gyp"
+    "vercel-build": "yarn global add node-gyp-build"
   },
   "dependencies": {
     "@nuxtjs/auth-next": "5.0.0-1624817847.21691f1",
