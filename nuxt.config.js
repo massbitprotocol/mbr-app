@@ -1,6 +1,3 @@
-import path from 'path';
-import fs from 'fs';
-
 const color = `#2C3ACF`;
 
 const config = {
