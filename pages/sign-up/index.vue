@@ -194,26 +194,26 @@ import _ from 'lodash';
 export default {
   name: 'SignUp',
 
-  // async asyncData({ $auth, redirect }) {
-  //   if ($auth.user.status !== 'init_user' && $auth.user.status !== 'verify_email') {
-  //     redirect('/');
-  //     return;
-  //   }
+  async asyncData({ $auth, redirect }) {
+    if ($auth.user.status !== 'init_user' && $auth.user.status !== 'verify_email') {
+      redirect('/');
+      return;
+    }
 
-  //   if ($auth.user.status === 'verify_email') {
-  //     return {
-  //       form: {
-  //         username: '',
-  //         email: '',
-  //         password: '',
-  //         passwordConfirm: '',
-  //       },
-  //       query: {},
-  //       loading: false,
-  //       showWaringCheckEmailConfirm: true,
-  //     };
-  //   }
-  // },
+    if ($auth.user.status === 'verify_email') {
+      return {
+        form: {
+          username: '',
+          email: '',
+          password: '',
+          passwordConfirm: '',
+        },
+        query: {},
+        loading: false,
+        showWaringCheckEmailConfirm: true,
+      };
+    }
+  },
 
   created() {
     if (this.$route.query.referral) {
