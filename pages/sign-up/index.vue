@@ -100,6 +100,7 @@
                 ref="password"
                 placeholder="Password"
               />
+
               <p v-if="errors[0]" class="text-red-500 text-xs italic mt-2.5">{{ errors[0] }}</p>
             </div>
           </ValidationProvider>
@@ -135,6 +136,11 @@
               <p v-if="errors[0]" class="text-red-500 text-xs italic mt-2.5">{{ errors[0] }}</p>
             </div>
           </ValidationProvider>
+
+          <div class="text-caption text-gray-400 italic">
+            <span class="text-accent-red">*</span> Password must contain at least four characters, at least one number
+            and both lower and uppercase letters
+          </div>
 
           <!-- <div class="flex flex-wrap -mx-3 mb-5">
             <ValidationProvider v-slot="{ errors }" name="referral" tag="div" class="w-full px-3 mb-5 md:mb-0">
@@ -188,26 +194,26 @@ import _ from 'lodash';
 export default {
   name: 'SignUp',
 
-  async asyncData({ $auth, redirect }) {
-    if ($auth.user.status !== 'init_user' && $auth.user.status !== 'verify_email') {
-      redirect('/');
-      return;
-    }
+  // async asyncData({ $auth, redirect }) {
+  //   if ($auth.user.status !== 'init_user' && $auth.user.status !== 'verify_email') {
+  //     redirect('/');
+  //     return;
+  //   }
 
-    if ($auth.user.status === 'verify_email') {
-      return {
-        form: {
-          username: '',
-          email: '',
-          password: '',
-          passwordConfirm: '',
-        },
-        query: {},
-        loading: false,
-        showWaringCheckEmailConfirm: true,
-      };
-    }
-  },
+  //   if ($auth.user.status === 'verify_email') {
+  //     return {
+  //       form: {
+  //         username: '',
+  //         email: '',
+  //         password: '',
+  //         passwordConfirm: '',
+  //       },
+  //       query: {},
+  //       loading: false,
+  //       showWaringCheckEmailConfirm: true,
+  //     };
+  //   }
+  // },
 
   created() {
     if (this.$route.query.referral) {
