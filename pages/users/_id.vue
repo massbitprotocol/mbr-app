@@ -65,13 +65,13 @@
           </div>
         </div>
 
-        <DashboardApiKey :apiKey="api.api_key" />
+        <DashboardApiKey :apiKey="api.id" />
 
         <DashboardApiProvider :gatewayHttp="api.gateway_http" :gatewayWss="api.gateway_wss" />
 
         <DashboardApiBlockchain :blockchain="_blockchain" :apiInterface="_apiInterface" />
 
-        <DashboardApiNetwork :security="_security" />
+        <DashboardApiNetwork :limitRatePerDay="api.limitRatePerDay" />
 
         <DashboardApiSecurity />
 
@@ -115,8 +115,12 @@ export default {
   mixins: [chartFilters],
 
   async fetch() {
-    const api = await this.$store.dispatch('api/getApi', this.id);
-    if (!api) {
+    try {
+      const api = await this.$store.dispatch('api/getApi', this.id);
+      if (!api) {
+        return this.$nuxt.error({ statusCode: 404, message: 'Api not found' });
+      }
+    } catch (error) {
       return this.$nuxt.error({ statusCode: 404, message: 'Api not found' });
     }
   },
@@ -147,8 +151,7 @@ export default {
         return !!parseInt(this.api.status);
       },
       async set(value) {
-        let _api = _.cloneDeep(this.api);
-        await this.$store.dispatch('api/updateApi', Object.assign(_api, { status: value ? 1 : 0 }));
+        await this.$store.dispatch('api/updateApi', { id: this.api.id, status: value ? 1 : 0 });
       },
     },
 
@@ -198,12 +201,21 @@ export default {
         // Validate name
         if (apiName.length <= 120) {
           if (apiName !== this.api.name) {
-            let _api = _.cloneDeep(this.api);
-            const result = await this.$store.dispatch('api/updateApi', Object.assign(_api, { name: apiName }));
-            if (result) {
-              this.$notify({ type: 'success', text: 'The name of your API key has been successfully changed!' });
-            } else {
-              this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+            try {
+              const res = await this.$store.dispatch('api/updateApi', { id: this.api.id, name: apiName });
+              if (res) {
+                this.$notify({ type: 'success', text: 'The name of your API key has been successfully changed!' });
+              } else {
+                this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+              }
+            } catch (error) {
+              console.log('error :>> ', error);
+              if (error.response && error.response.data) {
+                const { message } = error.response.data;
+                this.$notify({ type: 'error', text: Array.isArray(message) ? message[0] : message });
+              } else {
+                this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+              }
             }
           }
         } else {

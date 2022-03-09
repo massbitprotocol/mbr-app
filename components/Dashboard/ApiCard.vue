@@ -14,20 +14,20 @@
 
         <div class="w-full inline-flex items-center justify-between gap-2">
           <div class="text-body-2 lg:text-body-1 text-neutral-white lg:text-neutral-darker font-medium truncate">
-            {{ api.api_key | shortenKey }}
+            {{ api.id | shortenKey }}
           </div>
 
-          <TheCopyButton class="hidden lg:flex" buttonClass="bg-primary-background" :textToCopy="api.api_key" />
-          <TheCopyButtonPrimary class="flex lg:hidden" :textToCopy="api.api_key" />
+          <TheCopyButton class="hidden lg:flex" buttonClass="bg-primary-background" :textToCopy="api.id" />
+          <TheCopyButtonPrimary class="flex lg:hidden" :textToCopy="api.id" />
         </div>
       </div>
     </div>
 
-    <div class="hidden min-w-[64px] max-w-[150px] lg:grid grid-cols-1 px-5">
+    <!-- <div class="hidden min-w-[64px] max-w-[150px] lg:grid grid-cols-1 px-5">
       <div class="text-body-2 text-neutral-normal font-medium">Status</div>
 
-      <BaseToggle class="mt-1" :refId="api.api_key" :checked.sync="status" />
-    </div>
+      <BaseToggle class="mt-1" :refId="api.id" :checked.sync="status" />
+    </div> -->
 
     <div class="flex-shrink px-5">
       <div class="grid grid-cols-1">

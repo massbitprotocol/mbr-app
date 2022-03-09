@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-5 lg:mt-7.5">
+  <div>
     <div class="w-full flex items-center justify-between">
       <div class="uppercase text-heading-2 text-neutral-darkset font-medium">
         {{ title }}

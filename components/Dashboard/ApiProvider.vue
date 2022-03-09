@@ -8,44 +8,22 @@
       <div class="flex items-center mt-2 lg:mt-3">
         <span class="flex items-center mr-2" v-html="require(`~/assets/svg/icon/globe.svg?raw`)"></span>
         <div
-          class="
-            mr-3
-            flex-shrink
-            text-body-2
-            lg:text-body-1
-            text-neutral-darkset
-            font-medium
-            overflow-ellipsis
-            whitespace-nowrap
-            break-words
-            overflow-hidden
-          "
+          class="mr-3 flex-shrink text-body-2 lg:text-body-1 text-neutral-darkset font-medium overflow-ellipsis whitespace-nowrap break-words overflow-hidden"
         >
           {{ gatewayHttp | shortenUrl }}
         </div>
-        <TheCopyButton buttonClass="bg-primary-background" :textToCopy="gatewayHttp" />
+        <TheCopyButton v-if="gatewayHttp" buttonClass="bg-primary-background" :textToCopy="gatewayHttp" />
       </div>
 
       <div class="mt-6 lg:mt-7 text-body-2 lg:text-body-1 text-neutral-normal font-medium">WSS Provider:</div>
       <div class="flex items-center mt-2 lg:mt-3">
         <span class="flex items-center mr-2" v-html="require(`~/assets/svg/icon/globe.svg?raw`)"></span>
         <div
-          class="
-            mr-3
-            flex-shrink
-            text-body-2
-            lg:text-body-1
-            text-neutral-darkset
-            font-medium
-            overflow-ellipsis
-            whitespace-nowrap
-            break-words
-            overflow-hidden
-          "
+          class="mr-3 flex-shrink text-body-2 lg:text-body-1 text-neutral-darkset font-medium overflow-ellipsis whitespace-nowrap break-words overflow-hidden"
         >
           {{ gatewayWss | shortenUrl }}
         </div>
-        <TheCopyButton buttonClass="bg-primary-background" :textToCopy="gatewayWss" />
+        <TheCopyButton v-if="gatewayWss" buttonClass="bg-primary-background" :textToCopy="gatewayWss" />
       </div>
     </div>
   </div>

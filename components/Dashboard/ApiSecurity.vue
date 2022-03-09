@@ -102,7 +102,8 @@ export default {
   methods: {
     getApiSource() {
       if (this._blockchain && this._blockchain.methods) {
-        return this._blockchain.methods.map((item) => new Object({ key: item, name: item }));
+        const _methods = _.cloneDeep(this._blockchain.methods);
+        return _methods.map((item) => new Object({ key: item, name: item }));
       }
 
       return [];
@@ -111,28 +112,29 @@ export default {
     getApiMethods() {
       if (this._blockchain && this._blockchain.methods) {
         const allowMethods = this.getAllowMethods();
+        const _methods = _.cloneDeep(this._blockchain.methods);
         if (allowMethods && allowMethods.length > 0) {
-          const apiMethod = this._blockchain.methods.filter((item) => !allowMethods.includes(item));
+          const apiMethod = _methods.filter((item) => !allowMethods.includes(item));
           return apiMethod.map((item) => new Object({ key: item, name: item }));
         }
 
-        return this._blockchain.methods.map((item) => new Object({ key: item, name: item }));
+        return _methods.map((item) => new Object({ key: item, name: item }));
       }
 
       return [];
     },
 
     getAllowMethods() {
-      if (this.api.security && this.api.security.allow_methods) {
-        return this.api.security.allow_methods.split(',');
+      if (this.api.allowMethods) {
+        return _.cloneDeep(this.api.allowMethods);
       }
 
       return [];
     },
 
     getLimitRatePerSec() {
-      if (this.api.security && this.api.security.limit_rate_per_sec) {
-        return parseInt(this.api.security.limit_rate_per_sec);
+      if (this.api.limitRatePerSec) {
+        return parseInt(this.api.limitRatePerSec);
       }
 
       return 0;
@@ -141,32 +143,24 @@ export default {
     async updateSecurity() {
       this.loading = true;
 
-      let _api = _.cloneDeep(this.api);
-
-      let _security = _api.security;
-      if (typeof _security === 'object') {
-        _security = Object.assign(_security, {
-          allow_methods: this.allowMethods.join(),
-          limit_rate_per_sec: this.limitRatePerSec,
+      try {
+        let res = await this.$store.dispatch('api/updateApi', {
+          id: this.api.id,
+          limitRatePerSec: parseInt(this.limitRatePerSec),
+          allowMethods: this.allowMethods,
         });
-      } else {
-        _security = {
-          limit_rate_per_day: 0,
-          allow_methods: this.allowMethods.join(),
-          limit_rate_per_sec: this.limitRatePerSec,
-        };
-      }
-
-      let result = await this.$store.dispatch(
-        'api/updateApi',
-        Object.assign(_api, {
-          security: _security,
-        }),
-      );
-      if (result) {
-        this.$notify({ type: 'success', text: 'Changing security successful!' });
-      } else {
-        this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+        if (res) {
+          this.$notify({ type: 'success', text: 'Update security successful!' });
+        } else {
+          this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+        }
+      } catch (error) {
+        if (error.response && error.response.data) {
+          const { message } = error.response.data;
+          this.$notify({ type: 'error', text: Array.isArray(message) ? message[0] : message });
+        } else {
+          this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+        }
       }
 
       this.loading = false;
