@@ -278,18 +278,22 @@ export default {
     async onRemoveEntrypoint(id) {
       this.loadingRemoveEntrypoint = true;
 
-      let _api = _.cloneDeep(this.api);
-      let _entrypoints = _.cloneDeep(_api.entrypoints);
-      let index = _entrypoints.findIndex((item) => item.id === id);
-      if (index !== -1) {
-        _entrypoints.splice(index, 1);
-        _api.entrypoints = _entrypoints;
-
-        let result = await this.$store.dispatch('api/updateApi', _api);
-        if (result) {
+      try {
+        let { status } = await this.$axios.$delete(`/mbr/d-apis/entrypoint/${id}`);
+        if (status) {
           this.showModalRemoveEntrypoint = false;
           this.idRemoveEntrypoint = false;
-          this.$notify({ type: 'success', text: 'Update successful!' });
+
+          this.$store.commit('api/removeEntrypoint', id);
+
+          this.$notify({ type: 'success', text: 'Delete entrypoint successful!' });
+        } else {
+          this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+        }
+      } catch (error) {
+        if (error.response && error.response.data) {
+          const { message } = error.response.data;
+          this.$notify({ type: 'error', text: Array.isArray(message) ? message[0] : message });
         } else {
           this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
         }

@@ -170,7 +170,12 @@ export default {
           this._visible = false;
         }
       } catch (error) {
-        this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+        if (error.response && error.response.data) {
+          const { message } = error.response.data;
+          this.$notify({ type: 'error', text: Array.isArray(message) ? message[0] : message });
+        } else {
+          this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+        }
       }
       this.loading = false;
     },

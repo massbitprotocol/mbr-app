@@ -24,11 +24,13 @@ export default {
   },
 
   async updateApi({ commit }, api) {
-    const { result } = await this.$axios.$post('/api/v1?action=api.update', api);
-    if (result) {
-      commit('updateApi', api);
+    const res = await this.$axios.$put(`/mbr/d-apis/${api.id}`, api);
+    if (res) {
+      commit('updateApi', res);
+
+      return res;
     }
 
-    return result;
+    return null;
   },
 };

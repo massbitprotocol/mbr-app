@@ -33,6 +33,17 @@ export default {
     state.api = _api;
   },
 
+  removeEntrypoint(state, id) {
+    const _api = _.cloneDeep(state.api);
+
+    const _entrypointIndex = _api.entrypoints.findIndex((cEntrypoint) => cEntrypoint.id === id);
+    if (_entrypointIndex >= 0) {
+      _api.entrypoints.splice(_entrypointIndex, 1);
+    }
+
+    state.api = _api;
+  },
+
   updateApi(state, api) {
     // Update current api
     state.api = api;
