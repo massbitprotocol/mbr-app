@@ -300,10 +300,9 @@ export default {
 
     async onSave(form) {
       this.loading = true;
-      let _api = _.cloneDeep(this.api);
-      let _entrypoints = _.cloneDeep(_api.entrypoints);
 
       if (this.isAddNew) {
+        // Add new entrypoint
         try {
           const _entrypoint = _.cloneDeep(form);
           const res = await this.$axios.$post(`/mbr/d-apis/entrypoint/${this.api.id}`, _entrypoint);
@@ -329,10 +328,34 @@ export default {
         }
       } else {
         // Update entrypoint
-        let index = _entrypoints.findIndex((item) => item.id === form.id);
-        if (index !== -1) {
-          let _entrypoint = _.cloneDeep(_entrypoints[index]);
-          _entrypoints[index] = Object.assign(_entrypoint, form);
+        try {
+          const _entrypoint = _.cloneDeep(form);
+          if (!_entrypoint.id) {
+            this.$notify({ type: 'error', text: 'Cant not get entrypoint id' });
+            this.loading = false;
+
+            return;
+          }
+          const res = await this.$axios.$put(`/mbr/d-apis/entrypoint/${_entrypoint.id}`, _entrypoint);
+          if (res && res.id) {
+            this.$notify({ type: 'success', text: 'Update entrypoint has been successfully created!' });
+            this.showModalAddEntrypoint = false;
+
+            this.$store.commit('api/updateEntrypoint', res);
+
+            // Reset form
+            this.resetForm();
+          } else {
+            this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+          }
+        } catch (error) {
+          console.log('error :>> ', error);
+          if (error.response && error.response.data) {
+            const { message } = error.response.data;
+            this.$notify({ type: 'error', text: Array.isArray(message) ? message[0] : message });
+          } else {
+            this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+          }
         }
       }
 
