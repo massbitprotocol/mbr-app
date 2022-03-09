@@ -72,6 +72,14 @@ export default {
     },
   },
 
+  watch: {
+    visible(value) {
+      if (value === false) {
+        this.form = { name: '' };
+      }
+    },
+  },
+
   data() {
     return {
       form: {
@@ -106,7 +114,10 @@ export default {
             this.$notify({ type: 'success', text: 'New project has been successfully created!' });
           }, 500);
 
-          this.$store.dispatch('project/setProject', res);
+          this.$store.commit('project/setProject', res);
+          this.form = {
+            name: '',
+          };
           this.loading = false;
           this._visible = false;
         } else {

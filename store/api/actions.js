@@ -1,10 +1,10 @@
 export default {
-  async getListApi({ commit }) {
-    const { data, result } = await this.$axios.$get('/api/v1', { params: { action: 'api.list' } });
-    if (result) {
-      commit('setList', data);
+  async getListApi({ commit }, projectId) {
+    const res = await this.$axios.$get(`/mbr/d-apis/list/${projectId}`);
+    if (res && res.length) {
+      commit('setList', res);
 
-      return data;
+      return res;
     }
 
     commit('setList', []);
@@ -12,11 +12,11 @@ export default {
   },
 
   async getApi({ commit }, id) {
-    const { data, result } = await this.$axios.$get('/api/v1?action=api.get', { params: { id } });
-    if (result) {
-      commit('setApi', data);
+    const res = await this.$axios.$get(`/mbr/d-apis/${id}`);
+    if (res) {
+      commit('setApi', res);
 
-      return data;
+      return res;
     }
 
     commit('setApi', null);

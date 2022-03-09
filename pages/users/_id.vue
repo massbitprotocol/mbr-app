@@ -65,7 +65,7 @@
           </div>
         </div>
 
-        <DashboardApiKey :apiKey="api.api_key" />
+        <DashboardApiKey :apiKey="api.id" />
 
         <DashboardApiProvider :gatewayHttp="api.gateway_http" :gatewayWss="api.gateway_wss" />
 
@@ -115,8 +115,12 @@ export default {
   mixins: [chartFilters],
 
   async fetch() {
-    const api = await this.$store.dispatch('api/getApi', this.id);
-    if (!api) {
+    try {
+      const api = await this.$store.dispatch('api/getApi', this.id);
+      if (!api) {
+        return this.$nuxt.error({ statusCode: 404, message: 'Api not found' });
+      }
+    } catch (error) {
       return this.$nuxt.error({ statusCode: 404, message: 'Api not found' });
     }
   },
