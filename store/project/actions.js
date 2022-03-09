@@ -1,6 +1,6 @@
 export default {
   async getListProject({ commit }) {
-    const res = await this.$axios.$get('/mbr/d-api/project/list');
+    const res = await this.$axios.$get('/mbr/d-apis/project/list');
     if (res) {
       commit('setList', res);
 
@@ -12,7 +12,7 @@ export default {
   },
 
   async getProject({ commit }, id) {
-    const res = await this.$axios.$get(`/mbr/d-api/project/${id}`);
+    const res = await this.$axios.$get(`/mbr/d-apis/project/${id}`);
     if (res) {
       commit('setProject', res);
 

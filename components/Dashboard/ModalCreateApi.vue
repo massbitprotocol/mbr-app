@@ -100,6 +100,14 @@ export default {
     },
   },
 
+  watch: {
+    visible(value) {
+      if (value === false) {
+        this.resetForm();
+      }
+    },
+  },
+
   data() {
     return {
       form: {
@@ -114,6 +122,7 @@ export default {
   computed: {
     ...mapGetters({
       blockchains: 'blockchains/list',
+      project: 'project/value',
     }),
 
     _visible: {
@@ -141,25 +150,42 @@ export default {
         return;
       }
 
+      if (!this.project) {
+        this.$notify({ type: 'error', text: 'Please select your project!' });
+        return;
+      }
+
       this.loading = true;
       try {
-        const { result, data } = await this.$axios.$post('/api/v1?action=api.create', this.form);
-        if (result) {
+        const res = await this.$axios.$post('/mbr/d-apis', { ...this.form, projectId: this.project.id });
+        if (res) {
           setTimeout(() => {
             this.$notify({ type: 'success', text: 'New API has been successfully created!' });
           }, 500);
 
-          if (data && data.id) {
-            this.$router.push({ name: 'users-id', params: { id: data.id } });
-          }
+          this.$router.push({ name: 'users-id', params: { id: res.id } });
 
+          this.resetForm();
           this.loading = false;
           this._visible = false;
         }
       } catch (error) {
-        this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+        if (error.response && error.response.data) {
+          const { message } = error.response.data;
+          this.$notify({ type: 'error', text: Array.isArray(message) ? message[0] : message });
+        } else {
+          this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+        }
       }
       this.loading = false;
+    },
+
+    resetForm() {
+      this.form = {
+        name: '',
+        blockchain: '',
+        network: 'mainnet',
+      };
     },
   },
 };

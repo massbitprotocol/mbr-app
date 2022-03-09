@@ -2,17 +2,7 @@
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-7.5 lg:mt-9">
     <!-- Requests Limit -->
     <div
-      class="
-        flex flex-col
-        gap-5
-        sm:flex-row
-        items-center
-        justify-between
-        p-5
-        bg-white
-        rounded-xl
-        border border-primary-background
-      "
+      class="flex flex-col gap-5 sm:flex-row items-center justify-between p-5 bg-white rounded-xl border border-primary-background"
     >
       <div class="w-full sm:w-auto flex items-center">
         <div
@@ -22,8 +12,8 @@
 
         <div class="flex flex-col">
           <div class="text-body-1 text-neutral-normal font-medium">Requests Limit</div>
-          <div v-if="security.limit_rate_per_day" class="text-body-1 text-neutral-normal font-medium">
-            <span class="text-heading-1 text-accent-green"> {{ security.limit_rate_per_day }} </span>
+          <div v-if="limitRatePerDay" class="text-body-1 text-neutral-normal font-medium">
+            <span class="text-heading-1 text-accent-green"> {{ limitRatePerDay }} </span>
             <span>/ Per day</span>
           </div>
 
@@ -55,7 +45,7 @@
     <DashboardModalChangeLimit
       @onSave="onSave()"
       :visible.sync="showModalUpdateSecutiry"
-      :limitRatePerDay.sync="limitRatePerDay"
+      :limitRatePerDay.sync="_limitRatePerDay"
       :limitType.sync="limitType"
       :loading.sync="loading"
     />
@@ -70,24 +60,24 @@ export default {
   name: 'DashboardApiNetwork',
 
   props: {
-    security: {
-      type: Object,
-      default: () => new Object(),
+    limitRatePerDay: {
+      type: Number,
+      default: 0,
     },
   },
 
   data() {
     return {
       showModalUpdateSecutiry: false,
-      limitRatePerDay: 0,
+      _limitRatePerDay: 0,
       limitType: 'unlimit',
       loading: false,
     };
   },
 
   created() {
-    this.limitRatePerDay = this.getLimitRatePerDay();
-    if (this.limitRatePerDay === 0) {
+    this._limitRatePerDay = this.getLimitRatePerDay();
+    if (this._limitRatePerDay === 0) {
       this.limitType = 'unlimit';
     } else {
       this.limitType = 'limit';
@@ -102,8 +92,8 @@ export default {
 
   methods: {
     getLimitRatePerDay() {
-      if (this.api.security && this.api.security.limit_rate_per_day) {
-        return parseInt(this.api.security.limit_rate_per_day);
+      if (this.api.limitRatePerDay) {
+        return parseInt(this.api.limitRatePerDay);
       }
 
       return 0;
@@ -112,33 +102,28 @@ export default {
     async onSave() {
       this.loading = true;
 
-      let _api = _.cloneDeep(this.api);
-
-      let limitRatePerDay = this.limitRatePerDay;
+      let limitRatePerDay = this._limitRatePerDay;
       if (this.limitType === 'unlimit') {
         limitRatePerDay = 0;
       } else if (limitRatePerDay === 0) {
         this.limitType = 'unlimit';
       }
 
-      let _security = _api.security;
-      if (typeof _security === 'object') {
-        _security = Object.assign(_security, { limit_rate_per_day: limitRatePerDay });
-      } else {
-        _security = { limit_rate_per_day: limitRatePerDay, limit_rate_per_sec: 0, allow_methods: '' };
-      }
-
-      let result = await this.$store.dispatch(
-        'api/updateApi',
-        Object.assign(_api, {
-          security: _security,
-        }),
-      );
-      if (result) {
-        this.$notify({ type: 'success', text: 'Changing request limit successful!!' });
-        this.showModalUpdateSecutiry = false;
-      } else {
-        this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+      try {
+        let res = await this.$store.dispatch('api/updateApi', { id: this.api.id, limitRatePerDay });
+        if (res) {
+          this.$notify({ type: 'success', text: 'Changing request limit successful!!' });
+          this.showModalUpdateSecutiry = false;
+        } else {
+          this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+        }
+      } catch (error) {
+        if (error.response && error.response.data) {
+          const { message } = error.response.data;
+          this.$notify({ type: 'error', text: Array.isArray(message) ? message[0] : message });
+        } else {
+          this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+        }
       }
 
       this.loading = false;

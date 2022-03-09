@@ -46,15 +46,7 @@
           :key="index"
           v-show="!filterText || source.name.toLowerCase().includes(filterText.toLowerCase())"
           @click="onSelectItem(source)"
-          class="
-            p-3
-            text-body-2
-            lg:text-body-1
-            text-neutral-darker
-            font-medium
-            hover:bg-primary-background
-            cursor-pointer
-          "
+          class="p-3 text-body-2 lg:text-body-1 text-neutral-darker font-medium hover:bg-primary-background cursor-pointer"
         >
           {{ source.name }}
         </div>
@@ -99,6 +91,7 @@ export default {
         return this.selected;
       },
       set(value) {
+        console.log('selected :>> ', value);
         this.$emit('update:selected', value);
       },
     },
@@ -108,6 +101,7 @@ export default {
         return this.sourceData;
       },
       set(value) {
+        console.log('sourceData :>> ', value);
         this.$emit('update:sourceData', value);
       },
     },
@@ -135,9 +129,8 @@ export default {
       if (index !== -1) {
         this._sourceData.splice(index, 1);
       }
-
       this.filterText = '';
-      this._selected.push(source.key);
+      this._selected.push(`${source.key}`);
     },
 
     removeItem(key) {
