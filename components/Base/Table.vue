@@ -65,25 +65,7 @@
               class="appearance-none block w-full text-body-2 border border-primary-background rounded leading-tight"
             />
             <span
-              class="
-                flex
-                justify-center
-                h-full
-                leading-snug
-                font-normal
-                absolute
-                align-center
-                text-center
-                absolute
-                bg-transparent
-                rounded
-                text-base
-                items-center
-                justify-center
-                w-8
-                right-0
-                pr-3
-              "
+              class="flex justify-center h-full leading-snug font-normal absolute align-center text-center absolute bg-transparent rounded text-base items-center justify-center w-8 right-0 pr-3"
             >
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -98,18 +80,7 @@
           <select
             v-else-if="column.filter === 'select'"
             v-model="column.filterInput"
-            class="
-              flex
-              items-center
-              mt-2
-              w-full
-              px-3
-              cursor-pointer
-              border border-primary-background
-              rounded
-              text-body-2 text-neutral-darker
-              font-medium
-            "
+            class="flex items-center mt-2 w-full px-3 cursor-pointer border border-primary-background rounded text-body-2 text-neutral-darker font-medium"
           >
             <template v-for="item in column.filterSelectSource">
               <option :key="item.value" :value="item.value">{{ item.name }}</option>

@@ -13,6 +13,12 @@
 
     <div class="mt-3 lg:mt-4">
       <BaseTable :columns.sync="columns" :data-source="_entrypoints">
+        <template #id="{ item }">
+          <div class="text-base truncate">
+            {{ item }}
+          </div>
+        </template>
+
         <template #status="{ item }">
           <div>
             <div
@@ -96,6 +102,7 @@ const columns = [
   {
     title: 'ID',
     dataIndex: 'id',
+    slotScope: 'id',
     width: '180px',
     class: 'text-body-1 text-neutral-darker font-medium',
     filter: 'text',
@@ -103,8 +110,8 @@ const columns = [
     sort: true,
   },
   {
-    title: 'Type',
-    dataIndex: 'type',
+    title: 'Provider',
+    dataIndex: 'provider',
     width: '180px',
     class: 'text-body-1 text-neutral-darker font-medium',
     filter: 'select',
@@ -193,7 +200,8 @@ export default {
       loadingRemoveEntrypoint: false,
       idRemoveEntrypoint: null,
       form: {
-        type: 'MASSBIT',
+        provider: 'MASSBIT',
+        providerConfig: {},
         priority: 1,
         status: 1,
         backup: 0,
@@ -296,20 +304,28 @@ export default {
       let _entrypoints = _.cloneDeep(_api.entrypoints);
 
       if (this.isAddNew) {
-        // Add new entrypoint
-        if (_entrypoints && Array.isArray(_entrypoints)) {
-          // Check exists massbit provider
-          const isExists = _entrypoints.findIndex((entrypoint) => entrypoint.type === 'MASSBIT') > -1;
-          if (isExists) {
-            this.$notify({ type: 'error', text: 'Provider MASSBIT is exists!' });
-            this.loading = false;
+        try {
+          const _entrypoint = _.cloneDeep(form);
+          const res = await this.$axios.$post(`/mbr/d-apis/entrypoint/${this.api.id}`, _entrypoint);
+          if (res && res.id) {
+            this.$notify({ type: 'success', text: 'New entrypoint has been successfully created!' });
+            this.showModalAddEntrypoint = false;
 
-            return;
+            this.$store.commit('api/addEntrypoint', res);
+
+            // Reset form
+            this.resetForm();
+          } else {
+            this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
           }
-
-          _entrypoints.push({ id: this.$dayjs().unix() * 1000, ...form });
-        } else {
-          _entrypoints = [{ id: this.$dayjs().unix() * 1000, ...form }];
+        } catch (error) {
+          console.log('error :>> ', error);
+          if (error.response && error.response.data) {
+            const { message } = error.response.data;
+            this.$notify({ type: 'error', text: Array.isArray(message) ? message[0] : message });
+          } else {
+            this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+          }
         }
       } else {
         // Update entrypoint
@@ -318,22 +334,6 @@ export default {
           let _entrypoint = _.cloneDeep(_entrypoints[index]);
           _entrypoints[index] = Object.assign(_entrypoint, form);
         }
-      }
-
-      let result = await this.$store.dispatch(
-        'api/updateApi',
-        Object.assign(_api, {
-          entrypoints: _entrypoints,
-        }),
-      );
-      if (result) {
-        this.$notify({ type: 'success', text: 'New entrypoint has been successfully created!' });
-        this.showModalAddEntrypoint = false;
-
-        // Reset form
-        this.resetForm();
-      } else {
-        this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
       }
 
       this.loading = false;
@@ -345,6 +345,7 @@ export default {
         priority: 1,
         status: 1,
         backup: 0,
+        providerConfig: {},
       };
     },
   },

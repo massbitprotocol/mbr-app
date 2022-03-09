@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export default {
   setList(state, list) {
     state.list = list;
@@ -5,6 +7,18 @@ export default {
 
   setApi(state, api) {
     state.api = api;
+  },
+
+  addEntrypoint(state, entrypoint) {
+    const _entrypoint = _.cloneDeep(entrypoint);
+    const _api = _.cloneDeep(state.api);
+    if (_api.entrypoints) {
+      _api.entrypoints.push(_entrypoint);
+    } else {
+      _api.entrypoints = [_entrypoint];
+    }
+
+    state.api = _api;
   },
 
   updateApi(state, api) {

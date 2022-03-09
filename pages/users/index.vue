@@ -65,7 +65,7 @@
         class="mt-5 lg:mt-7.5 flex flex-col md:flex-row items-start md:items-center flex-wrap justify-between gap-2 mb-3 lg:mb-7.5"
       >
         <div class="whitespace-nowrap text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold">
-          PROJECT API KEYS
+          PROJECT APIS
         </div>
 
         <BaseButton
@@ -81,7 +81,7 @@
             />
           </svg>
 
-          Create new API Key
+          Create new API
         </BaseButton>
       </div>
       <div v-if="$fetchState.pending" class="w-full h-[45vh] flex items-center justify-center">

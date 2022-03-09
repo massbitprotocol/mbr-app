@@ -35,7 +35,7 @@
                     </label>
 
                     <BaseSearch
-                      v-model="_form.type"
+                      v-model="_form.provider"
                       itemClass="text-body-2 lg:text-body-1 font-medium text-neutral-darker"
                       :source="_providers"
                       @onChange="onChangeProvider"
@@ -149,7 +149,7 @@
                   </label>
 
                   <input
-                    v-model.trim="_form.project_id"
+                    v-model.trim="_form.providerConfig.project_id"
                     id="grid-project-id"
                     class="appearance-none block w-full text-body-2 text-gray-700 border border-primary-background rounded py-3 px-4 mb-2.5 leading-tight"
                     type="text"
@@ -177,7 +177,7 @@
                   </label>
 
                   <input
-                    v-model.trim="_form.project_secret"
+                    v-model.trim="_form.providerConfig.project_secret"
                     id="grid-project-secret"
                     class="appearance-none block w-full text-body-2 text-gray-700 border border-primary-background rounded py-3 px-4 mb-2.5 leading-tight"
                     type="text"
@@ -205,7 +205,7 @@
                   </label>
 
                   <input
-                    v-model.trim="_form.api_key"
+                    v-model.trim="_form.providerConfig.api_key"
                     id="grid-api-key"
                     class="appearance-none block w-full text-body-2 text-gray-700 border border-primary-background rounded py-3 px-4 mb-2.5 leading-tight"
                     type="text"
@@ -233,7 +233,7 @@
                   </label>
 
                   <input
-                    v-model.trim="_form.api_uri"
+                    v-model.trim="_form.providerConfig.api_uri"
                     id="grid-api-uri"
                     class="appearance-none block w-full text-body-2 text-gray-700 border border-primary-background rounded py-3 px-4 mb-2.5 leading-tight"
                     type="text"
@@ -325,8 +325,8 @@ export default {
     },
 
     _provider() {
-      if (this._form.type && this.providers) {
-        return this.providers.find((provider) => provider.type === this._form.type);
+      if (this._form.provider && this.providers) {
+        return this.providers.find((provider) => provider.type === this._form.provider);
       }
 
       return null;
@@ -393,9 +393,10 @@ export default {
     onChangeProvider(key) {
       const _provider = this.providers.find((provider) => provider.type === key);
       if (_provider && _provider.form_config) {
-        this._form = _.pick(this._form, ['id', 'type', 'priority', 'status', ..._provider.form_config]);
+        this._form = _.pick(this._form, ['id', 'provider', 'priority', 'status', 'providerConfig']);
+        this._form.providerConfig = _.pick(this._form.providerConfig, [..._provider.form_config]);
       } else {
-        this._form = _.pick(this._form, ['id', 'type', 'priority', 'status']);
+        this._form = _.pick(this._form, ['id', 'provider', 'priority', 'status', 'providerConfig']);
       }
     },
   },
