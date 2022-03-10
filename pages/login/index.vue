@@ -107,6 +107,12 @@
         </form>
       </ValidationObserver>
     </div>
+
+    <BaseModalSelectAccount
+      :visible.sync="showModalSelectAccount"
+      :accounts="this.accounts"
+      @select="excuteLoginByAccount"
+    />
   </div>
 </template>
 
@@ -130,7 +136,9 @@ export default {
         username: '',
         password: '',
       },
+      showModalSelectAccount: false,
       loading: false,
+      accounts: [],
     };
   },
 
@@ -172,57 +180,66 @@ export default {
       const isEnable = await this.$polkadotWallet.isEnableApp();
       if (isEnable) {
         const accounts = await this.$polkadotWallet.getListAcount();
+        console.log('accounts :>> ', accounts);
         if (accounts && accounts.length) {
-          const account = accounts[0];
+          if (accounts.length === 1) {
+            this.excuteLoginByAccount(accounts[0]);
+          } else {
+            // Show modal select account
+            this.accounts = accounts;
+            this.showModalSelectAccount = true;
+          }
+        }
+      } else {
+        this.$notify({ type: 'error', text: 'Cant not find polkadot wallet!' });
+      }
+    },
 
-          try {
-            const { salt } = await this.$store.dispatch('user/requestLoginWithWallet', account.address);
-            if (salt) {
-              const signer = await this.$polkadotWallet.getSigner(account);
-              const { signature } = await signer({
-                address: account.address,
-                data: stringToHex(salt),
-                type: 'bytes',
-              });
-              const { data } = await this.$auth.loginWith('localWallet', {
-                data: { signature, walletAddress: account.address },
-              });
-              if (data.accessToken) {
-                const from = this.$cookies.get('from');
-                if (from) {
-                  this.$cookies.remove('from');
-                  this.$router.push(from);
-                } else {
-                  this.$router.push({ name: this.to });
-                }
-              } else {
-                if (data.err) {
-                  this.$notify({ type: 'error', text: data.err });
-                } else {
-                  this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
-                }
-              }
+    async excuteLoginByAccount(account) {
+      try {
+        const { salt } = await this.$store.dispatch('user/requestLoginWithWallet', account.address);
+        if (salt) {
+          const signer = await this.$polkadotWallet.getSigner(account);
+          const { signature } = await signer({
+            address: account.address,
+            data: stringToHex(salt),
+            type: 'bytes',
+          });
+          const { data } = await this.$auth.loginWith('localWallet', {
+            data: { signature, walletAddress: account.address },
+          });
+          if (data.accessToken) {
+            const from = this.$cookies.get('from');
+            if (from) {
+              this.$cookies.remove('from');
+              this.$router.push(from);
+            } else {
+              this.$router.push({ name: this.to });
             }
-          } catch (error) {
-            console.log(error);
-            if (error.response) {
-              const { data } = error.response;
-              let message = 'Something was wrong. Please try again!';
-              if (data.message) {
-                if (Array.isArray(data.message)) {
-                  message = data.message[0];
-                } else {
-                  message = data.message;
-                }
-              }
-              this.$notify({ type: 'error', text: message || 'Something was wrong. Please try again!' });
+          } else {
+            if (data.err) {
+              this.$notify({ type: 'error', text: data.err });
             } else {
               this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
             }
           }
         }
-      } else {
-        this.$notify({ type: 'error', text: 'Cant not find polkadot wallet!' });
+      } catch (error) {
+        console.log(error);
+        if (error.response) {
+          const { data } = error.response;
+          let message = 'Something was wrong. Please try again!';
+          if (data.message) {
+            if (Array.isArray(data.message)) {
+              message = data.message[0];
+            } else {
+              message = data.message;
+            }
+          }
+          this.$notify({ type: 'error', text: message || 'Something was wrong. Please try again!' });
+        } else {
+          this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+        }
       }
     },
   },
