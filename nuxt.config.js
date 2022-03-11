@@ -44,7 +44,7 @@ const config = {
     curlNodeURL: process.env.NODE_INSTALL_URL,
     dapiURL: process.env.API_CORE_URL,
     portalURL: process.env.PORTAL_URL,
-    env: process.env.ENVIRONMENT,
+    env: process.env.ENVIRONMENT || 'dev',
   },
 
   // Auto import components: https://go.nuxtjs.dev/config-components
