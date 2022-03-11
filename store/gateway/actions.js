@@ -24,7 +24,7 @@ export default {
   },
 
   async getZoneSummary({ commit }) {
-    const { data, result } = await this.$axios.$get('/api/v1?action=gateway.geonodecontinent');
+    const { data, result } = await this.$axios.$get(`${this.$config.dapiURL}/api/v1?action=gateway.geonodecontinent`);
     if (result) {
       commit('updateZonesValue', data);
 

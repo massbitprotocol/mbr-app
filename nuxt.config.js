@@ -42,6 +42,7 @@ const config = {
   publicRuntimeConfig: {
     curlGatewayURL: process.env.GATEWAY_INSTALL_URL,
     curlNodeURL: process.env.NODE_INSTALL_URL,
+    dapiURL: process.env.API_CORE_URL,
   },
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -183,7 +184,7 @@ const config = {
   },
 
   axios: {
-    baseURL: process.env.API_BASE_URL,
+    baseURL: process.env.API_USER_URL,
     credentials: true,
   },
 
