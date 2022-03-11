@@ -279,9 +279,9 @@ export default {
       if (this.api) {
         return `sudo bash -c "$(curl -sSfL '${this.$config.curlNodeURL}?id=${this.api.id}&user_id=${
           this.api.userId
-        }&blockchain=${this.api.blockchain}&network=${this.api.network}&zone=${this.api.zone}&dataSource=${
+        }&blockchain=${this.api.blockchain}&network=${this.api.network}&zone=${this.api.zone}&data_url=${
           this.api.dataSource || 'http://127.0.0.1:8545'
-        }&appKey=${this.api.appKey}')"`;
+        }&app_key=${this.api.appKey}&portal_url=${this.$config.portalURL}&env=${this.$config.env}')"`;
       }
 
       return '';
