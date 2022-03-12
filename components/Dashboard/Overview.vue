@@ -217,7 +217,7 @@ export default {
   computed: {
     installScript() {
       if (this.api) {
-        return `sudo bash -c "$(curl -sSfL '${this.$config.curlGatewayURL}?id=${this.api.id}&user_id=${this.api.userId}&blockchain=${this.api.blockchain}&network=${this.api.network}&zone=${this.api.zone}&appKey=${this.api.app_key}&portal_url=${this.$config.portalURL}&env=${this.$config.env}')"`;
+        return `sudo bash -c "$(curl -sSfL '${this.$config.curlGatewayURL}?id=${this.api.id}&user_id=${this.api.userId}&blockchain=${this.api.blockchain}&network=${this.api.network}&zone=${this.api.zone}&app_key=${this.api.app_key}&portal_url=${this.$config.portalURL}&env=${this.$config.env}')"`;
       }
 
       return '';
