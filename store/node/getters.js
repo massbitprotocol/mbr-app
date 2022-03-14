@@ -3,6 +3,14 @@ export default {
     return state.list;
   },
 
+  meta(state) {
+    return state.meta;
+  },
+
+  links(state) {
+    return state.links;
+  },
+
   zones(state) {
     return state.zones;
   },
