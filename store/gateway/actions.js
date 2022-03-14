@@ -1,8 +1,8 @@
 export default {
-  async getListApi({ commit }) {
-    const res = await this.$axios.$get('/mbr/gateway/list');
+  async getListApi({ commit }, paramString = '?limit=5') {
+    const res = await this.$axios.$get(`/mbr/gateway/list${paramString}`);
     if (res) {
-      commit('setList', res);
+      commit('setListWithStaging', res);
 
       return res;
     }
@@ -24,8 +24,8 @@ export default {
   },
 
   async getZoneSummary({ commit }) {
-    const { data, result } = await this.$axios.$get(`${this.$config.dapiURL}/api/v1?action=gateway.geonodecontinent`);
-    if (result) {
+    const data = await this.$axios.$get(`/mbr/gateway/arrangement`);
+    if (data) {
       commit('updateZonesValue', data);
 
       return data;

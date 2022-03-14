@@ -1,4 +1,10 @@
 export default {
+  setListWithStaging(state, { gateways, meta, links }) {
+    state.list = gateways;
+    state.meta = meta;
+    state.links = links;
+  },
+
   setList(state, list) {
     state.list = list;
   },
