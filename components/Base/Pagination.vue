@@ -3,9 +3,14 @@
     <!-- Help text -->
     <span class="text-sm text-gray-700">
       Showing
-      <span class="font-medium text-gray-900">{{ meta.currentPage === 1 ? 1 : meta.currentPage * itemsPerPage }}</span>
-      to <span class="font-medium text-gray-900">{{ meta.itemCount }}</span> of
-      <span class="font-medium text-gray-900">{{ meta.totalItems }}</span> Entries
+      <span class="font-medium text-gray-900">{{
+        meta.currentPage >= 1 ? meta.itemsPerPage * (meta.currentPage - 1) + 1 : meta.itemsPerPage
+      }}</span>
+      to
+      <span class="font-medium text-gray-900">{{
+        meta.currentPage >= 1 ? meta.itemsPerPage * (meta.currentPage - 1) + meta.itemCount : meta.itemsPerPage
+      }}</span>
+      of <span class="font-medium text-gray-900">{{ meta.totalItems }}</span> Entries
     </span>
 
     <div class="inline-flex xs:mt-0">
@@ -60,8 +65,8 @@ export default {
     },
 
     links: {
-      type: Array,
-      default: () => [],
+      type: Object,
+      default: () => ({}),
     },
   },
 

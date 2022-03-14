@@ -24,8 +24,8 @@ export default {
   },
 
   async getZoneSummary({ commit }) {
-    const { data, result } = await this.$axios.$get(`${this.$config.dapiURL}/api/v1?action=node.geonodecontinent`);
-    if (result) {
+    const data = await this.$axios.$get(`/mbr/node/arrangement`);
+    if (data) {
       commit('updateZonesValue', data);
 
       return data;

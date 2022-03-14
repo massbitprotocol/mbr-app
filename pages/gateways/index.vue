@@ -29,6 +29,30 @@
     </div>
 
     <div v-else>
+      <!-- Your Gateway -->
+      <div class="mt-15 flex flex-col md:flex-row items-start md:items-center flex-wrap justify-between gap-2">
+        <div
+          class="uppercase whitespace-nowrap text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold"
+        >
+          Your Gateway
+        </div>
+      </div>
+
+      <div v-if="apiList && apiList.length > 0" class="flex flex-col gap-y-2.5">
+        <template v-for="(api, index) in apiList">
+          <GatewayDashboardApiCard :key="index" :api="api" @updateApiStatus="(value) => updateApiStatus(api, value)" />
+        </template>
+
+        <BasePagination class="mt-3" :meta="apiMeta" :links="apiLinks" @onChangePage="onChangePage" />
+      </div>
+
+      <div v-else class="mt-7.5 text-heading-2 text-neutral-darker">
+        No gateway.<br />
+        Please choose zone and create your own gateway.
+      </div>
+
+      <GatewayDashboardModalCreateApi :visible.sync="showModalCreateApi" :zone="zone" />
+
       <!-- Zones -->
       <div class="mt-15 lg:mb-7.5">
         <div
@@ -62,27 +86,6 @@
           </template>
         </div>
       </div>
-
-      <!-- Your Gateway -->
-      <div class="mt-15 flex flex-col md:flex-row items-start md:items-center flex-wrap justify-between gap-2">
-        <div
-          class="uppercase whitespace-nowrap text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold"
-        >
-          Your Gateway
-        </div>
-      </div>
-
-      <div v-if="apiList && apiList.length > 0" class="flex flex-col gap-y-2.5">
-        <template v-for="(api, index) in apiList">
-          <GatewayDashboardApiCard :key="index" :api="api" @updateApiStatus="(value) => updateApiStatus(api, value)" />
-        </template>
-      </div>
-      <div v-else class="mt-7.5 text-heading-2 text-neutral-darker">
-        No gateway.<br />
-        Please choose zone and create your own gateway.
-      </div>
-
-      <GatewayDashboardModalCreateApi :visible.sync="showModalCreateApi" :zone="zone" />
     </div>
   </div>
 </template>
@@ -145,6 +148,8 @@ export default {
   computed: {
     ...mapGetters({
       apiList: 'gateway/list',
+      apiMeta: 'gateway/meta',
+      apiLinks: 'gateway/links',
     }),
   },
 
@@ -158,6 +163,10 @@ export default {
       this.zone = zone;
 
       this.showModalCreateApi = true;
+    },
+
+    async onChangePage(paramsString) {
+      await this.$store.dispatch('gateway/getListApi', paramsString);
     },
   },
 };
