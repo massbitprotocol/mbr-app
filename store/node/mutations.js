@@ -1,6 +1,12 @@
 import _ from 'lodash';
 
 export default {
+  setListWithStaging(state, { nodes, meta, links }) {
+    state.list = nodes;
+    state.meta = meta;
+    state.links = links;
+  },
+
   setList(state, list) {
     state.list = list;
   },
