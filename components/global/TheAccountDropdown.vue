@@ -7,7 +7,7 @@
         @click="showMenu = !showMenu"
         class="inline-flex items-center gap-3 justify-center w-full rounded-lg border border-primary shadow-sm px-4 py-2 text-body-2 text-primary font-medium hover:bg-gray-50 focus:outline-none focus:ring-0"
       >
-        <Identicon :size="24" :theme="'polkadot'" :value="$auth.user.walletAddress" />
+        <Identicon :size="24" :theme="'substrate'" :value="$auth.user.walletAddress" />
 
         {{ $auth.user.username }}
         <svg

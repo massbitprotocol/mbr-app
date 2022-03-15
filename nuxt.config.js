@@ -43,7 +43,7 @@ const config = {
     curlGatewayURL: process.env.GATEWAY_INSTALL_URL,
     curlNodeURL: process.env.NODE_INSTALL_URL,
     dapiURL: process.env.API_CORE_URL,
-    portalURL: process.env.API_USER_URL,
+    portalURL: process.env.API_PORTAL_URL,
     env: process.env.ENVIRONMENT || 'dev',
   },
 
