@@ -28,8 +28,8 @@
     <!-- Status -->
     <div class="flex-shrink px-5">
       <div class="grid grid-cols-1">
-        <div class="text-body-2 text-neutral-normal font-medium">Status</div>
-        <div class="mt-1 capitalize text-body-1 text-neutral-darker font-medium truncate">
+        <div class="text-body-2 text-neutral-normal">Status</div>
+        <div class="mt-1 uppercase text-body-1 text-neutral-darker font-medium truncate">
           {{ api.status }}
         </div>
       </div>
@@ -57,20 +57,27 @@
 
     <!-- Node Settings -->
     <div
-      class="flex flex-col items-end justify-center border-t xl:border-t-none border-primary-background xl:border-transparent px-5 pt-4 xl:pt-0"
+      class="flex items-center gap-3 justify-center border-t xl:border-t-none border-primary-background xl:border-transparent px-5 pt-4 xl:pt-0"
     >
+      <BaseButton
+        @click="stakingNode(api)"
+        class="max-w-[189px] h-[42px] hidden xl:flex items-center justify-center cursor-pointer text-body-2 font-medium px-7.5 rounded-lg"
+      >
+        Staking
+      </BaseButton>
+
       <button
         @click="$router.push({ name: 'nodes-id', params: { id: api.id } })"
-        class="max-w-[189px] h-[52px] hidden xl:flex items-center justify-center cursor-pointer bg-neutral-lightest text-primary text-body-1 font-medium px-7.5 rounded-lg hover:bg-neutral-lightest/90 whitespace-nowrap"
+        class="max-w-[189px] h-[42px] hidden xl:flex items-center justify-center cursor-pointer bg-neutral-lightest text-primary text-body-2 font-medium px-7.5 rounded-lg hover:bg-neutral-lightest/90 whitespace-nowrap"
       >
-        Node Settings
+        Settings
       </button>
 
       <NuxtLink
         :to="{ name: 'nodes-id', params: { id: api.id } }"
         class="w-full flex xl:hidden items-center justify-between text-body-2 text-primary font-medium hover:text-primary/90"
       >
-        <span> Node Settings</span>
+        <span> Settings</span>
 
         <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -86,6 +93,9 @@
 </template>
 
 <script>
+import { blake2AsHex } from '@polkadot/util-crypto';
+import { formatBalance } from '@polkadot/util';
+
 export default {
   name: 'NodeDashboardApiCard',
 
@@ -110,6 +120,66 @@ export default {
       set(value) {
         this.$emit('updateApiStatus', value);
       },
+    },
+  },
+
+  methods: {
+    async stakingNode(node) {
+      this.loadingStaking = true;
+      if (!this.$polkadot.api.isReady) {
+        await this.$polkadot.startApi();
+
+        if (!this.$polkadot.api.isReady) {
+          this.$notify({
+            type: 'error',
+            title: 'Error',
+            text: 'Polkadot API is not ready',
+          });
+
+          return;
+        }
+      }
+      const address = this.$auth.user.walletAddress;
+
+      const { api } = this.$polkadot;
+      const { nonce, data } = await api.query.system.account(address);
+      console.log('data :>> ', formatBalance(data.free, { withSi: false }, 18));
+
+      const staking = api.tx.dapi.registerNode(blake2AsHex(node.id), 100, 'Ethereum');
+      const signer = await this.$polkadot.getSigner({ address });
+      // staking
+      //   .signAndSend(address, { signer }, ({ status }) => {
+      //     console.log('status :>> ', status);
+      //     if (status.isInBlock) {
+      //       console.log(`Completed at block hash #${status.asInBlock.toString()}`);
+      //     } else {
+      //       console.log(`Current status: ${status.type}`);
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     console.log('Transaction failed', error);
+      //   });
+      try {
+        const unsub = await staking.signAndSend(address, { signer }, ({ events = [], status }) => {
+          console.log(`Current status is ${status}`);
+          if (status.isInBlock) {
+            console.log(`Transaction included at blockHash ${status.asInBlock}`);
+          } else if (status.isFinalized) {
+            console.log(`Transaction finalized at blockHash ${status.asFinalized}`);
+
+            events.forEach(({ phase, event: { data, method, section } }) => {
+              console.log(`\t' ${phase}: ${section}.${method}:: ${data}`);
+            });
+            console.log('api :>> ', api.errors[section][method]);
+
+            unsub();
+          }
+        });
+      } catch (error) {
+        console.log('error :>> ', error);
+      }
+
+      this.loadingStaking = false;
     },
   },
 };

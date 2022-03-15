@@ -18,7 +18,7 @@
           :key="index"
           class="flex items-center gap-4 py-3 px-3 text-body-1 font-medium rounded text-neutral-darkest cursor-pointer hover:bg-neutral-lightest"
         >
-          <Identicon :size="42" :theme="'polkadot'" :value="account.address" />
+          <Identicon :size="42" :theme="'substrate'" :value="account.address" />
 
           {{ account.meta.name }}
         </div>

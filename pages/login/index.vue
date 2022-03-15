@@ -177,10 +177,9 @@ export default {
     },
 
     async loginWithWallet() {
-      const isEnable = await this.$polkadotWallet.isEnableApp();
+      const isEnable = await this.$polkadot.isEnableApp();
       if (isEnable) {
-        const accounts = await this.$polkadotWallet.getListAcount();
-        console.log('accounts :>> ', accounts);
+        const accounts = await this.$polkadot.getListAcount();
         if (accounts && accounts.length) {
           if (accounts.length === 1) {
             this.excuteLoginByAccount(accounts[0]);
@@ -199,7 +198,7 @@ export default {
       try {
         const { salt } = await this.$store.dispatch('user/requestLoginWithWallet', account.address);
         if (salt) {
-          const signer = await this.$polkadotWallet.getSigner(account);
+          const signer = await this.$polkadot.getSignRaw(account);
           const { signature } = await signer({
             address: account.address,
             data: stringToHex(salt),
