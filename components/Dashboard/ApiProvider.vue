@@ -34,14 +34,19 @@ export default {
   name: 'ApiProvider',
 
   props: {
-    gatewayHttp: {
-      type: String,
-      default: '',
+    api: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
+
+  computed: {
+    gatewayHttp() {
+      return `https://${this.api.appKey}.${this.api.blockchain}-${this.api.network}.massbitroute.com/${this.api.id}`;
     },
 
-    gatewayWss: {
-      type: String,
-      default: '',
+    gatewayWss() {
+      return `wss://${this.api.appKey}.${this.api.blockchain}-${this.api.network}.massbitroute.com/${this.api.id}`;
     },
   },
 };

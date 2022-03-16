@@ -67,7 +67,7 @@
 
         <DashboardApiKey :apiKey="api.id" />
 
-        <DashboardApiProvider :gatewayHttp="api.gateway_http" :gatewayWss="api.gateway_wss" />
+        <DashboardApiProvider :api="api" />
 
         <DashboardApiBlockchain :blockchain="_blockchain" :apiInterface="_apiInterface" />
 
