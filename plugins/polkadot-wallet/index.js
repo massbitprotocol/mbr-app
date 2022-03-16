@@ -60,6 +60,22 @@ export default (ctx, inject) => {
         return null;
       }
     },
+
+    getStakingMessage(dispatchError) {
+      const decoded = this.api.registry.findMetaError(dispatchError.asModule);
+      const { docs, name, section } = decoded;
+
+      switch (`${section}.${name}`) {
+        case 'dapi.AlreadyRegistered':
+          return 'Node already registered';
+
+        case 'dapi.InsufficientBoding':
+          return 'Staking amount is not enough';
+
+        default:
+          return `Unknown error: ${docs.join(' ')}`;
+      }
+    },
   };
 
   inject('polkadot', instance);
