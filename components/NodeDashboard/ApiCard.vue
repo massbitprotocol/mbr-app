@@ -61,6 +61,7 @@
     >
       <BaseButton
         @click="stakingNode(api)"
+        :loading="loadingStaking"
         class="max-w-[189px] h-[42px] hidden xl:flex items-center justify-center cursor-pointer text-body-2 font-medium px-7.5 rounded-lg"
       >
         Staking
@@ -93,9 +94,7 @@
 </template>
 
 <script>
-import { blake2AsHex } from '@polkadot/util-crypto';
-import { formatBalance } from '@polkadot/util';
-
+import { stringToHex, hexToString } from '@polkadot/util';
 export default {
   name: 'NodeDashboardApiCard',
 
@@ -109,6 +108,7 @@ export default {
   data() {
     return {
       is_prod: false,
+      loadingStaking: false,
     };
   },
 
@@ -126,6 +126,7 @@ export default {
   methods: {
     async stakingNode(node) {
       this.loadingStaking = true;
+
       if (!this.$polkadot.api.isReady) {
         await this.$polkadot.startApi();
 
@@ -139,47 +140,46 @@ export default {
           return;
         }
       }
-      const address = this.$auth.user.walletAddress;
 
       const { api } = this.$polkadot;
-      const { nonce, data } = await api.query.system.account(address);
-      console.log('data :>> ', formatBalance(data.free, { withSi: false }, 18));
-
-      const staking = api.tx.dapi.registerNode(blake2AsHex(node.id), 100, 'Ethereum');
+      const address = this.$auth.user.walletAddress;
+      const staking = api.tx.dapi.registerNode(stringToHex(node.id), 1000, 'Ethereum');
       const signer = await this.$polkadot.getSigner({ address });
-      // staking
-      //   .signAndSend(address, { signer }, ({ status }) => {
-      //     console.log('status :>> ', status);
-      //     if (status.isInBlock) {
-      //       console.log(`Completed at block hash #${status.asInBlock.toString()}`);
-      //     } else {
-      //       console.log(`Current status: ${status.type}`);
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     console.log('Transaction failed', error);
-      //   });
+
       try {
-        const unsub = await staking.signAndSend(address, { signer }, ({ events = [], status }) => {
-          console.log(`Current status is ${status}`);
-          if (status.isInBlock) {
-            console.log(`Transaction included at blockHash ${status.asInBlock}`);
-          } else if (status.isFinalized) {
-            console.log(`Transaction finalized at blockHash ${status.asFinalized}`);
+        const unsub = await staking.signAndSend(address, { signer }, ({ status, events = [], dispatchError }) => {
+          if (status.isFinalized) {
+            if (dispatchError) {
+              if (dispatchError.isModule) {
+                this.$notify({
+                  type: 'error',
+                  title: 'Error',
+                  text: this.$polkadot.getStakingMessage(dispatchError),
+                });
+              } else {
+                this.$notify({
+                  type: 'error',
+                  title: 'Error',
+                  text: dispatchError.toString(),
+                });
+              }
+            } else {
+              const blockHash = status.asFinalized.toString();
+              console.log('blockHash :>> ', blockHash);
+              this.$notify({
+                type: 'success',
+                title: 'Success',
+                text: 'Staking node successfully',
+              });
+            }
 
-            events.forEach(({ phase, event: { data, method, section } }) => {
-              console.log(`\t' ${phase}: ${section}.${method}:: ${data}`);
-            });
-            console.log('api :>> ', api.errors[section][method]);
-
+            this.loadingStaking = false;
             unsub();
           }
         });
       } catch (error) {
         console.log('error :>> ', error);
       }
-
-      this.loadingStaking = false;
     },
   },
 };
