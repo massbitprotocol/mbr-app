@@ -60,7 +60,7 @@
       class="flex items-center gap-3 justify-center border-t xl:border-t-none border-primary-background xl:border-transparent px-5 pt-4 xl:pt-0"
     >
       <BaseButton
-        @click="stakingNode(api)"
+        @click="showModalStaking = true"
         :loading="loadingStaking"
         class="max-w-[189px] h-[42px] hidden xl:flex items-center justify-center cursor-pointer text-body-2 font-medium px-7.5 rounded-lg"
       >
@@ -90,11 +90,20 @@
         </svg>
       </NuxtLink>
     </div>
+
+    <!-- Staking -->
+    <NodeDashboardModalStaking
+      :key="'modalStaking'"
+      :visible.sync="showModalStaking"
+      :loading="loadingStaking"
+      @submitStaking="submitStaking"
+    />
   </div>
 </template>
 
 <script>
-import { stringToHex, hexToString } from '@polkadot/util';
+import { stringToHex } from '@polkadot/util';
+
 export default {
   name: 'NodeDashboardApiCard',
 
@@ -109,6 +118,7 @@ export default {
     return {
       is_prod: false,
       loadingStaking: false,
+      showModalStaking: false,
     };
   },
 
@@ -124,7 +134,7 @@ export default {
   },
 
   methods: {
-    async stakingNode(node) {
+    async submitStaking(amount) {
       this.loadingStaking = true;
 
       if (!this.$polkadot.api.isReady) {
@@ -143,7 +153,7 @@ export default {
 
       const { api } = this.$polkadot;
       const address = this.$auth.user.walletAddress;
-      const staking = api.tx.dapi.registerNode(stringToHex(node.id), 1000, 'Ethereum');
+      const staking = api.tx.dapi.registerNode(stringToHex(this.api.id), amount, 'Ethereum');
       const signer = await this.$polkadot.getSigner({ address });
 
       try {
@@ -171,6 +181,7 @@ export default {
                 title: 'Success',
                 text: 'Staking node successfully',
               });
+              this.showModalStaking = false;
             }
 
             this.loadingStaking = false;

@@ -57,13 +57,21 @@
 
     <!-- Gateway Settings -->
     <div
-      class="flex flex-col items-end justify-center border-t xl:border-t-none border-primary-background xl:border-transparent px-5 pt-4 xl:pt-0"
+      class="flex gap-3 items-end justify-center border-t xl:border-t-none border-primary-background xl:border-transparent px-5 pt-4 xl:pt-0"
     >
+      <BaseButton
+        @click="showModalStaking = true"
+        :loading="loadingStaking"
+        class="max-w-[189px] h-[42px] hidden xl:flex items-center justify-center cursor-pointer text-body-2 font-medium px-7.5 rounded-lg"
+      >
+        Staking
+      </BaseButton>
+
       <button
         @click="$router.push({ name: 'gateways-id', params: { id: api.id } })"
-        class="max-w-[189px] h-[52px] hidden xl:flex items-center justify-center cursor-pointer bg-neutral-lightest text-primary text-body-1 font-medium px-7.5 rounded-lg hover:bg-neutral-lightest/90 whitespace-nowrap"
+        class="max-w-[189px] h-[42px] hidden xl:flex items-center justify-center cursor-pointer bg-neutral-lightest text-primary text-body-2 font-medium px-7.5 rounded-lg hover:bg-neutral-lightest/90 whitespace-nowrap"
       >
-        Gateway Settings
+        Settings
       </button>
 
       <NuxtLink
@@ -82,10 +90,20 @@
         </svg>
       </NuxtLink>
     </div>
+
+    <!-- Staking -->
+    <NodeDashboardModalStaking
+      :key="'modalStaking'"
+      :visible.sync="showModalStaking"
+      :loading="loadingStaking"
+      @submitStaking="submitStaking"
+    />
   </div>
 </template>
 
 <script>
+import { stringToHex } from '@polkadot/util';
+
 export default {
   name: 'GatewayDashboardApiCard',
 
@@ -99,6 +117,8 @@ export default {
   data() {
     return {
       is_prod: false,
+      showModalStaking: false,
+      loadingStaking: false,
     };
   },
 
@@ -110,6 +130,68 @@ export default {
       set(value) {
         this.$emit('updateApiStatus', value);
       },
+    },
+  },
+
+  methods: {
+    async submitStaking(amount) {
+      this.loadingStaking = true;
+
+      if (!this.$polkadot.api.isReady) {
+        await this.$polkadot.startApi();
+
+        if (!this.$polkadot.api.isReady) {
+          this.$notify({
+            type: 'error',
+            title: 'Error',
+            text: 'Polkadot API is not ready',
+          });
+
+          return;
+        }
+      }
+      const { api } = this.$polkadot;
+
+      console.log('api.tx.dapi :>> ', api.tx.dapi);
+      const address = this.$auth.user.walletAddress;
+      const staking = api.tx.dapi.registerGateway(stringToHex(this.api.id), 'Ethereum', amount);
+      const signer = await this.$polkadot.getSigner({ address });
+
+      try {
+        const unsub = await staking.signAndSend(address, { signer }, ({ status, events = [], dispatchError }) => {
+          if (status.isFinalized) {
+            if (dispatchError) {
+              if (dispatchError.isModule) {
+                this.$notify({
+                  type: 'error',
+                  title: 'Error',
+                  text: this.$polkadot.getStakingMessage(dispatchError),
+                });
+              } else {
+                this.$notify({
+                  type: 'error',
+                  title: 'Error',
+                  text: dispatchError.toString(),
+                });
+              }
+            } else {
+              const blockHash = status.asFinalized.toString();
+              console.log('blockHash :>> ', blockHash);
+              this.$notify({
+                type: 'success',
+                title: 'Success',
+                text: 'Staking gateway successfully',
+              });
+              this.showModalStaking = false;
+            }
+
+            this.loadingStaking = false;
+            unsub();
+          }
+        });
+      } catch (error) {
+        console.log('error :>> ', error);
+      }
     },
   },
 };
