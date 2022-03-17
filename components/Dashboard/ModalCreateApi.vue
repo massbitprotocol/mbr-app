@@ -44,32 +44,8 @@
                 </div>
               </ValidationProvider>
 
-              <ValidationProvider
-                v-slot="{ errors }"
-                rules="required"
-                name="blockchain"
-                tag="div"
-                class="w-full px-3 mb-5 md:mb-0"
-              >
-                <div>
-                  <label
-                    class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2"
-                    for="grid-api-key"
-                  >
-                    Blockchain
-                  </label>
-
-                  <BaseSearch v-model="form.blockchain" :source="blockchains" placeholder="Select blockchain" />
-                  <p v-if="errors[0]" class="text-red-500 text-xs italic">{{ errors[0] }}</p>
-                </div>
-              </ValidationProvider>
-
-              <div v-if="networks.length > 0" class="w-full px-3 mb-5 md:mb-0">
-                <label class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2" for="grid-api-key">
-                  Network
-                </label>
-
-                <BaseRadioButtonGroup :source="networks" :current-key.sync="form.network" />
+              <div v-if="error" class="w-full px-3 mb-5 md:mb-0 text-body-2 text-accent-red font-normal mt-2">
+                {{ error }}
               </div>
             </div>
 
@@ -112,16 +88,14 @@ export default {
     return {
       form: {
         name: '',
-        blockchain: '',
-        network: 'mainnet',
       },
+      error: '',
       loading: false,
     };
   },
 
   computed: {
     ...mapGetters({
-      blockchains: 'blockchains/list',
       project: 'project/value',
     }),
 
@@ -132,15 +106,6 @@ export default {
       set(value) {
         this.$emit('update:visible', value);
       },
-    },
-
-    networks() {
-      const blockchain = this.blockchains.find((data) => data.id === this.form.blockchain);
-      if (blockchain && blockchain.network) {
-        return blockchain.network.map((network) => ({ name: network.value, key: network.id }));
-      }
-
-      return [];
     },
   },
 
@@ -172,15 +137,16 @@ export default {
       } catch (error) {
         if (error.response && error.response.data) {
           const { message } = error.response.data;
-          this.$notify({ type: 'error', text: Array.isArray(message) ? message[0] : message });
+          this.error = Array.isArray(message) ? message[0] : message;
         } else {
-          this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+          this.error = 'Something was wrong. Please try again!';
         }
       }
       this.loading = false;
     },
 
     resetForm() {
+      this.error = '';
       this.form = {
         name: '',
         blockchain: '',
