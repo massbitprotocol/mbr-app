@@ -64,6 +64,14 @@
                 </div>
               </ValidationProvider>
 
+              <div v-if="networks.length > 0" class="w-full px-3 mb-5 md:mb-0">
+                <label class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2" for="grid-api-key">
+                  Network
+                </label>
+
+                <BaseRadioButtonGroup :source="networks" :current-key.sync="form.network" />
+              </div>
+
               <div v-if="error" class="w-full px-3 mb-5 md:mb-0 text-body-2 text-accent-red font-normal mt-2">
                 {{ error }}
               </div>
