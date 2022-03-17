@@ -43,6 +43,30 @@
                   <p v-if="errors[0]" class="text-red-500 text-xs italic">{{ errors[0] }}</p>
                 </div>
               </ValidationProvider>
+
+              <ValidationProvider
+                v-slot="{ errors }"
+                rules="required"
+                name="blockchain"
+                tag="div"
+                class="w-full px-3 mb-5 md:mb-0"
+              >
+                <div>
+                  <label
+                    class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2"
+                    for="grid-api-key"
+                  >
+                    Blockchain
+                  </label>
+
+                  <BaseSearch v-model="form.blockchain" :source="blockchains" placeholder="Select blockchain" />
+                  <p v-if="errors[0]" class="text-red-500 text-xs italic">{{ errors[0] }}</p>
+                </div>
+              </ValidationProvider>
+
+              <div v-if="error" class="w-full px-3 mb-5 md:mb-0 text-body-2 text-accent-red font-normal mt-2">
+                {{ error }}
+              </div>
             </div>
 
             <div class="flex flex-wrap -mx-3">
@@ -84,12 +108,18 @@ export default {
     return {
       form: {
         name: '',
+        blockchain: '',
+        network: 'mainnet',
       },
       loading: false,
     };
   },
 
   computed: {
+    ...mapGetters({
+      blockchains: 'blockchains/list',
+    }),
+
     _visible: {
       get() {
         return this.visible;
@@ -97,6 +127,15 @@ export default {
       set(value) {
         this.$emit('update:visible', value);
       },
+    },
+
+    networks() {
+      const blockchain = this.blockchains.find((data) => data.id === this.form.blockchain);
+      if (blockchain && blockchain.network) {
+        return blockchain.network.map((network) => ({ name: network.value, key: network.id }));
+      }
+
+      return [];
     },
   },
 

@@ -34,8 +34,8 @@
               <div>
                 <ValidationProvider
                   v-slot="{ errors }"
-                  rules="required|double|min_value:0.01"
-                  name="api name"
+                  rules="required|double|min_value:10000"
+                  name="staking amount"
                   tag="div"
                   class="w-full"
                 >
@@ -52,7 +52,7 @@
               </div>
             </div>
             <div class="flex flex-col gap-2">
-              <div class="text-body text-neutral-normal font-medium">Balance: {{ balance }}</div>
+              <div class="w-10 h-[26px] text-body text-neutral-normal font-medium"></div>
 
               <div class="h-[42px] flex justify-center items-center gap-2">
                 <svg width="28" height="28" viewBox="0 0 251 252" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -90,7 +90,7 @@
                   />
                 </svg>
 
-                <div class="text-lg text-neutral-darkset font-medium">MBTL</div>
+                <div class="text-lg text-neutral-darkset font-medium">milliMBTL</div>
               </div>
             </div>
           </div>
@@ -154,7 +154,7 @@ export default {
 
   methods: {
     submitStaking() {
-      this.$emit('submitStaking', `${this.form.amount * 1e18}`);
+      this.$emit('submitStaking', `${this.form.amount}`);
     },
 
     async getAccountBalance() {
