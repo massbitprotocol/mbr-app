@@ -20,7 +20,7 @@ export default {
     name: 'DashboardApiUpdatedAt',
 
     updatedAt: {
-      type: Number,
+      type: String,
       default: 0,
     },
   },

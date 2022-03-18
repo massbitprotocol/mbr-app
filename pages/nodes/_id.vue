@@ -65,8 +65,9 @@
           </div>
         </div>
 
-        <div class="grid items-center grid-cols-1 lg:grid-cols-3 gap-5">
+        <div class="w-full inline-flex justify-between gap-5">
           <DashboardApiID :apiKey="api.id" />
+          <DashboardApiStatus :api="api" :provider="'node'" />
           <DashboardApiCreatedAt :createdAt="api.createdAt" />
           <DashboardApiUpdatedAt :updatedAt="api.updatedAt" />
         </div>
