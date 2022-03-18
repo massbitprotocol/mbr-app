@@ -42,4 +42,17 @@ export default {
 
     return result;
   },
+
+  async reVerify({ commit }, api) {
+    const result = await this.$axios.$get(`/mbr/node/${api.id}/re-verify`, api);
+    if (result.error) {
+      throw new Error(result.error);
+    }
+
+    if (result.id) {
+      commit('updateApi', result);
+    }
+
+    return result;
+  },
 };

@@ -18,7 +18,7 @@ export default {
     name: 'DashboardApiCreatedAt',
 
     createdAt: {
-      type: Number,
+      type: String,
       default: '',
     },
   },
