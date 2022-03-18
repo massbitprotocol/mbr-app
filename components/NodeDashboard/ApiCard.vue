@@ -68,6 +68,8 @@
         Staking
       </BaseButton>
 
+      <div v-else class="w-[109px] h-[42px]"></div>
+
       <button
         @click="$router.push({ name: 'nodes-id', params: { id: api.id } })"
         class="max-w-[189px] h-[42px] hidden xl:flex items-center justify-center cursor-pointer bg-neutral-lightest text-primary text-body-2 font-medium px-7.5 rounded-lg hover:bg-neutral-lightest/90 whitespace-nowrap"

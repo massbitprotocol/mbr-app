@@ -29,7 +29,7 @@
     <div class="flex-shrink px-5">
       <div class="grid grid-cols-1">
         <div class="text-body-2 text-neutral-normal font-medium">Status</div>
-        <div class="mt-1 text-body-1 text-neutral-darker font-medium truncate">
+        <div class="mt-1 uppercase text-body-1 text-neutral-darker font-medium truncate">
           {{ api.status }}
         </div>
       </div>
@@ -67,6 +67,8 @@
       >
         Staking
       </BaseButton>
+
+      <div v-else class="w-[109px] h-[42px]"></div>
 
       <button
         @click="$router.push({ name: 'gateways-id', params: { id: api.id } })"

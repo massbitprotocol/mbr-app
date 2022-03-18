@@ -42,11 +42,11 @@ export default {
 
   computed: {
     gatewayHttp() {
-      return `https://${this.api.appKey}.${this.api.blockchain}-${this.api.network}.${this.$config.dapiProviderDomain}/${this.api.id}`;
+      return `https://${this.api.id}.${this.api.blockchain}-${this.api.network}.${this.$config.dapiProviderDomain}/${this.api.appKey}`;
     },
 
     gatewayWss() {
-      return `wss://${this.api.appKey}.${this.api.blockchain}-${this.api.network}.${this.$config.dapiProviderDomain}/${this.api.id}`;
+      return `wss://${this.api.id}.${this.api.blockchain}-${this.api.network}.${this.$config.dapiProviderDomain}/${this.api.appKey}`;
     },
   },
 };
