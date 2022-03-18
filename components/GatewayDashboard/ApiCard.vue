@@ -60,6 +60,7 @@
       class="flex gap-3 items-end justify-center border-t xl:border-t-none border-primary-background xl:border-transparent px-5 pt-4 xl:pt-0"
     >
       <BaseButton
+        v-if="api.status === 'verified'"
         @click="showModalStaking = true"
         :loading="loadingStaking"
         class="max-w-[189px] h-[42px] hidden xl:flex items-center justify-center cursor-pointer text-body-2 font-medium px-7.5 rounded-lg"
