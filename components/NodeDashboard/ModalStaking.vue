@@ -45,14 +45,15 @@
                       v-model.trim="form.amount"
                       class="h-[42px] w-full border-0 outline-0 outline-hidden bg-transparent text-xl text-body !ring-0 !ring-transparent text-neutral-darkest font-medium"
                       type="number"
+                      step="0.01"
                     />
-                    <p v-if="errors[0]" class="text-red-500 text-xs italic">{{ errors[0] }}</p>
+                    <p v-if="errors[0] || error" class="text-red-500 text-xs italic">{{ errors[0] || error }}</p>
                   </div>
                 </ValidationProvider>
               </div>
             </div>
             <div class="flex flex-col gap-2">
-              <div class="w-10 h-[26px] text-body text-neutral-normal font-medium"></div>
+              <div class="text-body text-neutral-normal font-medium">Balance {{ _formatBalance(balance) }}</div>
 
               <div class="h-[42px] flex justify-center items-center gap-2">
                 <svg width="28" height="28" viewBox="0 0 251 252" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -138,6 +139,7 @@ export default {
       form: {
         amount: 0,
       },
+      error: '',
     };
   },
 
@@ -153,7 +155,15 @@ export default {
   },
 
   methods: {
-    submitStaking() {
+    async submitStaking() {
+      await this.getAccountBalance();
+
+      if (this.balance === BigInt(0)) {
+        this.error = 'You balance is not enough';
+
+        return;
+      }
+
       this.$emit('submitStaking', BigInt(this.form.amount * 1e18));
     },
 
@@ -174,13 +184,19 @@ export default {
 
       const address = this.$auth.user.walletAddress;
       const { api } = this.$polkadot;
-      const { nonce, data } = await api.query.system.account(address);
-      this.balance = formatBalance(data.free, { withSi: false }, 18);
+      const { nonce, data: balance } = await api.query.system.account(address);
+      const _balance = BigInt(balance.free - balance.miscFrozen);
+
+      this.balance = BigInt(_balance);
     },
 
     resetForm() {
       this.balance = 0;
       this.form.amount = 0;
+    },
+
+    _formatBalance(balance) {
+      return formatBalance(balance, { withSi: false }, 18);
     },
   },
 };
