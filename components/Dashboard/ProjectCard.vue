@@ -99,6 +99,8 @@ export default {
 
   methods: {
     async stakingProject(amount) {
+      console.log('amount :>> ', amount);
+
       this.loadingStaking = true;
 
       if (!this.$polkadot.api.isReady) {

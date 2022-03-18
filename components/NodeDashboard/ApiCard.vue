@@ -63,7 +63,7 @@
         v-if="api.status === 'verified'"
         @click="showModalStaking = true"
         :loading="loadingStaking"
-        class="max-w-[189px] h-[42px] hidden xl:flex items-center justify-center cursor-pointer text-body-2 font-medium px-7.5 rounded-lg"
+        class="w-[109px] h-[42px] hidden xl:flex items-center justify-center cursor-pointer text-body-2 font-medium px-7.5 rounded-lg"
       >
         Staking
       </BaseButton>
