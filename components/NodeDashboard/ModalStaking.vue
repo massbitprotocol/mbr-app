@@ -34,7 +34,7 @@
               <div>
                 <ValidationProvider
                   v-slot="{ errors }"
-                  rules="required|double|min_value:10000"
+                  rules="required|double|min_value:10"
                   name="staking amount"
                   tag="div"
                   class="w-full"
@@ -90,7 +90,7 @@
                   />
                 </svg>
 
-                <div class="text-lg text-neutral-darkset font-medium">milliMBTL</div>
+                <div class="text-lg text-neutral-darkset font-medium">MBTL</div>
               </div>
             </div>
           </div>
@@ -154,7 +154,7 @@ export default {
 
   methods: {
     submitStaking() {
-      this.$emit('submitStaking', `${this.form.amount}`);
+      this.$emit('submitStaking', BigInt(this.form.amount * 1e18));
     },
 
     async getAccountBalance() {

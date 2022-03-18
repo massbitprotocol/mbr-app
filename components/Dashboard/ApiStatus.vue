@@ -17,24 +17,24 @@
             Verify
           </BaseButton>
 
-          <template v-if="api.status === 'verified'">
-            <BaseButton
-              class="absolute h-[28px] px-4 text-caption"
-              @click="showModalStaking = true"
-              :loading="loadingStaking"
-              :disabled="loadingStaking"
-            >
-              Staking
-            </BaseButton>
+          <!-- <template v-if="api.status === 'verified'"> -->
+          <BaseButton
+            class="absolute h-[28px] px-4 text-caption"
+            @click="showModalStaking = true"
+            :loading="loadingStaking"
+            :disabled="loadingStaking"
+          >
+            Staking
+          </BaseButton>
 
-            <!-- Staking -->
-            <NodeDashboardModalStaking
-              :key="'modalStaking'"
-              :visible.sync="showModalStaking"
-              :loading="loadingStaking"
-              @submitStaking="submitStaking"
-            />
-          </template>
+          <!-- Staking -->
+          <NodeDashboardModalStaking
+            :key="'modalStaking'"
+            :visible.sync="showModalStaking"
+            :loading="loadingStaking"
+            @submitStaking="submitStaking"
+          />
+          <!-- </template> -->
         </div>
       </div>
     </div>
@@ -52,6 +52,8 @@
 </template>
 
 <script>
+import { stringToHex } from '@polkadot/util';
+
 export default {
   props: {
     api: {
@@ -120,7 +122,7 @@ export default {
       const staking =
         this.provider === 'node'
           ? api.tx.dapi.registerNode(stringToHex(this.api.id), amount, 'Ethereum')
-          : api.tx.dapi.registerGateway(stringToHex(this.api.id), amount, 'Ethereum');
+          : api.tx.dapi.registerGateway(stringToHex(this.api.id), 'Ethereum', amount);
       const signer = await this.$polkadot.getSigner({ address });
 
       try {
