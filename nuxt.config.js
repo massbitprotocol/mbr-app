@@ -44,6 +44,7 @@ const config = {
     curlNodeURL: process.env.NODE_INSTALL_URL,
     dapiURL: process.env.API_CORE_URL,
     portalURL: process.env.API_PORTAL_URL,
+    dapiProviderDomain: process.env.DAPI_PROVIDER_DOMAIN,
     env: process.env.ENVIRONMENT || 'dev',
   },
 
