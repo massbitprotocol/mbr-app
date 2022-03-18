@@ -17,24 +17,24 @@
             Verify
           </BaseButton>
 
-          <!-- <template v-if="api.status === 'verified'"> -->
-          <BaseButton
-            class="absolute h-[28px] px-4 text-caption"
-            @click="showModalStaking = true"
-            :loading="loadingStaking"
-            :disabled="loadingStaking"
-          >
-            Staking
-          </BaseButton>
+          <template v-if="api.status === 'verified'">
+            <BaseButton
+              class="absolute h-[28px] px-4 text-caption"
+              @click="showModalStaking = true"
+              :loading="loadingStaking"
+              :disabled="loadingStaking"
+            >
+              Staking
+            </BaseButton>
 
-          <!-- Staking -->
-          <NodeDashboardModalStaking
-            :key="'modalStaking'"
-            :visible.sync="showModalStaking"
-            :loading="loadingStaking"
-            @submitStaking="submitStaking"
-          />
-          <!-- </template> -->
+            <!-- Staking -->
+            <NodeDashboardModalStaking
+              :key="'modalStaking'"
+              :visible.sync="showModalStaking"
+              :loading="loadingStaking"
+              @submitStaking="submitStaking"
+            />
+          </template>
         </div>
       </div>
     </div>
