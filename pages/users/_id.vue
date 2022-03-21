@@ -65,7 +65,10 @@
           </div>
         </div>
 
-        <DashboardApiKey :apiKey="api.id" />
+        <div class="inline-flex items-center gap-5">
+          <DashboardApiKey :apiKey="api.id" />
+          <DashboardApiKey :apiKey="api.id" />
+        </div>
 
         <DashboardApiProvider :api="api" />
 
