@@ -63,16 +63,26 @@
         v-if="api.status === 'verified'"
         @click="showModalStaking = true"
         :loading="loadingStaking"
-        class="w-[109px] h-[42px] hidden xl:flex items-center justify-center cursor-pointer text-body-2 font-medium px-7.5 rounded-lg"
+        class="w-[120px] px-3 h-[42px] hidden xl:flex items-center justify-center cursor-pointer text-body-2 font-medium rounded-lg"
       >
         Staking
       </BaseButton>
 
-      <div v-else class="w-[109px] h-[42px]"></div>
+      <BaseButton
+        v-else-if="api.status !== 'created'"
+        :loading="loadingVerify"
+        :disabled="loadingVerify"
+        @click="reVerify"
+        class="w-[120px] px-3 h-[42px] bg-accent-green hover:bg-accent-green/90 hidden xl:flex items-center justify-center cursor-pointer text-body-2 font-medium rounded-lg"
+      >
+        Verify
+      </BaseButton>
+
+      <div v-else class="w-[120px] h-[42px] px-3"></div>
 
       <button
         @click="$router.push({ name: 'nodes-id', params: { id: api.id } })"
-        class="max-w-[189px] h-[42px] hidden xl:flex items-center justify-center cursor-pointer bg-neutral-lightest text-primary text-body-2 font-medium px-7.5 rounded-lg hover:bg-neutral-lightest/90 whitespace-nowrap"
+        class="w-[120px] px-3 h-[42px] hidden xl:flex items-center justify-center cursor-pointer bg-neutral-lightest text-primary text-body-2 font-medium rounded-lg hover:bg-neutral-lightest/90 whitespace-nowrap"
       >
         Settings
       </button>
@@ -121,6 +131,7 @@ export default {
     return {
       is_prod: false,
       loadingStaking: false,
+      loadingVerify: false,
       showModalStaking: false,
     };
   },
@@ -137,6 +148,23 @@ export default {
   },
 
   methods: {
+    async reVerify() {
+      this.loadingVerify = true;
+
+      try {
+        await this.$store.dispatch('node/reVerify', this.api);
+      } catch (error) {
+        if (error.response && error.response.data) {
+          const { message } = error.response.data;
+          this.$notify({ type: 'error', text: message });
+        } else {
+          this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+        }
+      }
+
+      this.loadingVerify = false;
+    },
+
     async submitStaking(amount) {
       this.loadingStaking = true;
 
