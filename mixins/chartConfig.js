@@ -1,13 +1,13 @@
 const charts = [
   {
     name: 'Total Requests',
-    url: 'https://stat.mbr.massbitroute.com/__internal_grafana/d-solo/zb9F6co7k/mbrg?orgId=1&theme=light&var-Instance=All&var-FilterName=All&var-Filter=All&panelId=6',
+    url: `${this.$config.statURL}/__internal_grafana/d-solo/zb9F6co7k/mbrg?orgId=1&theme=light&var-Instance=All&var-FilterName=All&var-Filter=All&panelId=6`,
 
     filter: 'now|now-6h',
   }, // Total Requests
   {
     name: 'Total Bandwidth',
-    url: 'https://stat.mbr.massbitroute.com/__internal_grafana/d-solo/zb9F6co7k/mbrg?orgId=1&theme=light&var-Instance=All&var-FilterName=All&var-Filter=All&panelId=8',
+    url: `${this.$config.statURL}/__internal_grafana/d-solo/zb9F6co7k/mbrg?orgId=1&theme=light&var-Instance=All&var-FilterName=All&var-Filter=All&panelId=8`,
     filters: [
       {
         name: 'Last 5 Minutes',
@@ -126,7 +126,7 @@ const charts = [
   }, // Total Bandwidth
   {
     name: 'Response time',
-    url: 'https://stat.mbr.massbitroute.com/__internal_grafana/d-solo/6y_ACGKnk/sitestat?orgId=1&var-Instance=All&var-Host=p3v1vkrvkz89.eth-mainnet.massbitroute.com&panelId=6',
+    url: `${this.$config.statURL}/__internal_grafana/d-solo/6y_ACGKnk/sitestat?orgId=1&var-Instance=All&var-Host=p3v1vkrvkz89.eth-mainnet.massbitroute.com&panelId=6`,
     filters: [
       {
         name: 'Last 5 Minutes',
