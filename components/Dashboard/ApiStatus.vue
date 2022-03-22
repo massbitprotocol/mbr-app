@@ -119,10 +119,12 @@ export default {
 
       const { api } = this.$polkadot;
       const address = this.$auth.user.walletAddress;
-      const staking =
-        this.provider === 'node'
-          ? api.tx.dapi.registerNode(stringToHex(this.api.id), amount, 'Ethereum')
-          : api.tx.dapi.registerGateway(stringToHex(this.api.id), 'Ethereum', amount);
+      const staking = api.tx.dapi.registerProvider(
+        stringToHex(this.api.id),
+        this.provider,
+        amount,
+        `${this.api.blockchain}.${this.api.network}`,
+      );
       const signer = await this.$polkadot.getSigner({ address });
 
       try {
