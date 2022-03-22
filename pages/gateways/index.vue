@@ -116,7 +116,7 @@ export default {
       charts: [
         {
           name: 'Total Requests',
-          url: 'https://stat.mbr.massbitroute.com/__internal_grafana/d-solo/zb9F6co7k/mbrg',
+          url: `${this.$config.statURL}/__internal_grafana/d-solo/zb9F6co7k/mbrg`,
           filter: 'now|now-6h',
           params: {
             orgId: 1,
@@ -129,7 +129,7 @@ export default {
         },
         {
           name: 'Total Bandwidth',
-          url: 'https://stat.mbr.massbitroute.com/__internal_grafana/d-solo/zb9F6co7k/mbrg',
+          url: `${this.$config.statURL}/__internal_grafana/d-solo/zb9F6co7k/mbrg`,
           filter: 'now|now-6h',
           params: {
             orgId: 1,
