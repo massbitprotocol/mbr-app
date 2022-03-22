@@ -13,6 +13,14 @@ Vue.filter('shortenKey', (value) => {
   return `${value.slice(0, TRUNCATED_ADDRESS_START_CHARS)}...${value.slice(-TRUNCATED_ADDRESS_END_CHARS)}`;
 });
 
+Vue.filter('shortenSecret', (value) => {
+  if (value && value.length < 15) {
+    return value;
+  }
+
+  return `${value.slice(0, 3)}...${value.slice(-12)}`;
+});
+
 Vue.filter('shortenUrl', (value) => {
   if (value && value.length < TRUNCATED_NAME_CHAR_LIMIT) {
     return value;
