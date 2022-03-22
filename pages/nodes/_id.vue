@@ -67,7 +67,7 @@
 
         <div class="w-full inline-flex justify-between gap-5">
           <DashboardApiID :apiKey="api.id" />
-          <DashboardApiStatus :api="api" :provider="'node'" />
+          <DashboardApiStatus :api="api" :provider="'Node'" />
           <DashboardApiCreatedAt :createdAt="api.createdAt" />
           <DashboardApiUpdatedAt :updatedAt="api.updatedAt" />
         </div>
