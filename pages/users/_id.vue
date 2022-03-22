@@ -65,9 +65,9 @@
           </div>
         </div>
 
-        <div class="inline-flex items-center gap-5">
-          <DashboardApiKey :apiKey="api.id" />
-          <DashboardApiKey :apiKey="api.id" />
+        <div class="w-full inline-flex items-center gap-5">
+          <DashboardApiID class="mr-15" :apiKey="api.id" />
+          <DashboardApiKey class="mr-15" :apiKey="api.appKey" />
         </div>
 
         <DashboardApiProvider :api="api" />
