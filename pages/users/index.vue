@@ -163,6 +163,8 @@ export default {
         } else {
           this.$cookies.remove('current_project');
         }
+      } else {
+        this.$store.commit('project/selectProject', this.projectList[0]);
       }
     }
   },
