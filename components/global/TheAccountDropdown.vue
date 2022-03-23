@@ -79,15 +79,12 @@ export default {
   },
 
   methods: {
-    logout() {
-      setTimeout(() => {
-        // Call api logout
-        this.$store.dispatch('user/logout');
-      }, 0);
+    async logout() {
+      // Call api logout
+      await this.$store.dispatch('user/logout');
 
       // Clear local store and push to login
-      this.$auth.logout();
-      this.$router.push('/login');
+      window.location.reload();
     },
   },
 };
