@@ -10,7 +10,7 @@
         {{ api.name }}
       </div>
 
-      <!-- API ke -->
+      <!-- API key -->
       <div class="bg-primary-darker xl:bg-white py-4 xl:py-0 px-5 xl:px-0">
         <div class="block xl:hidden text-body-2 text-primary-background font-medium">API key</div>
 
