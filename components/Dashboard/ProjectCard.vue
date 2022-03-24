@@ -10,7 +10,7 @@
         {{ project.name }}
       </div>
 
-      <!-- API ke -->
+      <!-- API key -->
       <div class="bg-primary-darker xl:bg-white py-4 xl:py-0 px-5 xl:px-0">
         <div class="block xl:hidden text-body-2 text-primary-background font-medium">Project key</div>
 
@@ -21,6 +21,16 @@
 
           <TheCopyButton class="hidden xl:flex" buttonClass="bg-primary-background" :textToCopy="project.id" />
           <TheCopyButtonPrimary class="flex xl:hidden" :textToCopy="project.id" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Status -->
+    <div class="flex-shrink px-5">
+      <div class="grid grid-cols-1">
+        <div class="text-body-2 text-neutral-normal font-medium">Status</div>
+        <div class="mt-1 uppercase text-body-1 text-neutral-darker font-medium truncate">
+          {{ project.status }}
         </div>
       </div>
     </div>

@@ -25,7 +25,7 @@
       </div>
     </div>
 
-    <!-- Created at -->
+    <!-- Status -->
     <div class="flex-shrink px-5">
       <div class="grid grid-cols-1">
         <div class="text-body-2 text-neutral-normal font-medium">Status</div>
