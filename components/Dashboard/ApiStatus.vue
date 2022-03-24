@@ -122,7 +122,6 @@ export default {
       const staking = api.tx.dapi.registerProvider(
         stringToHex(this.api.id),
         this.provider,
-        amount,
         `${this.api.blockchain}.${this.api.network}`,
       );
       const signer = await this.$polkadot.getSigner({ address });
