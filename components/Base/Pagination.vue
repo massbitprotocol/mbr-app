@@ -71,9 +71,7 @@ export default {
   },
 
   methods: {
-    nextPage() {
-      console.log('nextPage ===============');
-    },
+    nextPage() {},
   },
 };
 </script>
