@@ -86,7 +86,7 @@ export default {
     },
 
     _formatBalance(balance) {
-      return formatBalance(balance, { withSi: false }, 18);
+      return formatBalance(balance, { forceUnit: 'd', withSi: false }, this.chainDecimals);
     },
   },
 };
