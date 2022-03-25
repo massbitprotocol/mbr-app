@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full grid grid-cols-1 xl:flex items-center justify-between gap-5 mt-5 py-4 border rounded-2xl border-primary-background"
+    class="relative w-full grid grid-cols-1 xl:flex items-center justify-between gap-5 mt-5 py-4 border rounded-2xl border-primary-background"
   >
     <div class="max-w-full xl:max-w-sm w-full flex flex-col justify-between px-0 xl:px-5">
       <!-- Name -->
@@ -25,6 +25,16 @@
       </div>
     </div>
 
+    <!-- Blockchain -->
+    <div class="flex-shrink px-5">
+      <div class="grid grid-cols-1">
+        <div class="text-body-2 text-neutral-normal font-medium">Blockchain</div>
+        <div class="mt-1 capitalize text-body-1 text-neutral-darker font-medium truncate">
+          {{ _blockchain.value }}
+        </div>
+      </div>
+    </div>
+
     <!-- Status -->
     <div class="flex-shrink px-5">
       <div class="grid grid-cols-1">
@@ -35,12 +45,12 @@
       </div>
     </div>
 
-    <!-- Created at -->
+    <!-- Quota -->
     <div class="flex-shrink px-5">
       <div class="grid grid-cols-1">
-        <div class="text-body-2 text-neutral-normal font-medium">Created at</div>
-        <div class="mt-1 text-body-1 text-neutral-darker font-medium truncate">
-          {{ project.createdAt | formatTimeUTC }}
+        <div class="text-body-2 text-neutral-normal font-medium">Quota</div>
+        <div class="mt-1 uppercase text-body-1 text-neutral-darker font-medium truncate">
+          {{ project.quota || '--' }}
         </div>
       </div>
     </div>
@@ -58,6 +68,15 @@
         Staking
       </BaseButton>
 
+      <BaseButton
+        v-if="project.status === 'staked'"
+        class="text-body-2 font-medium"
+        :loading="loadingUnStaking"
+        @click="showModalUnStakeProvider = true"
+      >
+        Unstake
+      </BaseButton>
+
       <BaseGhostButton
         class="flex items-center justify-center gap-2 text-body-2 font-medium"
         @click="showModalSwitchProject = true"
@@ -73,12 +92,25 @@
       </BaseGhostButton>
     </div>
 
+    <div class="absolute right-5 bottom-0 italic text-neutral-darkest" style="font-size: 10px">
+      {{ project.createdAt | formatTimeUTC }}
+    </div>
+
     <!-- Staking -->
-    <NodeDashboardModalStaking
+    <DashboardModalProjectStaking
       :key="'modalStaking'"
       :visible.sync="showModalStaking"
       :loading="loadingStaking"
       @submitStaking="stakingProject"
+    />
+
+    <!-- Un Staking -->
+    <NodeDashboardModalUnStaking
+      :key="'modalUnStaking'"
+      :visible.sync="showModalUnStakeProvider"
+      :loading="loadingUnStaking"
+      :name="project.name"
+      @submitUnStaking="unStakeProvider"
     />
 
     <!-- Switch project -->
@@ -88,6 +120,8 @@
 
 <script>
 import { stringToHex } from '@polkadot/util';
+import { mapGetters } from 'vuex';
+import _ from 'lodash';
 
 export default {
   name: 'DashboardProjectCard',
@@ -104,13 +138,23 @@ export default {
       showModalSwitchProject: false,
       loadingStaking: false,
       showModalStaking: false,
+      showModalUnStakeProvider: false,
+      loadingUnStaking: false,
     };
+  },
+
+  computed: {
+    ...mapGetters({
+      getBlockchainByID: 'blockchains/getBlockchainByID',
+    }),
+
+    _blockchain() {
+      return this.getBlockchainByID(this.project.blockchain) || null;
+    },
   },
 
   methods: {
     async stakingProject(amount) {
-      console.log('amount :>> ', amount);
-
       this.loadingStaking = true;
 
       if (!this.$polkadot.api.isReady) {
@@ -170,6 +214,64 @@ export default {
         });
       } catch (error) {
         console.log('error :>> ', error);
+      }
+    },
+
+    async unStakeProvider() {
+      this.loadingUnStaking = true;
+
+      if (!this.$polkadot.api.isReady) {
+        await this.$polkadot.startApi();
+
+        if (!this.$polkadot.api.isReady) {
+          this.$notify({
+            type: 'error',
+            title: 'Error',
+            text: 'Polkadot API is not ready',
+          });
+
+          return;
+        }
+      }
+
+      const { api } = this.$polkadot;
+      const address = this.$auth.user.walletAddress;
+      const unstaking = api.tx.dapiStaking.unregisterProvider(this.project.id);
+      const signer = await this.$polkadot.getSigner({ address });
+      try {
+        const unsub = await unstaking.signAndSend(address, { signer }, ({ status, events = [], dispatchError }) => {
+          if (status.isFinalized) {
+            if (dispatchError) {
+              if (dispatchError.isModule) {
+                this.$notify({
+                  type: 'error',
+                  title: 'Error',
+                  text: this.$polkadot.getStakingMessage(dispatchError),
+                });
+              } else {
+                this.$notify({
+                  type: 'error',
+                  title: 'Error',
+                  text: dispatchError.toString(),
+                });
+              }
+            } else {
+              const blockHash = status.asFinalized.toString();
+              this.$notify({
+                type: 'success',
+                title: 'Success',
+                text: 'Unstake node successfully',
+              });
+              this.showModalUnStakeProvider = false;
+            }
+
+            this.loadingUnStaking = false;
+            unsub();
+          }
+        });
+      } catch (error) {
+        console.log('error :>> ', error);
+        this.loadingUnStaking = false;
       }
     },
   },

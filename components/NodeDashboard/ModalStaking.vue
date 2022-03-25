@@ -23,7 +23,7 @@
       </div>
 
       <div tag="div" class="mt-5 flex flex-col items-center justify-center">
-        <div class="w-full flex flex-col items-center" @submit.prevent="handleSubmit(submitStaking)">
+        <div class="w-full flex flex-col items-center">
           <div class="w-full inline-flex gap-3 px-4 py-5 border rounded-2xl border-primary-background">
             <div class="flex-1 flex flex-col gap-2">
               <div class="text-body text-neutral-normal font-medium">Amount</div>
@@ -67,6 +67,7 @@
                   <div class="text-xl text-neutral-darkset font-medium">100 {{ chainTokens }}</div>
                 </div>
               </div>
+              <p v-if="error" class="text-red-500 text-xs italic">{{ error }}</p>
             </div>
             <div class="flex flex-col gap-2">
               <div class="text-body text-neutral-normal font-medium">Balance {{ _formatBalance(balance) }}</div>
