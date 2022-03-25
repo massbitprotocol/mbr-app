@@ -62,13 +62,13 @@
       </colgroup>
 
       <tbody>
-        <template v-if="api.geo.ip">
+        <template v-if="api.geo && api.geo.ip">
           <!-- IP Addres -->
           <tr class="w-full grid md:table-row">
             <td class="text-body-2 text-neutral-normal font-medium py-3 whitespace-nowrap">IP Address</td>
             <td>
               <span class="text-body-2 text-neutral-darkset font-medium py-3">
-                {{ api.geo.ip }}
+                {{ api.geo && api.geo.ip }}
               </span>
             </td>
           </tr>
