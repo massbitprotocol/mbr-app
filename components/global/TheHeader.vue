@@ -65,7 +65,9 @@
               />
             </svg>
 
-            <div class="text-body-2 text-neutral-darkset">{{ balance }} <strong>MBTL</strong></div>
+            <div class="text-body-2 text-neutral-darkset">
+              {{ balance }} <strong>{{ chainTokens }}</strong>
+            </div>
           </div>
 
           <TheAccountDropdown class="hidden lg:block"> Account </TheAccountDropdown>
@@ -230,6 +232,8 @@ export default {
     return {
       isShowSideBar: false,
       balance: '0.00',
+      chainDecimals: 18,
+      chainTokens: 'MBT',
     };
   },
 
@@ -259,15 +263,14 @@ export default {
 
       const address = this.$auth.user.walletAddress;
       const { api } = this.$polkadot;
+
+      const { chainTokens, chainDecimals } = api.registry;
+      if (chainTokens && chainTokens.length) this.chainTokens = chainTokens[0];
+      if (chainDecimals && chainDecimals.length) this.chainDecimals = chainDecimals[0];
+
       const { nonce, data: balance } = await api.query.system.account(address);
-      console.log('balance.free  :>> ', formatBalance(balance.free));
-      console.log('balance.miscFrozen  :>> ', formatBalance(balance.miscFrozen));
-      console.log('balance.feeFrozen  :>> ', formatBalance(balance.feeFrozen));
-      console.log('balance.frereservede  :>> ', formatBalance(balance.reserved));
-
       const _balance = BigInt(balance.free - balance.miscFrozen);
-
-      this.balance = formatBalance(_balance, { withSi: false }, 18);
+      this.balance = formatBalance(_balance, { forceUnit: 'd', withSi: false }, this.chainDecimals);
     },
   },
 };
