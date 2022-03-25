@@ -23,12 +23,6 @@
       </div>
     </div>
 
-    <!-- <div class="hidden min-w-[64px] max-w-[150px] lg:grid grid-cols-1 px-5">
-      <div class="text-body-2 text-neutral-normal font-medium">Status</div>
-
-      <BaseToggle class="mt-1" :refId="api.id" :checked.sync="status" />
-    </div> -->
-
     <div class="flex-shrink px-5">
       <div class="grid grid-cols-1">
         <div class="text-body-2 text-neutral-normal font-medium">Requests Limit</div>

@@ -219,7 +219,7 @@ export default {
 
       const { api } = this.$polkadot;
       const address = this.$auth.user.walletAddress;
-      const unstaking = api.tx.dapiStaking.unregister(this.api.id);
+      const unstaking = api.tx.dapiStaking.unregisterProvider(this.api.id);
       const signer = await this.$polkadot.getSigner({ address });
       try {
         const unsub = await unstaking.signAndSend(address, { signer }, ({ status, events = [], dispatchError }) => {
