@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <!-- Zone -->
+    <!-- Blockchain -->
     <div class="max-w-[180px] w-full flex-shrink px-5">
       <div class="grid grid-cols-1">
         <div class="text-body-2 text-neutral-normal font-medium">Blockchain</div>
@@ -89,7 +89,7 @@
       </BaseButton>
 
       <BaseButton
-        v-else-if="api.status === 'created' || api.status === 'failed' || api.status === 'stopped'"
+        v-else-if="api.status === 'installed' || api.status === 'failed' || api.status === 'stopped'"
         :loading="loadingVerify"
         :disabled="loadingVerify"
         @click="reVerify"
@@ -136,7 +136,7 @@
       @submitStaking="submitStaking"
     />
 
-    <!-- Staking -->
+    <!-- Un Staking -->
     <NodeDashboardModalUnStaking
       :key="'modalUnStaking'"
       :visible.sync="showModalUnStakeProvider"

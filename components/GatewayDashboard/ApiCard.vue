@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full grid grid-cols-1 xl:flex items-center justify-between gap-5 mt-5 py-4 border rounded-2xl border-primary-background"
+    class="relative w-full grid grid-cols-1 xl:flex items-center justify-between gap-5 mt-5 py-4 border rounded-2xl border-primary-background"
   >
     <div class="max-w-full xl:max-w-sm w-full flex flex-col justify-between px-0 xl:px-5">
       <!-- Name -->
@@ -25,32 +25,32 @@
       </div>
     </div>
 
-    <!-- Status -->
-    <div class="flex-shrink px-5">
-      <div class="grid grid-cols-1">
-        <div class="text-body-2 text-neutral-normal font-medium">Status</div>
-        <div class="mt-1 uppercase text-body-1 text-neutral-darker font-medium truncate">
-          {{ api.status }}
-        </div>
-      </div>
-    </div>
-
-    <!-- Created at -->
-    <div class="flex-shrink px-5">
-      <div class="grid grid-cols-1">
-        <div class="text-body-2 text-neutral-normal font-medium">Created at</div>
-        <div class="mt-1 text-body-1 text-neutral-darker font-medium truncate">
-          {{ api.createdAt | formatTimeUTC }}
-        </div>
-      </div>
-    </div>
-
     <!-- Zone -->
     <div class="max-w-[180px] w-full flex-grow px-5">
       <div class="grid grid-cols-1">
         <div class="text-body-2 text-neutral-normal font-medium">Zone</div>
         <div class="mt-1 text-body-1 text-neutral-darker font-medium truncate">
           {{ api.geo && api.geo.continentName ? api.geo.continentName : api.zone }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Blockchain -->
+    <div class="max-w-[180px] w-full flex-shrink px-5">
+      <div class="grid grid-cols-1">
+        <div class="text-body-2 text-neutral-normal font-medium">Blockchain</div>
+        <div class="mt-1 text-body-1 text-neutral-darker font-medium truncate">
+          {{ _blockchain.value }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Status -->
+    <div class="flex-shrink px-5">
+      <div class="grid grid-cols-1">
+        <div class="text-body-2 text-neutral-normal font-medium">Status</div>
+        <div class="mt-1 uppercase text-body-1 text-neutral-darker font-medium truncate">
+          {{ api.status }}
         </div>
       </div>
     </div>
@@ -69,7 +69,17 @@
       </BaseButton>
 
       <BaseButton
-        v-else-if="api.status !== 'created'"
+        v-else-if="api.status === 'staked'"
+        :loading="loadingVerify"
+        :disabled="loadingVerify"
+        @click="showModalUnStakeProvider = true"
+        class="w-[120px] px-3 h-[42px] hidden xl:flex items-center justify-center cursor-pointer text-body-2 font-medium rounded-lg"
+      >
+        UnStake
+      </BaseButton>
+
+      <BaseButton
+        v-else-if="api.status === 'installed' || api.status === 'failed' || api.status === 'stopped'"
         :loading="loadingVerify"
         :disabled="loadingVerify"
         @click="reVerify"
@@ -104,6 +114,10 @@
       </NuxtLink>
     </div>
 
+    <div class="absolute right-5 bottom-0 italic text-neutral-darkest" style="font-size: 10px">
+      {{ api.createdAt | formatTimeUTC }}
+    </div>
+
     <!-- Staking -->
     <NodeDashboardModalStaking
       :key="'modalStaking'"
@@ -111,11 +125,22 @@
       :loading="loadingStaking"
       @submitStaking="submitStaking"
     />
+
+    <!-- Un Staking -->
+    <NodeDashboardModalUnStaking
+      :key="'modalUnStaking'"
+      :visible.sync="showModalUnStakeProvider"
+      :loading="loadingUnStaking"
+      :name="api.name"
+      @submitUnStaking="unStakeProvider"
+    />
   </div>
 </template>
 
 <script>
 import { stringToHex } from '@polkadot/util';
+import { mapGetters } from 'vuex';
+import _ from 'lodash';
 
 export default {
   name: 'GatewayDashboardApiCard',
@@ -133,10 +158,20 @@ export default {
       showModalStaking: false,
       loadingStaking: false,
       loadingVerify: false,
+      loadingUnStaking: false,
+      showModalUnStakeProvider: false,
     };
   },
 
   computed: {
+    ...mapGetters({
+      getBlockchainByID: 'blockchains/getBlockchainByID',
+    }),
+
+    _blockchain() {
+      return this.getBlockchainByID(this.api.blockchain) || null;
+    },
+
     status: {
       get() {
         return !!parseInt(this.api.status);
@@ -163,6 +198,65 @@ export default {
       }
 
       this.loadingVerify = false;
+    },
+
+    async unStakeProvider() {
+      this.loadingUnStaking = true;
+
+      if (!this.$polkadot.api.isReady) {
+        await this.$polkadot.startApi();
+
+        if (!this.$polkadot.api.isReady) {
+          this.$notify({
+            type: 'error',
+            title: 'Error',
+            text: 'Polkadot API is not ready',
+          });
+
+          return;
+        }
+      }
+
+      const { api } = this.$polkadot;
+      const address = this.$auth.user.walletAddress;
+      const unstaking = api.tx.dapiStaking.unregister(this.api.id);
+      const signer = await this.$polkadot.getSigner({ address });
+      try {
+        const unsub = await unstaking.signAndSend(address, { signer }, ({ status, events = [], dispatchError }) => {
+          if (status.isFinalized) {
+            if (dispatchError) {
+              if (dispatchError.isModule) {
+                this.$notify({
+                  type: 'error',
+                  title: 'Error',
+                  text: this.$polkadot.getStakingMessage(dispatchError),
+                });
+              } else {
+                this.$notify({
+                  type: 'error',
+                  title: 'Error',
+                  text: dispatchError.toString(),
+                });
+              }
+            } else {
+              const blockHash = status.asFinalized.toString();
+              console.log('blockHash :>> ', blockHash);
+              this.$notify({
+                type: 'success',
+                title: 'Success',
+                text: 'Unstake node successfully',
+              });
+              this.showModalUnStakeProvider = false;
+            }
+
+            this.loadingUnStaking = false;
+            unsub();
+          }
+        });
+      } catch (error) {
+        console.log('error :>> ', error);
+        this.loadingUnStaking = false;
+      }
     },
 
     async submitStaking(amount) {

@@ -148,6 +148,7 @@
 </template>
 
 <script>
+import { NativeEventSource, EventSourcePolyfill } from 'event-source-polyfill';
 import { mapGetters } from 'vuex';
 import _ from 'lodash';
 
@@ -170,12 +171,24 @@ export default {
 
   created() {
     this.initChartConfig();
+
+    const EventSource = EventSourcePolyfill || NativeEventSource;
+    this.pollInfo = new EventSource(`${this.$config.portalURL}/mbr/gateway/sse/${this.id}`, {
+      headers: { Authorization: this.$auth.strategy.token.get() },
+    });
+    this.pollInfo.onmessage = ({ data }) => {
+      const gatewayInfo = JSON.parse(data);
+      if (gatewayInfo.status) {
+        this.$store.commit('gateway/updateApi', gatewayInfo);
+      }
+    };
   },
 
   data() {
     return {
       editName: false,
       charts: [],
+      pollInfo: null,
     };
   },
 
@@ -293,6 +306,12 @@ export default {
         },
       ];
     },
+  },
+
+  destroyed() {
+    if (this.pollInfo) {
+      this.pollInfo.close();
+    }
   },
 };
 </script>
