@@ -73,7 +73,7 @@
             </div>
           </div>
 
-          <BaseButton class="mt-5 text-body-2 font-medium" type="submit" :disabled="invalid" :loading="loading">
+          <BaseButton class="mt-5 text-body-2 font-medium" type="submit" :loading="loading" @click="submitStaking">
             Confirm
           </BaseButton>
         </div>
@@ -114,7 +114,7 @@ export default {
     return {
       balance: 0,
       form: {
-        amount: 0,
+        amount: 100,
       },
       error: '',
       chainDecimals: 18,
