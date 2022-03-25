@@ -10,7 +10,7 @@
         <div
           class="mr-3 flex-shrink text-body-2 lg:text-body-1 text-neutral-darkset font-medium overflow-ellipsis whitespace-nowrap break-words overflow-hidden"
         >
-          {{ gatewayHttp | shortenUrl }}
+          {{ gatewayHttpSecret | shortenUrl }}
         </div>
         <TheCopyButton v-if="gatewayHttp" buttonClass="bg-primary-background" :textToCopy="gatewayHttp" />
       </div>
@@ -21,7 +21,7 @@
         <div
           class="mr-3 flex-shrink text-body-2 lg:text-body-1 text-neutral-darkset font-medium overflow-ellipsis whitespace-nowrap break-words overflow-hidden"
         >
-          {{ gatewayWss | shortenUrl }}
+          {{ gatewayWssSecret | shortenUrl }}
         </div>
         <TheCopyButton v-if="gatewayWss" buttonClass="bg-primary-background" :textToCopy="gatewayWss" />
       </div>
@@ -41,16 +41,24 @@ export default {
   },
 
   computed: {
-    gatewayHttp() {
+    gatewayHttpSecret() {
       return `https://${this.$options.filters.shortenKey(this.api.id)}.${this.api.blockchain}-${this.api.network}.${
         this.$config.dapiProviderDomain
       }/${this.api.appKey}`;
+    },
+
+    gatewayHttp() {
+      return `https://${this.api.id}.${this.api.blockchain}-${this.api.network}.${this.$config.dapiProviderDomain}/${this.api.appKey}`;
     },
 
     gatewayWss() {
       return `wss://${this.$options.filters.shortenKey(this.api.id)}.${this.api.blockchain}-${this.api.network}.${
         this.$config.dapiProviderDomain
       }/${this.api.appKey}`;
+    },
+
+    gatewayWssSecret() {
+      return `wss://${this.api.id}.${this.api.blockchain}-${this.api.network}.${this.$config.dapiProviderDomain}/${this.api.appKey}`;
     },
   },
 };
