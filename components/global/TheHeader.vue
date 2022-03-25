@@ -260,6 +260,11 @@ export default {
       const address = this.$auth.user.walletAddress;
       const { api } = this.$polkadot;
       const { nonce, data: balance } = await api.query.system.account(address);
+      console.log('balance.free  :>> ', formatBalance(balance.free));
+      console.log('balance.miscFrozen  :>> ', formatBalance(balance.miscFrozen));
+      console.log('balance.feeFrozen  :>> ', formatBalance(balance.feeFrozen));
+      console.log('balance.frereservede  :>> ', formatBalance(balance.reserved));
+
       const _balance = BigInt(balance.free - balance.miscFrozen);
 
       this.balance = formatBalance(_balance, { withSi: false }, 18);
