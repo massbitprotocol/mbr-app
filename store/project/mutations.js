@@ -17,6 +17,12 @@ export default {
     state.list = _list;
   },
 
+  updateCurrentProject(state, project) {
+    const _project = _.cloneDeep(project);
+
+    state.project = _project;
+  },
+
   selectProject(state, project) {
     const _project = _.cloneDeep(project);
 

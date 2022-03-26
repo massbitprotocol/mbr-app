@@ -175,14 +175,16 @@ export default {
   fetchOnServer: false,
 
   watch: {
-    async project(data) {
-      await this.$store.dispatch('api/getListApi', data.id);
+    async 'project.id'(id) {
+      if (this.pollProjectList) {
+        this.pollProjectList.close();
+      }
 
       if (this.pollApiList) {
         this.pollApiList.close();
       }
 
-      // Re-sync data
+      await this.$store.dispatch('api/getListApi', id);
       this.syncData();
     },
   },
@@ -236,18 +238,16 @@ export default {
     syncData() {
       const EventSource = EventSourcePolyfill || NativeEventSource;
 
-      if (!this.pollProjectList) {
-        // Poll projects
-        this.pollProjectList = new EventSource(`${this.$config.portalURL}/mbr/d-apis/sse/project/list`, {
-          headers: { Authorization: this.$auth.strategy.token.get() },
-        });
-        this.pollProjectList.onmessage = ({ data }) => {
-          const projects = JSON.parse(data);
-          if (projects) {
-            this.$store.commit('project/setList', projects);
-          }
-        };
-      }
+      // Poll projects
+      this.pollProjectList = new EventSource(`${this.$config.portalURL}/mbr/d-apis/sse/project/${this.project.id}`, {
+        headers: { Authorization: this.$auth.strategy.token.get() },
+      });
+      this.pollProjectList.onmessage = ({ data }) => {
+        const project = JSON.parse(data);
+        if (project) {
+          this.$store.commit('project/updateCurrentProject', project);
+        }
+      };
 
       // Poll apis
       this.pollApiList = new EventSource(`${this.$config.portalURL}/mbr/d-apis/sse/api/list/${this.project.id}`, {

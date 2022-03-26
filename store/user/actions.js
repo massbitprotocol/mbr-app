@@ -1,7 +1,6 @@
 export default {
   async logout({ commit }) {
     const { result } = await this.$axios.$delete('/auth/logout');
-    console.log('here =============', this.$auth);
     this.$auth.logout();
 
     return result;
