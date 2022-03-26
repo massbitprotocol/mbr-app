@@ -138,6 +138,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { NativeEventSource, EventSourcePolyfill } from 'event-source-polyfill';
 import _ from 'lodash';
 
 import chartFilters from '~/mixins/chartFilters';
@@ -169,6 +170,19 @@ export default {
     }
   },
   fetchOnServer: false,
+
+  created() {
+    const EventSource = EventSourcePolyfill || NativeEventSource;
+    this.pollInfo = new EventSource(`${this.$config.portalURL}/mbr/d-apis/sse/project/list`, {
+      headers: { Authorization: this.$auth.strategy.token.get() },
+    });
+    this.pollInfo.onmessage = ({ data }) => {
+      const projects = JSON.parse(data);
+      if (projects) {
+        this.$store.commit('project/setList', projects);
+      }
+    };
+  },
 
   watch: {
     async project(data) {
@@ -208,6 +222,7 @@ export default {
       ],
       showModalCreateApi: false,
       showModalCreateProject: false,
+      pollInfo: null,
     };
   },
 
@@ -224,6 +239,12 @@ export default {
       let _api = _.cloneDeep(api);
       await this.$store.dispatch('api/updateApi', Object.assign(_api, { status: checked ? 1 : 0 }));
     },
+  },
+
+  destroyed() {
+    if (this.pollInfo) {
+      this.pollInfo.close();
+    }
   },
 };
 </script>

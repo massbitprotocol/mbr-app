@@ -23,6 +23,7 @@
       </div>
     </div>
 
+    <!-- Requests Limit -->
     <div class="flex-shrink px-5">
       <div class="grid grid-cols-1">
         <div class="text-body-2 text-neutral-normal font-medium">Requests Limit</div>
@@ -30,6 +31,21 @@
           class="w-full lg:w-[250px] mt-1 text-body-1 text-accent-green font-bold overflow-ellipsis whitespace-nowrap break-words overflow-hidden"
         >
           {{ requestLimit }}
+        </div>
+      </div>
+    </div>
+
+    <div class="flex-shrink px-5">
+      <div class="grid grid-cols-1">
+        <div class="text-body-2 text-neutral-normal font-medium">Status</div>
+        <div
+          :class="{
+            'w-full lg:w-[250px] mt-1 text-body-1 font-bold overflow-ellipsis whitespace-nowrap break-words overflow-hidden': true,
+            'text-accent-green': _status === 'Active',
+            'text-accent-red': _status === 'Inactive',
+          }"
+        >
+          {{ _status }}
         </div>
       </div>
     </div>
@@ -88,6 +104,10 @@ export default {
       set(value) {
         this.$emit('updateApiStatus', value);
       },
+    },
+
+    _status() {
+      return this.status ? 'Active' : 'Inactive';
     },
 
     requestLimit() {
