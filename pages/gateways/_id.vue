@@ -49,7 +49,7 @@
               <BasePopover
                 v-if="api.status !== 'staked'"
                 class="flex items-center"
-                content="Delete this API key, if you don’t need it anymore."
+                content="Delete this Gateway, if you don’t need it anymore."
                 contentClass="w-[197px]"
               >
                 <BaseIconButton
