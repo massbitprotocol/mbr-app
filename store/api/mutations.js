@@ -2,7 +2,9 @@ import _ from 'lodash';
 
 export default {
   setList(state, list) {
-    state.list = list;
+    const _list = _.cloneDeep(list);
+
+    state.list = _list;
   },
 
   setApi(state, api) {
