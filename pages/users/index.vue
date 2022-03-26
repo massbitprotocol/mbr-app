@@ -168,23 +168,23 @@ export default {
         this.$store.commit('project/selectProject', this.projectList[0]);
       }
     }
-
-    // Init sync data
-    this.syncData();
   },
   fetchOnServer: false,
 
   watch: {
     async 'project.id'(id) {
       if (this.pollProjectList) {
-        this.pollProjectList.close();
+        await this.pollProjectList.close();
+        this.pollProjectList = null;
       }
 
       if (this.pollApiList) {
-        this.pollApiList.close();
+        await this.pollApiList.close();
+        this.pollApiList = null;
       }
 
       await this.$store.dispatch('api/getListApi', id);
+
       this.syncData();
     },
   },
@@ -244,7 +244,7 @@ export default {
       });
       this.pollProjectList.onmessage = ({ data }) => {
         const project = JSON.parse(data);
-        if (project) {
+        if (project && project.id === this.project.id) {
           this.$store.commit('project/updateCurrentProject', project);
         }
       };
