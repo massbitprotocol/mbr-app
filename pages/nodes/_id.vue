@@ -46,22 +46,28 @@
                 <BaseIconButton class="w-[36px] h-[36px]" icon="edit" @click="showEditApiName" />
               </BasePopover>
 
-              <!-- <BasePopover
-              class="flex items-center"
-              content="Delete this API key, if you don’t need it anymore."
-              contentClass="w-[197px]"
-            >
-              <BaseIconButton class="w-[36px] h-[36px]" icon="delete" />
-            </BasePopover> -->
+              <BasePopover
+                v-if="api.status !== 'staked'"
+                class="flex items-center"
+                content="Delete this API key, if you don’t need it anymore."
+                contentClass="w-[197px]"
+              >
+                <BaseIconButton
+                  class="w-[36px] h-[36px]"
+                  icon="delete"
+                  :loading="loadingDeleteApi"
+                  @click="deleteApi"
+                />
+              </BasePopover>
             </div>
 
-            <BasePopover
+            <!-- <BasePopover
               class="flex items-center"
               content="Change status of the API key. If you don't want API key active, please switch it off."
               contentClass="w-[197px]"
             >
               <BaseToggle :checked.sync="status" />
-            </BasePopover>
+            </BasePopover> -->
           </div>
         </div>
 
@@ -166,26 +172,18 @@ export default {
     if (!api) {
       return this.$nuxt.error({ statusCode: 404, message: 'Api not found' });
     }
+
+    this.syncData();
   },
 
   created() {
     this.initChartConfig();
-
-    const EventSource = EventSourcePolyfill || NativeEventSource;
-    this.pollInfo = new EventSource(`${this.$config.portalURL}/mbr/node/sse/${this.id}`, {
-      headers: { Authorization: this.$auth.strategy.token.get() },
-    });
-    this.pollInfo.onmessage = ({ data }) => {
-      const nodeInfo = JSON.parse(data);
-      if (nodeInfo.status) {
-        this.$store.commit('node/updateApi', nodeInfo);
-      }
-    };
   },
 
   data() {
     return {
       editName: false,
+      loadingDeleteApi: false,
       charts: [],
       pollInfo: null,
     };
@@ -244,6 +242,28 @@ export default {
   },
 
   methods: {
+    async deleteApi() {
+      this.loadingDeleteApi = true;
+      try {
+        const isSuccess = await this.$store.dispatch('node/deleteApi', this.id);
+        if (isSuccess) {
+          this.$notify({ type: 'success', text: 'Node deleted successfully!' });
+
+          this.$router.push({ name: 'nodes' });
+        }
+      } catch (error) {
+        console.log('error :>> ', error);
+        if (error.response && error.response.data) {
+          const { message } = error.response.data;
+          this.$notify({ type: 'error', text: message || 'Something was wrong. Please try again!' });
+        } else {
+          this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+        }
+      }
+
+      this.loadingDeleteApi = false;
+    },
+
     showEditApiName() {
       this.editName = true;
       this.$nextTick(() => {
@@ -304,6 +324,19 @@ export default {
           },
         },
       ];
+    },
+
+    syncData() {
+      const EventSource = EventSourcePolyfill || NativeEventSource;
+      this.pollInfo = new EventSource(`${this.$config.portalURL}/mbr/node/sse/${this.id}`, {
+        headers: { Authorization: this.$auth.strategy.token.get() },
+      });
+      this.pollInfo.onmessage = ({ data }) => {
+        const nodeInfo = JSON.parse(data);
+        if (nodeInfo.status) {
+          this.$store.commit('node/updateApi', nodeInfo);
+        }
+      };
     },
   },
 

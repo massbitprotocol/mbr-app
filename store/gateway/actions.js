@@ -23,6 +23,15 @@ export default {
     return null;
   },
 
+  async deleteApi({ commit }, id) {
+    const result = await this.$axios.$delete(`/mbr/gateway/${id}`);
+    if (result) {
+      commit('deleteApi', id);
+    }
+
+    return result.status || false;
+  },
+
   async getZoneSummary({ commit }) {
     const data = await this.$axios.$get(`/mbr/gateway/arrangement`);
     if (data) {

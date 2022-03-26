@@ -43,6 +43,15 @@ export default {
     return result;
   },
 
+  async deleteApi({ commit }, id) {
+    const result = await this.$axios.$delete(`/mbr/node/${id}`);
+    if (result) {
+      commit('deleteApi', id);
+    }
+
+    return result.status || false;
+  },
+
   async reVerify({ commit }, api) {
     const result = await this.$axios.$get(`/mbr/node/${api.id}/re-verify`, api);
     if (result.error) {

@@ -46,22 +46,28 @@
                 <BaseIconButton class="w-[36px] h-[36px]" icon="edit" @click="showEditApiName" />
               </BasePopover>
 
-              <!-- <BasePopover
-              class="flex items-center"
-              content="Delete this API key, if you don’t need it anymore."
-              contentClass="w-[197px]"
-            >
-              <BaseIconButton class="w-[36px] h-[36px]" icon="delete" />
-            </BasePopover> -->
+              <BasePopover
+                v-if="api.status !== 'staked'"
+                class="flex items-center"
+                content="Delete this API key, if you don’t need it anymore."
+                contentClass="w-[197px]"
+              >
+                <BaseIconButton
+                  class="w-[36px] h-[36px]"
+                  icon="delete"
+                  :loading="loadingDeleteApi"
+                  @click="deleteApi"
+                />
+              </BasePopover>
             </div>
 
-            <BasePopover
+            <!-- <BasePopover
               class="flex items-center"
               content="Change status of the API key. If you don't want API key active, please switch it off."
               contentClass="w-[197px]"
             >
               <BaseToggle :checked.sync="status" :disabled="!api.ip" />
-            </BasePopover>
+            </BasePopover> -->
           </div>
         </div>
 
@@ -189,6 +195,7 @@ export default {
       editName: false,
       charts: [],
       pollInfo: null,
+      loadingDeleteApi: false,
     };
   },
 
@@ -245,6 +252,28 @@ export default {
   },
 
   methods: {
+    async deleteApi() {
+      this.loadingDeleteApi = true;
+      try {
+        const isSuccess = await this.$store.dispatch('gateway/deleteApi', this.id);
+        if (isSuccess) {
+          this.$notify({ type: 'success', text: 'Gateway deleted successfully!' });
+
+          this.$router.push({ name: 'gateways' });
+        }
+      } catch (error) {
+        console.log('error :>> ', error);
+        if (error.response && error.response.data) {
+          const { message } = error.response.data;
+          this.$notify({ type: 'error', text: message || 'Something was wrong. Please try again!' });
+        } else {
+          this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+        }
+      }
+
+      this.loadingDeleteApi = false;
+    },
+
     showEditApiName() {
       this.editName = true;
       this.$nextTick(() => {

@@ -353,7 +353,6 @@ export default {
             this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
           }
         } catch (error) {
-          console.log('error :>> ', error);
           if (error.response && error.response.data) {
             const { message } = error.response.data;
             this.$notify({ type: 'error', text: Array.isArray(message) ? message[0] : message });
