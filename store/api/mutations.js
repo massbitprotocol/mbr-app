@@ -59,4 +59,17 @@ export default {
     }
     state.list = _list;
   },
+
+  deleteApi(state, id) {
+    // Update current api
+    state.api = null;
+
+    // Update list
+    let _list = _.cloneDeep(state.list);
+    const index = _list.findIndex((item) => item.id === id);
+    if (index >= 0) {
+      _list.splice(index, 1);
+    }
+    state.list = _list;
+  },
 };

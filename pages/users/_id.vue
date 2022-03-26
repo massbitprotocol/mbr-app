@@ -46,13 +46,18 @@
                 <BaseIconButton class="w-[36px] h-[36px]" icon="edit" @click="showEditApiName" />
               </BasePopover>
 
-              <!-- <BasePopover
-              class="flex items-center"
-              content="Delete this API key, if you don’t need it anymore."
-              contentClass="w-[197px]"
-            >
-              <BaseIconButton class="w-[36px] h-[36px]" icon="delete" />
-            </BasePopover> -->
+              <BasePopover
+                class="flex items-center"
+                content="Delete this dApi, if you don’t need it anymore."
+                contentClass="w-[197px]"
+              >
+                <BaseIconButton
+                  class="w-[36px] h-[36px]"
+                  icon="delete"
+                  :loading="loadingDeleteApi"
+                  @click="deleteApi"
+                />
+              </BasePopover>
             </div>
 
             <BasePopover
@@ -136,6 +141,7 @@ export default {
     return {
       editName: false,
       charts: [],
+      loadingDeleteApi: false,
     };
   },
 
@@ -191,6 +197,29 @@ export default {
   },
 
   methods: {
+    async deleteApi() {
+      this.loadingDeleteApi = true;
+
+      try {
+        const isSuccess = await this.$store.dispatch('api/deleteApi', this.id);
+        if (isSuccess) {
+          this.$notify({ type: 'success', text: 'Api deleted successfully!' });
+
+          this.$router.push({ name: 'users' });
+        }
+      } catch (error) {
+        console.log('error :>> ', error);
+        if (error.response && error.response.data) {
+          const { message } = error.response.data;
+          this.$notify({ type: 'error', text: message || 'Something was wrong. Please try again!' });
+        } else {
+          this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+        }
+      }
+
+      this.loadingDeleteApi = false;
+    },
+
     showEditApiName() {
       this.editName = true;
       this.$nextTick(() => {
