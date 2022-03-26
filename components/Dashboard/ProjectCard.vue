@@ -45,12 +45,15 @@
       </div>
     </div>
 
-    <!-- Quota -->
+    <!-- Usage -->
     <div class="flex-shrink px-5">
       <div class="grid grid-cols-1">
-        <div class="text-body-2 text-neutral-normal font-medium">Quota</div>
+        <div class="text-body-2 text-neutral-normal font-medium">Usage</div>
         <div class="mt-1 uppercase text-body-1 text-neutral-darker font-medium truncate">
-          {{ project.quota || '--' }}
+          <span :class="{ 'text-accent-green': _usage < _quota, 'text-accent-red': _usage >= _quota }">{{
+            _usage
+          }}</span>
+          / {{ _quota || '--' }}
         </div>
       </div>
     </div>
@@ -151,6 +154,14 @@ export default {
     _blockchain() {
       return this.getBlockchainByID(this.project.blockchain) || null;
     },
+
+    _usage() {
+      return BigInt(this.project?.usage || 0);
+    },
+
+    _quota() {
+      return BigInt(this.project?.quota || 0);
+    },
   },
 
   methods: {
@@ -236,7 +247,7 @@ export default {
 
       const { api } = this.$polkadot;
       const address = this.$auth.user.walletAddress;
-      const unstaking = api.tx.dapiStaking.unregisterProvider(this.project.id);
+      const unstaking = api.tx.dapi.unregisterProvider(this.project.id);
       const signer = await this.$polkadot.getSigner({ address });
       try {
         const unsub = await unstaking.signAndSend(address, { signer }, ({ status, events = [], dispatchError }) => {
