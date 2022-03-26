@@ -6,7 +6,8 @@ export default {
   },
 
   setApi(state, api) {
-    state.api = api;
+    const _api = _.cloneDeep(api);
+    state.api = _api;
   },
 
   addEntrypoint(state, entrypoint) {

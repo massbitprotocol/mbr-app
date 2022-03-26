@@ -168,25 +168,22 @@ export default {
         this.$store.commit('project/selectProject', this.projectList[0]);
       }
     }
+
+    // Init sync data
+    this.syncData();
   },
   fetchOnServer: false,
-
-  created() {
-    const EventSource = EventSourcePolyfill || NativeEventSource;
-    this.pollInfo = new EventSource(`${this.$config.portalURL}/mbr/d-apis/sse/project/list`, {
-      headers: { Authorization: this.$auth.strategy.token.get() },
-    });
-    this.pollInfo.onmessage = ({ data }) => {
-      const projects = JSON.parse(data);
-      if (projects) {
-        this.$store.commit('project/setList', projects);
-      }
-    };
-  },
 
   watch: {
     async project(data) {
       await this.$store.dispatch('api/getListApi', data.id);
+
+      if (this.pollApiList) {
+        this.pollApiList.close();
+      }
+
+      // Re-sync data
+      this.syncData();
     },
   },
 
@@ -222,7 +219,8 @@ export default {
       ],
       showModalCreateApi: false,
       showModalCreateProject: false,
-      pollInfo: null,
+      pollProjectList: null,
+      pollApiList: null,
     };
   },
 
@@ -235,6 +233,34 @@ export default {
   },
 
   methods: {
+    syncData() {
+      const EventSource = EventSourcePolyfill || NativeEventSource;
+
+      if (!this.pollProjectList) {
+        // Poll projects
+        this.pollProjectList = new EventSource(`${this.$config.portalURL}/mbr/d-apis/sse/project/list`, {
+          headers: { Authorization: this.$auth.strategy.token.get() },
+        });
+        this.pollProjectList.onmessage = ({ data }) => {
+          const projects = JSON.parse(data);
+          if (projects) {
+            this.$store.commit('project/setList', projects);
+          }
+        };
+      }
+
+      // Poll apis
+      this.pollApiList = new EventSource(`${this.$config.portalURL}/mbr/d-apis/sse/api/list/${this.project.id}`, {
+        headers: { Authorization: this.$auth.strategy.token.get() },
+      });
+      this.pollApiList.onmessage = ({ data }) => {
+        const apis = JSON.parse(data);
+        if (apis) {
+          this.$store.commit('api/setList', apis);
+        }
+      };
+    },
+
     async updateApiStatus(api, checked) {
       let _api = _.cloneDeep(api);
       await this.$store.dispatch('api/updateApi', Object.assign(_api, { status: checked ? 1 : 0 }));
@@ -242,8 +268,12 @@ export default {
   },
 
   destroyed() {
-    if (this.pollInfo) {
-      this.pollInfo.close();
+    if (this.pollProjectList) {
+      this.pollProjectList.close();
+    }
+
+    if (this.pollApiList) {
+      this.pollApiList.close();
     }
   },
 };
