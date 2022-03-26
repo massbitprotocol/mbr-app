@@ -91,7 +91,6 @@ export default {
         return this.selected;
       },
       set(value) {
-        console.log('selected :>> ', value);
         this.$emit('update:selected', value);
       },
     },
@@ -101,7 +100,6 @@ export default {
         return this.sourceData;
       },
       set(value) {
-        console.log('sourceData :>> ', value);
         this.$emit('update:sourceData', value);
       },
     },
