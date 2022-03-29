@@ -116,7 +116,7 @@ export default {
       charts: [
         {
           name: 'Total Requests',
-          url: `${this.$config.statURL}/__internal_grafana/d-solo/SlBp65o7k/mbrn`,
+          url: `${this.$config.statURL}/__internal_grafana/d-solo/35llQjE7k/mbrn`,
           filter: 'now|now-6h',
           params: {
             orgId: 1,
@@ -129,7 +129,7 @@ export default {
         },
         {
           name: 'Total Bandwidth',
-          url: `${this.$config.statURL}/__internal_grafana/d-solo/SlBp65o7k/mbrn`,
+          url: `${this.$config.statURL}/__internal_grafana/d-solo/35llQjE7k/mbrn`,
           filter: 'now|now-6h',
           params: {
             orgId: 1,
