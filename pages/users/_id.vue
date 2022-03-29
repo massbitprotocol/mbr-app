@@ -263,7 +263,7 @@ export default {
       this.charts = [
         {
           name: 'Total Requests',
-          url: `${this.$config.statURL}/__internal_grafana/d-solo/zb9F6co7k/mbrg`,
+          url: `${this.$config.statURL}/__internal_grafana/d-solo/YUv28Os7k/mbrg`,
           filter: 'now|now-6h',
           params: {
             orgId: 1,
@@ -276,7 +276,7 @@ export default {
         },
         {
           name: 'Total Bandwidth',
-          url: `${this.$config.statURL}/__internal_grafana/d-solo/zb9F6co7k/mbrg`,
+          url: `${this.$config.statURL}/__internal_grafana/d-solo/YUv28Os7k/mbrg`,
           filter: 'now|now-6h',
           params: {
             orgId: 1,
