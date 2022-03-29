@@ -24,7 +24,7 @@
 
       <div class="flex flex-col items-center">
         <div class="text-heading-1 text-neutral-darkest">
-          Unstake <strong>{{ name }}</strong> ?
+          Unregister <strong>{{ name }}</strong> ?
         </div>
 
         <BaseButton class="mt-10 text-body-2 font-medium" :loading="loading" @click="$emit('submitUnStaking')">
