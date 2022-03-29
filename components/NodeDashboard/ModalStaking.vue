@@ -2,7 +2,7 @@
   <TheModal :open.sync="_visible" :backdrop="true">
     <div class="max-w-[570px] w-full bg-white p-5 rounded-lg z-10 text-left overflow-hidden">
       <div class="w-full flex items-center justify-between">
-        <div class="text-heading-2 text-neutral-darkset font-bold">Stake</div>
+        <div class="text-heading-2 text-neutral-darkset font-bold">Register {{ type }}</div>
 
         <svg
           @click="_visible = false"
@@ -67,6 +67,10 @@
                   <div class="text-xl text-neutral-darkset font-medium">100 {{ chainTokens }}</div>
                 </div>
               </div>
+              <p class="text-neutral-darkest text-xs italic">
+                Est transaction fee: {{ transactionFee }} {{ chainTokens }}
+              </p>
+
               <p v-if="error" class="text-red-500 text-xs italic">{{ error }}</p>
             </div>
             <div class="flex flex-col gap-2">
@@ -84,7 +88,7 @@
 </template>
 
 <script>
-import { formatBalance } from '@polkadot/util';
+import { formatBalance, stringToHex } from '@polkadot/util';
 
 export default {
   name: 'NodeDashboardModalStaking',
@@ -98,6 +102,11 @@ export default {
     loading: {
       type: Boolean,
       default: false,
+    },
+
+    type: {
+      type: String,
+      default: 'node',
     },
   },
 
@@ -117,6 +126,7 @@ export default {
       form: {
         amount: 100,
       },
+      transactionFee: 0,
       error: '',
       chainDecimals: 18,
       chainTokens: 'MBT',
@@ -144,6 +154,12 @@ export default {
         return;
       }
 
+      if (this.balance < BigInt((this.form.amount + this.transactionFee) * 1e18)) {
+        this.error = 'You balance is not enough';
+
+        return;
+      }
+
       this.$emit('submitStaking', BigInt(this.form.amount * 1e18));
     },
 
@@ -165,10 +181,21 @@ export default {
       const address = this.$auth.user.walletAddress;
       const { api } = this.$polkadot;
 
+      // Get transaction fee
+      const staking = api.tx.dapi.registerProvider(
+        stringToHex('7e723314-5be3-40ba-80f6-a61010f14722'),
+        'Node',
+        `eth.mainet`,
+      );
+      const { partialFee } = await staking.paymentInfo(address);
+      if (partialFee) {
+        this.transactionFee = partialFee.toNumber() / 100000000000;
+      }
+
+      // Get balance
       const { chainTokens, chainDecimals } = api.registry;
       if (chainTokens && chainTokens.length) this.chainTokens = chainTokens[0];
       if (chainDecimals && chainDecimals.length) this.chainDecimals = chainDecimals[0];
-
       const { nonce, data: balance } = await api.query.system.account(address);
       const _balance = BigInt(balance.free - balance.miscFrozen);
 
@@ -180,8 +207,8 @@ export default {
       this.form.amount = 0;
     },
 
-    _formatBalance(balance) {
-      return formatBalance(balance, { forceUnit: 'd', withSi: false }, this.chainDecimals);
+    _formatBalance(balance, unit = 'd') {
+      return formatBalance(balance, { forceUnit: unit, withSi: false }, this.chainDecimals);
     },
   },
 };

@@ -120,6 +120,7 @@
 
     <!-- Staking -->
     <NodeDashboardModalStaking
+      :type="'gateway'"
       :key="'modalStaking'"
       :visible.sync="showModalStaking"
       :loading="loadingStaking"
