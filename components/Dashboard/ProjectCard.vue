@@ -71,14 +71,14 @@
         Staking
       </BaseButton>
 
-      <BaseButton
+      <!-- <BaseButton
         v-if="project.status === 'staked'"
         class="text-body-2 font-medium"
         :loading="loadingUnStaking"
         @click="showModalUnStakeProvider = true"
       >
         Unstake
-      </BaseButton>
+      </BaseButton> -->
 
       <BaseGhostButton
         class="flex items-center justify-center gap-2 text-body-2 font-medium"

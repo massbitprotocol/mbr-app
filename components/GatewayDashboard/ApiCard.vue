@@ -245,7 +245,7 @@ export default {
               this.$notify({
                 type: 'success',
                 title: 'Success',
-                text: 'Unstake node successfully',
+                text: 'Unregister node successfully',
               });
               this.showModalUnStakeProvider = false;
             }
