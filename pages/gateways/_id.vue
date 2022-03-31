@@ -183,6 +183,10 @@ export default {
       headers: { Authorization: this.$auth.strategy.token.get() },
     });
     this.pollInfo.onmessage = ({ data }) => {
+      if (this.isEditing) {
+        return;
+      }
+
       const gatewayInfo = JSON.parse(data);
       if (gatewayInfo.status) {
         this.$store.commit('gateway/updateApi', gatewayInfo);
@@ -196,6 +200,7 @@ export default {
       charts: [],
       pollInfo: null,
       loadingDeleteApi: false,
+      isEditing: false,
     };
   },
 
@@ -254,6 +259,8 @@ export default {
   methods: {
     async deleteApi() {
       this.loadingDeleteApi = true;
+      this.isEditing = true;
+
       try {
         const isSuccess = await this.$store.dispatch('gateway/deleteApi', this.id);
         if (isSuccess) {
@@ -272,9 +279,11 @@ export default {
       }
 
       this.loadingDeleteApi = false;
+      this.isEditing = false;
     },
 
     showEditApiName() {
+      this.isEditing = true;
       this.editName = true;
       this.$nextTick(() => {
         this.$refs.apiName.focus();
@@ -303,6 +312,7 @@ export default {
       }
 
       this.editName = false;
+      this.isEditing = false;
     },
 
     initChartConfig() {

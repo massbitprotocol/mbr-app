@@ -85,7 +85,7 @@
             </div>
           </div>
 
-          <NodeDashboardOverview :api="api" />
+          <NodeDashboardOverview :api="api" :isEditing.sync="isEditing" />
         </div>
 
         <div class="mt-15 grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-7.5">
@@ -186,6 +186,7 @@ export default {
       loadingDeleteApi: false,
       charts: [],
       pollInfo: null,
+      isEditing: false,
     };
   },
 
@@ -244,6 +245,7 @@ export default {
   methods: {
     async deleteApi() {
       this.loadingDeleteApi = true;
+      this.isEditing = true;
       try {
         const isSuccess = await this.$store.dispatch('node/deleteApi', this.id);
         if (isSuccess) {
@@ -262,10 +264,12 @@ export default {
       }
 
       this.loadingDeleteApi = false;
+      this.isEditing = false;
     },
 
     showEditApiName() {
       this.editName = true;
+      this.isEditing = true;
       this.$nextTick(() => {
         this.$refs.apiName.focus();
       });
@@ -293,6 +297,7 @@ export default {
       }
 
       this.editName = false;
+      this.isEditing = false;
     },
 
     initChartConfig() {
@@ -332,6 +337,10 @@ export default {
         headers: { Authorization: this.$auth.strategy.token.get() },
       });
       this.pollInfo.onmessage = ({ data }) => {
+        if (this.isEditing) {
+          return;
+        }
+
         const nodeInfo = JSON.parse(data);
         if (nodeInfo.status) {
           this.$store.commit('node/updateApi', nodeInfo);
