@@ -65,7 +65,7 @@
         :loading="loadingStaking"
         class="w-[120px] px-3 h-[42px] hidden xl:flex items-center justify-center cursor-pointer text-body-2 font-medium rounded-lg"
       >
-        Staking
+        Register
       </BaseButton>
 
       <BaseButton
@@ -75,7 +75,7 @@
         @click="showModalUnStakeProvider = true"
         class="w-[120px] px-3 h-[42px] hidden xl:flex items-center justify-center cursor-pointer text-body-2 font-medium rounded-lg"
       >
-        UnStake
+        Unregister
       </BaseButton>
 
       <BaseButton
