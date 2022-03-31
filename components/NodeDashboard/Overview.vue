@@ -258,6 +258,11 @@ export default {
       default: () => ({}),
     },
 
+    isEditing: {
+      type: Boolean,
+      default: false,
+    },
+
     loading: {
       type: Boolean,
       default: false,
@@ -285,6 +290,16 @@ export default {
       }
 
       return '';
+    },
+
+    _isEditing: {
+      get() {
+        return this.isEditing;
+      },
+
+      set(value) {
+        this.$emit('update:isEditing', value);
+      },
     },
   },
 
@@ -316,6 +331,7 @@ export default {
 
           this.editDataSource = false;
           this.loadingUpdateApi = false;
+          this._isEditing = false;
         }, 1500);
       } else {
         this.editDataSource = false;
@@ -327,6 +343,7 @@ export default {
 
     showEditDataSource() {
       this.editDataSource = true;
+      this._isEditing = true;
       this.$nextTick(() => {
         this.$refs.apiDataSource.focus();
       });
