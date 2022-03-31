@@ -205,7 +205,7 @@ export default {
         if (isSuccess) {
           this.$notify({ type: 'success', text: 'Api deleted successfully!' });
 
-          this.$router.push({ name: 'users' });
+          this.$router.push({ name: 'projects' });
         }
       } catch (error) {
         console.log('error :>> ', error);
