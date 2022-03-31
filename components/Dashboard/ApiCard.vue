@@ -54,14 +54,14 @@
       class="flex flex-col items-end justify-center border-t lg:border-t-none border-primary-background lg:border-transparent px-5 pt-4 lg:pt-0"
     >
       <button
-        @click="$router.push({ name: 'users-id', params: { id: api.id } })"
+        @click="$router.push({ name: 'projects-id', params: { id: api.id } })"
         class="max-w-[189px] h-[52px] hidden lg:flex items-center justify-center cursor-pointer bg-neutral-lightest text-primary text-body-1 font-medium px-7.5 rounded-lg hover:bg-neutral-lightest/90 whitespace-nowrap"
       >
         API Key Settings
       </button>
 
       <NuxtLink
-        :to="{ name: 'users-id', params: { id: api.id } }"
+        :to="{ name: 'projects-id', params: { id: api.id } }"
         class="w-full flex lg:hidden items-center justify-between text-body-2 text-primary font-medium hover:text-primary/90"
       >
         <span>Settings for API Key</span>

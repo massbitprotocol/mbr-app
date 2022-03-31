@@ -128,7 +128,7 @@ export default {
             this.$notify({ type: 'success', text: 'New API has been successfully created!' });
           }, 500);
 
-          this.$router.push({ name: 'users-id', params: { id: res.id } });
+          this.$router.push({ name: 'projects-id', params: { id: res.id } });
 
           this.resetForm();
           this.loading = false;
