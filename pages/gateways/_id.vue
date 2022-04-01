@@ -135,17 +135,19 @@
           </div>
 
           <div class="mt-5 grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-7.5">
-            <template v-for="(chart, index) in charts">
-              <div :key="index" class="p-7.5 border border-primary-background rounded-xl">
-                <GatewayDashboardApiChart
-                  :title="chart.name"
-                  :url="chart.url"
-                  :filters="filters"
-                  :params="chart.params"
-                  :filter.sync="chart.filter"
-                />
-              </div>
-            </template>
+            <div
+              v-for="(chart, index) in charts"
+              :key="index"
+              class="p-7.5 border border-primary-background rounded-xl"
+            >
+              <GatewayDashboardApiChart
+                :title="chart.name"
+                :url="chart.url"
+                :filters="filters"
+                :params="chart.params"
+                :filter.sync="chart.filter"
+              />
+            </div>
           </div>
         </div>
       </client-only>

@@ -81,10 +81,10 @@ export default {
 
       try {
         switch (this.provider) {
-          case 'node':
+          case 'Node':
             await this.$store.dispatch('node/reVerify', this.api);
             break;
-          case 'gateway':
+          case 'Gateway':
             await this.$store.dispatch('gateway/reVerify', this.api);
             break;
         }
