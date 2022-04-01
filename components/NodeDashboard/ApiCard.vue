@@ -189,8 +189,9 @@ export default {
     }
 
     const { api } = this.$polkadot;
-    const currentEra = await api.query.dapiStaking.currentEra();
-    console.log('here -----------------', currentEra.toNumber());
+    const unsub = await api.query.dapiStaking.currentEra((era) => {
+      console.log(`The last block has a timestamp of ${era}`);
+    });
 
     console.log('api.query.dapiStaking :>> ', api.query.dapiStaking);
   },

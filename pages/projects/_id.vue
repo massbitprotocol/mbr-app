@@ -92,16 +92,15 @@
             </div>
           </div>
 
-          <template v-for="(chart, index) in charts">
-            <DashboardStatsNew
-              :key="index"
-              :title="chart.name"
-              :url="chart.url"
-              :filters="filters"
-              :params="chart.params"
-              :filter.sync="chart.filter"
-            />
-          </template>
+          <DashboardStatsNew
+            v-for="(chart, index) in charts"
+            :key="index"
+            :title="chart.name"
+            :url="chart.url"
+            :filters="filters"
+            :params="chart.params"
+            :filter.sync="chart.filter"
+          />
         </div>
       </client-only>
     </div>

@@ -119,13 +119,13 @@
                 </div>
               </ValidationProvider>
 
-              <div class="w-full px-3 mb-5 md:mb-0">
+              <!-- <div class="w-full px-3 mb-5 md:mb-0">
                 <label class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2" for="grid-api-key">
                   Network
                 </label>
 
                 <BaseRadioButtonGroup :source="networks" :current-key.sync="form.network" />
-              </div>
+              </div> -->
             </div>
 
             <div class="flex flex-wrap -mx-3">
