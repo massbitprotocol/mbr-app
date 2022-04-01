@@ -60,14 +60,6 @@
                 />
               </BasePopover>
             </div>
-
-            <!-- <BasePopover
-              class="flex items-center"
-              content="Change status of the API key. If you don't want API key active, please switch it off."
-              contentClass="w-[197px]"
-            >
-              <BaseToggle :checked.sync="status" />
-            </BasePopover> -->
           </div>
         </div>
 
@@ -134,17 +126,19 @@
           </div>
 
           <div class="mt-5 grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-7.5">
-            <template v-for="(chart, index) in charts">
-              <div :key="index" class="p-7.5 border border-primary-background rounded-xl">
-                <NodeDashboardApiChart
-                  :title="chart.name"
-                  :url="chart.url"
-                  :filters="filters"
-                  :params="chart.params"
-                  :filter.sync="chart.filter"
-                />
-              </div>
-            </template>
+            <div
+              v-for="(chart, index) in charts"
+              :key="index"
+              class="p-7.5 border border-primary-background rounded-xl"
+            >
+              <NodeDashboardApiChart
+                :title="chart.name"
+                :url="chart.url"
+                :filters="filters"
+                :params="chart.params"
+                :filter.sync="chart.filter"
+              />
+            </div>
           </div>
         </div>
       </client-only>

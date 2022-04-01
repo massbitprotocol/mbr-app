@@ -173,6 +173,28 @@ export default {
     };
   },
 
+  async created() {
+    if (!this.$polkadot.api.isReady) {
+      await this.$polkadot.startApi();
+
+      if (!this.$polkadot.api.isReady) {
+        this.$notify({
+          type: 'error',
+          title: 'Error',
+          text: 'Polkadot API is not ready',
+        });
+
+        return;
+      }
+    }
+
+    const { api } = this.$polkadot;
+    const currentEra = await api.query.dapiStaking.currentEra();
+    console.log('here -----------------', currentEra.toNumber());
+
+    console.log('api.query.dapiStaking :>> ', api.query.dapiStaking);
+  },
+
   computed: {
     ...mapGetters({
       getBlockchainByID: 'blockchains/getBlockchainByID',
