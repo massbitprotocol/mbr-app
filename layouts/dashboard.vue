@@ -41,6 +41,8 @@ export default {
     if (this.providers.length === 0) {
       await this.initData();
     }
+
+    this.$store.commit('initAppSuccess');
   },
 
   computed: {

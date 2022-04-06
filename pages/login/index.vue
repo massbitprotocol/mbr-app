@@ -99,9 +99,7 @@
           <div class="flex flex-wrap -mx-3 mb-15 mt-3">
             <div class="w-full px-3 mb-5 md:mb-0 text-body-2">
               <span class="text-neutral-normal">Not a member?</span>
-              <span class="text-accent-green font-medium cursor-pointer" @click="$router.push({ name: 'sign-up' })">
-                Sign up
-              </span>
+              <span class="text-accent-green font-medium cursor-pointer" @click="loginWithWallet"> Sign up </span>
             </div>
           </div>
         </form>

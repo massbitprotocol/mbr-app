@@ -66,7 +66,7 @@
             </svg>
 
             <div class="text-body-2 text-neutral-darkset">
-              {{ balance }} <strong>{{ chainTokens }}</strong>
+              {{ balance }} <strong>{{ chainToken }}</strong>
             </div>
           </div>
 
@@ -223,7 +223,7 @@
 </template>
 
 <script>
-import { formatBalance } from '@polkadot/util';
+import { mapState } from 'vuex';
 
 export default {
   name: 'TheHeader',
@@ -231,46 +231,19 @@ export default {
   data() {
     return {
       isShowSideBar: false,
-      balance: '0.00',
-      chainDecimals: 18,
-      chainTokens: 'MBT',
     };
   },
 
-  created() {
-    this.getAccountBalance();
+  computed: {
+    ...mapState({
+      balance: (state) => state.user.balance,
+      chainToken: (state) => state.chain.chainToken,
+    }),
   },
 
   methods: {
     redirectToMassbit() {
       window.location.href = 'https://massbit.io/';
-    },
-
-    async getAccountBalance() {
-      if (!this.$polkadot.api.isReady) {
-        await this.$polkadot.startApi();
-
-        if (!this.$polkadot.api.isReady) {
-          this.$notify({
-            type: 'error',
-            title: 'Error',
-            text: 'Polkadot API is not ready',
-          });
-
-          return;
-        }
-      }
-
-      const address = this.$auth.user.walletAddress;
-      const { api } = this.$polkadot;
-
-      const { chainTokens, chainDecimals } = api.registry;
-      if (chainTokens && chainTokens.length) this.chainTokens = chainTokens[0];
-      if (chainDecimals && chainDecimals.length) this.chainDecimals = chainDecimals[0];
-
-      const { nonce, data: balance } = await api.query.system.account(address);
-      const _balance = BigInt(balance.free - balance.miscFrozen);
-      this.balance = formatBalance(_balance, { forceUnit: 'd', withSi: false }, this.chainDecimals);
     },
   },
 };

@@ -195,12 +195,12 @@ export default {
   name: 'SignUp',
 
   async asyncData({ $auth, redirect }) {
-    if ($auth.user.status !== 'init_user' && $auth.user.status !== 'verify_email') {
+    if ($auth.user && $auth.user.status !== 'init_user' && $auth.user.status !== 'verify_email') {
       redirect('/');
       return;
     }
 
-    if ($auth.user.status === 'verify_email') {
+    if ($auth.user && $auth.user.status === 'verify_email') {
       return {
         form: {
           username: '',
