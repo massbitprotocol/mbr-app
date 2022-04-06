@@ -37,6 +37,7 @@ const config = {
     '~/plugins/tooltip',
     '~/plugins/qrcode',
     '~/plugins/helpers/filters.js',
+    '~/plugins/helpers/utils.js',
   ],
 
   publicRuntimeConfig: {

@@ -7,7 +7,7 @@
       <div
         class="px-5 xl:px-0 mb-4 xl:mb-0 text-heading-2 xl:text-heading-1 text-neutral-darkset font-bold overflow-ellipsis whitespace-nowrap break-words overflow-hidden"
       >
-        {{ api.name }}
+        {{ api.name }} {{ currentEra }}
       </div>
 
       <!-- API key -->
@@ -26,7 +26,7 @@
     </div>
 
     <!-- Zone -->
-    <div class="max-w-[180px] w-full flex-shrink px-5">
+    <div class="max-w-[80px] w-full flex-shrink px-5">
       <div class="grid grid-cols-1">
         <div class="text-body-2 text-neutral-normal font-medium">Zone</div>
         <div class="mt-1 text-body-1 text-neutral-darker font-medium truncate">
@@ -36,7 +36,7 @@
     </div>
 
     <!-- Blockchain -->
-    <div class="max-w-[180px] w-full flex-shrink px-5">
+    <div class="max-w-[120px] w-full flex-shrink px-5">
       <div class="grid grid-cols-1">
         <div class="text-body-2 text-neutral-normal font-medium">Blockchain</div>
         <div class="mt-1 text-body-1 text-neutral-darker font-medium truncate">
@@ -46,11 +46,33 @@
     </div>
 
     <!-- Status -->
-    <div class="flex-shrink px-5">
+    <div class="max-w-[120px] w-full flex-shrink px-5">
       <div class="grid grid-cols-1">
         <div class="text-body-2 text-neutral-normal">Status</div>
         <div class="mt-1 uppercase text-body-1 text-neutral-darker font-medium truncate">
           {{ api.status }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Reward -->
+    <div class="w-full max-w-[220px] flex-shrink px-5">
+      <div class="grid grid-cols-1">
+        <div class="text-body-2 text-neutral-normal">Reward</div>
+
+        <div class="flex items-center gap-2">
+          <div class="mt-1 uppercase text-body-1 text-neutral-darker font-medium">
+            {{ totalReward }} {{ chainToken }}
+          </div>
+          <div class="w-18 flex items-center">
+            <BaseGhostButton
+              class="absolute px-4 h-[32px] text-body-2 font-medium text-primary cursor-pointer"
+              :loading="loadingClaimReward"
+              @click="claimReward"
+            >
+              Claim
+            </BaseGhostButton>
+          </div>
         </div>
       </div>
     </div>
@@ -148,6 +170,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import { stringToHex } from '@polkadot/util';
 import { mapGetters } from 'vuex';
 import _ from 'lodash';
@@ -162,43 +185,40 @@ export default {
     },
   },
 
+  watch: {
+    currentEra() {
+      this.calculateEraStakeReward();
+    },
+  },
+
   data() {
     return {
       is_prod: false,
       loadingStaking: false,
       loadingUnStaking: false,
       loadingVerify: false,
+      loadingClaimReward: false,
       showModalStaking: false,
       showModalUnStakeProvider: false,
+      totalReward: '',
+      claimRewardTransactions: [],
     };
   },
 
   async created() {
-    if (!this.$polkadot.api.isReady) {
-      await this.$polkadot.startApi();
-
-      if (!this.$polkadot.api.isReady) {
-        this.$notify({
-          type: 'error',
-          title: 'Error',
-          text: 'Polkadot API is not ready',
-        });
-
-        return;
-      }
-    }
-
-    const { api } = this.$polkadot;
-    const unsub = await api.query.dapiStaking.currentEra((era) => {
-      console.log(`The last block has a timestamp of ${era}`);
-    });
-
-    console.log('api.query.dapiStaking :>> ', api.query.dapiStaking);
+    await this.checkApiIsReady();
+    this.calculateEraStakeReward();
   },
 
   computed: {
     ...mapGetters({
       getBlockchainByID: 'blockchains/getBlockchainByID',
+    }),
+
+    ...mapState({
+      chainToken: (state) => state.chain.chainToken,
+      chainDecimal: (state) => state.chain.chainDecimal,
+      currentEra: (state) => state.chain.currentEra,
     }),
 
     _blockchain() {
@@ -216,6 +236,87 @@ export default {
   },
 
   methods: {
+    async checkApiIsReady() {
+      if (!this.$polkadot.api.isReady) {
+        await this.$polkadot.startApi();
+
+        if (!this.$polkadot.api.isReady) {
+          this.$notify({
+            type: 'error',
+            title: 'Error',
+            text: 'Polkadot API is not ready',
+          });
+
+          return;
+        }
+      }
+    },
+    async calculateEraStakeReward() {
+      this.checkApiIsReady();
+
+      const { api } = this.$polkadot;
+
+      const datas = await api.query.dapiStaking.providerEraStake.entries(this.api.id);
+
+      let totalReward = BigInt(0);
+
+      datas.forEach(([key, exposure]) => {
+        const [hashProviderId, _era] = key.args;
+        const era = _era.toString();
+        const providerId = hashProviderId.toHuman();
+        const stakeData = exposure.toString();
+
+        if (stakeData.length > 0) {
+          const stake = JSON.parse(stakeData);
+
+          if (!stake.providerRewardClaimed) {
+            totalReward += BigInt(stake.total);
+          }
+        }
+      });
+
+      this.totalReward = this.$utils.formatBalance(totalReward, this.chainDecimal);
+    },
+
+    async claimReward() {
+      this.loadingClaimReward = true;
+
+      try {
+        this.checkApiIsReady();
+
+        let transacions = [];
+
+        const { api } = this.$polkadot;
+
+        const datas = await api.query.dapiStaking.providerEraStake.entries(this.api.id);
+        datas.forEach(([key, exposure]) => {
+          const [hashProviderId, _era] = key.args;
+          const era = _era.toString();
+          const providerId = hashProviderId.toHuman();
+          const stakeData = exposure.toString();
+
+          if (stakeData.length > 0) {
+            const stake = JSON.parse(stakeData);
+
+            if (!stake.providerRewardClaimed) {
+              const tx = api.tx.dapiStaking.claimOperator(this.api.id, era);
+              transacions.push(tx);
+            }
+          }
+        });
+
+        console.log('api.query.dapiStaking :>> ', api);
+        if (transacions.length) {
+          console.log('api.tx.utility :>> ', api.tx.utility);
+          const balance = await api.tx.utility.batch(transacions);
+        }
+      } catch (error) {
+        this.$notify({ type: 'error', text: this.$utils.getErrorMessage(error) });
+      }
+
+      this.loadingClaimReward = false;
+    },
+
     async reVerify() {
       this.loadingVerify = true;
 

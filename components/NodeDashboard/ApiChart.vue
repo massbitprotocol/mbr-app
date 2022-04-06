@@ -9,8 +9,8 @@
         v-model="_filter"
         class="h-[44px] px-5 cursor-pointer border border-primary-background rounded-xl text-body-2 text-neutral-darker font-medium"
       >
-        <template v-for="item in filters">
-          <option :key="item.value" :value="item.value">{{ item.name }}</option>
+        <template>
+          <option v-for="item in filters" :key="item.value" :value="item.value">{{ item.name }}</option>
         </template>
       </select>
     </div>

@@ -64,17 +64,17 @@
                     />
                   </svg>
 
-                  <div class="text-xl text-neutral-darkset font-medium">100 {{ chainTokens }}</div>
+                  <div class="text-xl text-neutral-darkset font-medium">100 {{ chainToken }}</div>
                 </div>
               </div>
               <p class="text-neutral-darkest text-xs italic">
-                Est transaction fee: {{ transactionFee }} {{ chainTokens }}
+                Est transaction fee: {{ transactionFee }} {{ chainToken }}
               </p>
 
               <p v-if="error" class="text-red-500 text-xs italic">{{ error }}</p>
             </div>
             <div class="flex flex-col gap-2">
-              <div class="text-body text-neutral-normal font-medium">Balance {{ _formatBalance(balance) }}</div>
+              <div class="text-body text-neutral-normal font-medium">Balance {{ balance }}</div>
             </div>
           </div>
 
@@ -88,7 +88,8 @@
 </template>
 
 <script>
-import { formatBalance, stringToHex } from '@polkadot/util';
+import { mapState } from 'vuex';
+import { stringToHex } from '@polkadot/util';
 
 export default {
   name: 'NodeDashboardModalStaking',
@@ -114,26 +115,26 @@ export default {
     visible(value) {
       if (!value) {
         this.resetForm();
-      } else {
-        this.getAccountBalance();
       }
     },
   },
 
   data() {
     return {
-      balance: 0,
       form: {
         amount: 100,
       },
       transactionFee: 0,
       error: '',
-      chainDecimals: 18,
-      chainTokens: 'MBT',
     };
   },
 
   computed: {
+    ...mapState({
+      balance: (state) => state.user.balance,
+      chainToken: (state) => state.chain.chainToken,
+    }),
+
     _visible: {
       get() {
         return this.visible;
@@ -191,24 +192,11 @@ export default {
       if (partialFee) {
         this.transactionFee = partialFee.toNumber() / 100000000000;
       }
-
-      // Get balance
-      const { chainTokens, chainDecimals } = api.registry;
-      if (chainTokens && chainTokens.length) this.chainTokens = chainTokens[0];
-      if (chainDecimals && chainDecimals.length) this.chainDecimals = chainDecimals[0];
-      const { nonce, data: balance } = await api.query.system.account(address);
-      const _balance = BigInt(balance.free - balance.miscFrozen);
-
-      this.balance = BigInt(_balance);
     },
 
     resetForm() {
       this.balance = 0;
       this.form.amount = 0;
-    },
-
-    _formatBalance(balance, unit = 'd') {
-      return formatBalance(balance, { forceUnit: unit, withSi: false }, this.chainDecimals);
     },
   },
 };
