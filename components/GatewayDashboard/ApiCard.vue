@@ -55,6 +55,30 @@
       </div>
     </div>
 
+    <!-- Reward -->
+    <div class="w-full max-w-[220px] flex-shrink px-5">
+      <div class="grid grid-cols-1">
+        <div class="text-body-2 text-neutral-normal">Reward</div>
+
+        <div class="flex items-center gap-2" v-if="totalReward !== '0'">
+          <div class="mt-1 uppercase text-body-1 text-neutral-darker font-medium">
+            {{ totalReward }} {{ chainToken }}
+          </div>
+          <div class="w-18 flex items-center">
+            <BaseGhostButton
+              class="absolute px-4 h-[32px] text-body-2 font-medium text-primary cursor-pointer"
+              :loading="loadingClaimReward"
+              @click="calculateRewardAndShowModal"
+            >
+              Claim
+            </BaseGhostButton>
+          </div>
+        </div>
+
+        <div v-else>--</div>
+      </div>
+    </div>
+
     <!-- Gateway Settings -->
     <div
       class="flex gap-3 items-end justify-center border-t xl:border-t-none border-primary-background xl:border-transparent px-5 pt-4 xl:pt-0"
@@ -140,7 +164,7 @@
 
 <script>
 import { stringToHex } from '@polkadot/util';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import _ from 'lodash';
 
 export default {
@@ -153,6 +177,18 @@ export default {
     },
   },
 
+  watch: {
+    currentEra() {
+      this.calculateEraStakeReward();
+    },
+  },
+
+  async created() {
+    await this.checkApiIsReady();
+
+    this.calculateEraStakeReward();
+  },
+
   data() {
     return {
       is_prod: false,
@@ -161,12 +197,24 @@ export default {
       loadingVerify: false,
       loadingUnStaking: false,
       showModalUnStakeProvider: false,
+      loadingClaimReward: false,
+      loadingModalClaimReward: false,
+      showModalClaimReward: false,
+      claimRewardTransactions: [],
+      claimTransactionFee: 0,
+      totalReward: '',
     };
   },
 
   computed: {
     ...mapGetters({
       getBlockchainByID: 'blockchains/getBlockchainByID',
+    }),
+
+    ...mapState({
+      chainToken: (state) => state.chain.chainToken,
+      chainDecimal: (state) => state.chain.chainDecimal,
+      currentEra: (state) => state.chain.currentEra,
     }),
 
     _blockchain() {

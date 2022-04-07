@@ -60,7 +60,7 @@
       <div class="grid grid-cols-1">
         <div class="text-body-2 text-neutral-normal">Reward</div>
 
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2" v-if="totalReward !== '0'">
           <div class="mt-1 uppercase text-body-1 text-neutral-darker font-medium">
             {{ totalReward }} {{ chainToken }}
           </div>
@@ -68,12 +68,14 @@
             <BaseGhostButton
               class="absolute px-4 h-[32px] text-body-2 font-medium text-primary cursor-pointer"
               :loading="loadingClaimReward"
-              @click="claimReward"
+              @click="calculateRewardAndShowModal"
             >
               Claim
             </BaseGhostButton>
           </div>
         </div>
+
+        <div v-else>--</div>
       </div>
     </div>
 
@@ -166,6 +168,16 @@
       :name="api.name"
       @submitUnStaking="unStakeProvider"
     />
+
+    <!-- Claim reward -->
+    <BaseModalClaimReward
+      :visible.sync="showModalClaimReward"
+      :loading="loadingModalClaimReward"
+      :name="api.name"
+      :transactionFee="claimTransactionFee"
+      :totalReward="totalReward"
+      @submitClaimReward="submitClaimReward"
+    />
   </div>
 </template>
 
@@ -198,10 +210,13 @@ export default {
       loadingUnStaking: false,
       loadingVerify: false,
       loadingClaimReward: false,
+      loadingModalClaimReward: false,
       showModalStaking: false,
       showModalUnStakeProvider: false,
-      totalReward: '',
+      showModalClaimReward: false,
       claimRewardTransactions: [],
+      claimTransactionFee: 0,
+      totalReward: '',
     };
   },
 
@@ -251,6 +266,16 @@ export default {
         }
       }
     },
+
+    async calculateRewardAndShowModal() {
+      this.loadingClaimReward = true;
+
+      await this.calculateTransactions();
+      this.showModalClaimReward = true;
+
+      this.loadingClaimReward = false;
+    },
+
     async calculateEraStakeReward() {
       this.checkApiIsReady();
 
@@ -262,35 +287,8 @@ export default {
 
       datas.forEach(([key, exposure]) => {
         const [hashProviderId, _era] = key.args;
-        const era = _era.toString();
-        const providerId = hashProviderId.toHuman();
-        const stakeData = exposure.toString();
 
-        if (stakeData.length > 0) {
-          const stake = JSON.parse(stakeData);
-
-          if (!stake.providerRewardClaimed) {
-            totalReward += BigInt(stake.total);
-          }
-        }
-      });
-
-      this.totalReward = this.$utils.formatBalance(totalReward, this.chainDecimal);
-    },
-
-    async claimReward() {
-      this.loadingClaimReward = true;
-
-      try {
-        this.checkApiIsReady();
-
-        let transacions = [];
-
-        const { api } = this.$polkadot;
-
-        const datas = await api.query.dapiStaking.providerEraStake.entries(this.api.id);
-        datas.forEach(([key, exposure]) => {
-          const [hashProviderId, _era] = key.args;
+        if (_era.toNumber() < this.currentEra.toNumber()) {
           const era = _era.toString();
           const providerId = hashProviderId.toHuman();
           const stakeData = exposure.toString();
@@ -299,20 +297,109 @@ export default {
             const stake = JSON.parse(stakeData);
 
             if (!stake.providerRewardClaimed) {
-              const tx = api.tx.dapiStaking.claimOperator(this.api.id, era);
-              transacions.push(tx);
+              totalReward += BigInt(stake.total);
+            }
+          }
+        }
+      });
+
+      this.totalReward = this.$utils.formatBalance(totalReward, this.chainDecimal);
+    },
+
+    async calculateTransactions() {
+      this.claimRewardTransactions = [];
+
+      try {
+        this.checkApiIsReady();
+
+        let transacions = [];
+
+        const address = this.$auth.user.walletAddress;
+        const { api } = this.$polkadot;
+
+        const datas = await api.query.dapiStaking.providerEraStake.entries(this.api.id);
+        datas.forEach(([key, exposure]) => {
+          const [hashProviderId, _era] = key.args;
+          const era = _era.toString();
+
+          if (_era.toNumber() < this.currentEra.toNumber()) {
+            const providerId = hashProviderId.toHuman();
+            const stakeData = exposure.toString();
+
+            if (stakeData.length > 0) {
+              const stake = JSON.parse(stakeData);
+              if (!stake.providerRewardClaimed) {
+                const tx = api.tx.dapiStaking.claimOperator(this.api.id, era);
+                transacions.push(tx);
+              }
             }
           }
         });
 
         if (transacions.length) {
-          const balance = await api.tx.utility.batch(transacions);
+          this.claimRewardTransactions = transacions;
+
+          const { partialFee } = await api.tx.utility.batch(transacions).paymentInfo(address);
+          if (partialFee) {
+            this.claimTransactionFee = partialFee.toNumber() / 100000000000;
+          }
+        } else {
+          // Reset
+          this.claimRewardTransactions = [];
+          this.claimTransactionFee = 0;
         }
       } catch (error) {
-        this.$notify({ type: 'error', text: this.$utils.getErrorMessage(error) });
+        console.log('error :>> ', error);
       }
+    },
 
-      this.loadingClaimReward = false;
+    async submitClaimReward() {
+      this.loadingModalClaimReward = true;
+
+      try {
+        this.checkApiIsReady();
+
+        const address = this.$auth.user.walletAddress;
+        const { api } = this.$polkadot;
+        const signer = await this.$polkadot.getSigner({ address });
+
+        const _transactions = await api.tx.utility.batch(this.claimRewardTransactions);
+        const unsub = await _transactions.signAndSend(address, { signer }, ({ status, events = [], dispatchError }) => {
+          if (status.isFinalized) {
+            if (dispatchError) {
+              if (dispatchError.isModule) {
+                this.$notify({
+                  type: 'error',
+                  title: 'Error',
+                  text: this.$polkadot.getStakingMessage(dispatchError),
+                });
+              } else {
+                this.$notify({
+                  type: 'error',
+                  title: 'Error',
+                  text: dispatchError.toString(),
+                });
+              }
+            } else {
+              const blockHash = status.asFinalized.toString();
+              this.$notify({
+                type: 'success',
+                title: 'Success',
+                text: `Claim node reward successfully submitted to block ${blockHash}`,
+              });
+              this.showModalClaimReward = false;
+
+              this.calculateEraStakeReward();
+            }
+
+            this.loadingModalClaimReward = false;
+            unsub();
+          }
+        });
+      } catch (error) {
+        this.$notify({ type: 'error', text: this.$utils.getErrorMessage(error) });
+        this.loadingModalClaimReward = false;
+      }
     },
 
     async reVerify() {
@@ -414,6 +501,7 @@ export default {
         stringToHex(this.api.id),
         'Node',
         `${this.api.blockchain}.${this.api.network}`,
+        amount,
       );
       const signer = await this.$polkadot.getSigner({ address });
 
@@ -436,7 +524,6 @@ export default {
               }
             } else {
               const blockHash = status.asFinalized.toString();
-              console.log('blockHash :>> ', blockHash);
               this.$notify({
                 type: 'success',
                 title: 'Success',
