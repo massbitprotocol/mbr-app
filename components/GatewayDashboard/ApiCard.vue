@@ -159,6 +159,17 @@
       :name="api.name"
       @submitUnStaking="unStakeProvider"
     />
+
+    <!-- Claim reward -->
+    <BaseModalClaimReward
+      :type="'gateway'"
+      :visible.sync="showModalClaimReward"
+      :loading="loadingModalClaimReward"
+      :name="api.name"
+      :transactionFee="claimTransactionFee"
+      :totalReward="totalReward"
+      @submitClaimReward="submitClaimReward"
+    />
   </div>
 </template>
 
@@ -232,6 +243,157 @@ export default {
   },
 
   methods: {
+    async checkApiIsReady() {
+      if (!this.$polkadot.api.isReady) {
+        await this.$polkadot.startApi();
+
+        if (!this.$polkadot.api.isReady) {
+          this.$notify({
+            type: 'error',
+            title: 'Error',
+            text: 'Polkadot API is not ready',
+          });
+
+          return;
+        }
+      }
+    },
+
+    async calculateRewardAndShowModal() {
+      this.loadingClaimReward = true;
+
+      await this.calculateTransactions();
+      this.showModalClaimReward = true;
+
+      this.loadingClaimReward = false;
+    },
+
+    async calculateEraStakeReward() {
+      this.checkApiIsReady();
+
+      const { api } = this.$polkadot;
+
+      const datas = await api.query.dapiStaking.providerEraStake.entries(this.api.id);
+
+      let totalReward = BigInt(0);
+
+      datas.forEach(([key, exposure]) => {
+        const [hashProviderId, _era] = key.args;
+
+        if (_era.toNumber() < this.currentEra.toNumber()) {
+          const era = _era.toString();
+          const providerId = hashProviderId.toHuman();
+          const stakeData = exposure.toString();
+
+          if (stakeData.length > 0) {
+            const stake = JSON.parse(stakeData);
+
+            if (!stake.providerRewardClaimed) {
+              totalReward += BigInt(stake.total);
+            }
+          }
+        }
+      });
+
+      this.totalReward = this.$utils.formatBalance(totalReward, this.chainDecimal);
+    },
+
+    async calculateTransactions() {
+      this.claimRewardTransactions = [];
+
+      try {
+        this.checkApiIsReady();
+
+        let transacions = [];
+
+        const address = this.$auth.user.walletAddress;
+        const { api } = this.$polkadot;
+
+        const datas = await api.query.dapiStaking.providerEraStake.entries(this.api.id);
+        datas.forEach(([key, exposure]) => {
+          const [hashProviderId, _era] = key.args;
+          const era = _era.toString();
+
+          if (_era.toNumber() < this.currentEra.toNumber()) {
+            const providerId = hashProviderId.toHuman();
+            const stakeData = exposure.toString();
+
+            if (stakeData.length > 0) {
+              const stake = JSON.parse(stakeData);
+              if (!stake.providerRewardClaimed) {
+                const tx = api.tx.dapiStaking.claimOperator(this.api.id, era);
+                transacions.push(tx);
+              }
+            }
+          }
+        });
+
+        if (transacions.length) {
+          this.claimRewardTransactions = transacions;
+
+          const { partialFee } = await api.tx.utility.batch(transacions).paymentInfo(address);
+          if (partialFee) {
+            this.claimTransactionFee = partialFee.toNumber() / 100000000000;
+          }
+        } else {
+          // Reset
+          this.claimRewardTransactions = [];
+          this.claimTransactionFee = 0;
+        }
+      } catch (error) {
+        console.log('error :>> ', error);
+      }
+    },
+
+    async submitClaimReward() {
+      this.loadingModalClaimReward = true;
+
+      try {
+        this.checkApiIsReady();
+
+        const address = this.$auth.user.walletAddress;
+        const { api } = this.$polkadot;
+        const signer = await this.$polkadot.getSigner({ address });
+
+        const _transactions = await api.tx.utility.batch(this.claimRewardTransactions);
+        const unsub = await _transactions.signAndSend(address, { signer }, ({ status, events = [], dispatchError }) => {
+          if (status.isFinalized) {
+            if (dispatchError) {
+              if (dispatchError.isModule) {
+                this.$notify({
+                  type: 'error',
+                  title: 'Error',
+                  text: this.$polkadot.getStakingMessage(dispatchError),
+                });
+              } else {
+                this.$notify({
+                  type: 'error',
+                  title: 'Error',
+                  text: dispatchError.toString(),
+                });
+              }
+            } else {
+              const blockHash = status.asFinalized.toString();
+              this.$notify({
+                type: 'success',
+                title: 'Success',
+                text: `Claim node reward successfully submitted to block ${blockHash}`,
+              });
+              this.showModalClaimReward = false;
+
+              this.calculateEraStakeReward();
+            }
+
+            this.loadingModalClaimReward = false;
+            unsub();
+          }
+        });
+      } catch (error) {
+        this.$notify({ type: 'error', text: this.$utils.getErrorMessage(error) });
+        this.loadingModalClaimReward = false;
+      }
+    },
+
     async reVerify() {
       this.loadingVerify = true;
 
