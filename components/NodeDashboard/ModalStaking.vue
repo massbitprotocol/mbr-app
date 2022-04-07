@@ -240,7 +240,7 @@ export default {
       const staking = api.tx.dapi.registerProvider(
         stringToHex('7e723314-5be3-40ba-80f6-a61010f14722'),
         'Node',
-        `eth.mainet`,
+        `eth.mainnet`,
         BigInt(this.form.amount * 1e18),
       );
       const { partialFee } = await staking.paymentInfo(address);

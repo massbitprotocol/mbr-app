@@ -440,7 +440,7 @@ export default {
               this.$notify({
                 type: 'success',
                 title: 'Success',
-                text: 'Staking node successfully',
+                text: `Staking node successfully submitted to block ${blockHash}`,
               });
               this.showModalStaking = false;
             }

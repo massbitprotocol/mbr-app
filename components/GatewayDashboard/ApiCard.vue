@@ -283,6 +283,7 @@ export default {
         stringToHex(this.api.id),
         'Gateway',
         `${this.api.blockchain}.${this.api.network}`,
+        amount,
       );
       const signer = await this.$polkadot.getSigner({ address });
 
@@ -305,11 +306,10 @@ export default {
               }
             } else {
               const blockHash = status.asFinalized.toString();
-              console.log('blockHash :>> ', blockHash);
               this.$notify({
                 type: 'success',
                 title: 'Success',
-                text: 'Staking gateway successfully',
+                text: `Staking gateway successfully submitted to block ${blockHash}`,
               });
               this.showModalStaking = false;
             }
