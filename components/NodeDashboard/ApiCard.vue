@@ -305,9 +305,7 @@ export default {
           }
         });
 
-        console.log('api.query.dapiStaking :>> ', api);
         if (transacions.length) {
-          console.log('api.tx.utility :>> ', api.tx.utility);
           const balance = await api.tx.utility.batch(transacions);
         }
       } catch (error) {

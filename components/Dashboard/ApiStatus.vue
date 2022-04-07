@@ -123,6 +123,7 @@ export default {
         stringToHex(this.api.id),
         this.provider,
         `${this.api.blockchain}.${this.api.network}`,
+        amount,
       );
       const signer = await this.$polkadot.getSigner({ address });
 
@@ -148,7 +149,7 @@ export default {
               this.$notify({
                 type: 'success',
                 title: 'Success',
-                text: 'Staking node successfully',
+                text: `Staking ${provider} successfully submitted to block ${blockHash}`,
               });
               this.showModalStaking = false;
             }
