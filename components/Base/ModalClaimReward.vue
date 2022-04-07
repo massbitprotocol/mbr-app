@@ -65,7 +65,7 @@
           :loading="loading"
           @click="$emit('submitClaimReward')"
         >
-          Calim
+          Claim
         </BaseButton>
       </div>
     </div>

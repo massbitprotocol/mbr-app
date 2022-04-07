@@ -508,6 +508,8 @@ export default {
       try {
         const unsub = await staking.signAndSend(address, { signer }, ({ status, events = [], dispatchError }) => {
           if (status.isFinalized) {
+            console.log('dispatchError :>> ', dispatchError.toString());
+
             if (dispatchError) {
               if (dispatchError.isModule) {
                 this.$notify({

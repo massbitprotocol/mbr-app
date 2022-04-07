@@ -39,9 +39,12 @@
       </div>
 
       <div v-if="apiList && apiList.length > 0" class="flex flex-col gap-y-2.5">
-        <template v-for="(api, index) in apiList">
-          <NodeDashboardApiCard :key="index" :api="api" @updateApiStatus="(value) => updateApiStatus(api, value)" />
-        </template>
+        <NodeDashboardApiCard
+          v-for="(api, index) in apiList"
+          :key="index"
+          :api="api"
+          @updateApiStatus="(value) => updateApiStatus(api, value)"
+        />
 
         <BasePagination class="mt-3" :meta="apiMeta" :links="apiLinks" @onChangePage="onChangePage" />
       </div>

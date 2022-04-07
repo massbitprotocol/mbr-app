@@ -68,6 +68,9 @@ export default (ctx, inject) => {
         case 'dapi.AlreadyRegistered':
           return 'Node already registered';
 
+        case 'dapi.AlreadyExist':
+          return 'Provider already exist';
+
         case 'dapi.InsufficientBoding':
           return 'Staking amount is not enough';
 
