@@ -120,6 +120,7 @@ export default {
         network: 'mainnet',
       },
       loading: false,
+      error: '',
     };
   },
 

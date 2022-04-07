@@ -81,7 +81,7 @@
                       v-if="isShowEditAmount"
                       ref="stakingAmount"
                       type="number"
-                      class="h-[40px] text-xl w-[280px] text-neutral-darkset font-medium border-0 rounded-lg py-2 px-4 leading-tight focus:outline-none focus:border-primary-background focus:border-2 focus:shadow-outline"
+                      class="h-[40px] text-xl w-[180px] text-neutral-darkset font-medium border-0 rounded-lg py-2 px-4 leading-tight focus:outline-none focus:border-primary-background focus:border-2 focus:shadow-outline"
                       v-model="form.amount"
                       :min="1"
                       :step="1"
