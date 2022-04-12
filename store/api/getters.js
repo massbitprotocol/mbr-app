@@ -6,4 +6,12 @@ export default {
   value(state) {
     return state.api;
   },
+
+  meta(state) {
+    return state.meta;
+  },
+
+  links(state) {
+    return state.links;
+  },
 };

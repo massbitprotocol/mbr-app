@@ -5,7 +5,7 @@
         Entrypoints
       </div>
 
-      <BaseSecondaryButton class="h-[52px]" @click="onShowModalAddEntrypoint">
+      <BaseSecondaryButton class="h-[40px]" @click="onShowModalAddEntrypoint">
         <div class="flex items-center mr-2" v-html="require(`~/assets/svg/icon/plus.svg?raw`)"></div>
         Add Entrypoint
       </BaseSecondaryButton>

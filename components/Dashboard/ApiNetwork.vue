@@ -23,7 +23,7 @@
         </div>
       </div>
 
-      <BaseSecondaryButton class="w-full sm:w-auto h-[52px]" @click="showModalUpdateSecutiry = true">
+      <BaseSecondaryButton class="w-full sm:w-auto h-[40px]" @click="showModalUpdateSecutiry = true">
         Change Limit
       </BaseSecondaryButton>
     </div>

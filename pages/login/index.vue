@@ -53,7 +53,7 @@
                   Password
                 </label>
 
-                <NuxtLink class="text-body-2 text-accent-green font-medium" :to="{ name: 'forgot-password' }">
+                <NuxtLink class="text-body-2 text-primary font-medium" :to="{ name: 'forgot-password' }">
                   Forgot password?
                 </NuxtLink>
               </div>
@@ -71,35 +71,40 @@
             </div>
           </ValidationProvider>
 
-          <div class="flex flex-wrap -mx-3 mb-7.5">
-            <div class="w-full px-3 mb-5 md:mb-0">
-              <label class="block text-body-2 text-neutral-darkset font-medium cursor-pointer">
-                <input class="mr-2 leading-tight focus:outline-none focus:ring-transparent" type="checkbox" />
-                <span class="text-sm"> Remember me </span>
-              </label>
+          <div class="w-full flex items-center justify-between mb-7.5">
+            <div class="flex flex-wrap -mx-3">
+              <div class="w-full px-3 mb-5 md:mb-0">
+                <label class="block text-body-2 text-neutral-darkset font-medium cursor-pointer">
+                  <input class="mr-2 leading-tight focus:outline-none focus:ring-transparent" type="checkbox" />
+                  <span class="text-sm"> Remember me </span>
+                </label>
+              </div>
+            </div>
+            <div class="flex flex-wrap -mx-3">
+              <div class="w-full px-3 mb-5 md:mb-0 text-body-2">
+                <span class="text-neutral-normal">Not a member?</span>
+                <span class="text-primary font-medium cursor-pointer" @click="loginWithWallet"> Sign up </span>
+              </div>
             </div>
           </div>
 
           <div class="flex flex-wrap -mx-3 mb-5">
             <div class="w-full px-3 mb-5 md:mb-0">
-              <BaseButton class="w-full h-[52px]" type="submit" :disabled="invalid" :loading="loading">
-                Login
-              </BaseButton>
+              <BaseButton type="submit" :disabled="invalid" :loading="loading" block> Login </BaseButton>
             </div>
+          </div>
+
+          <div
+            class="flex items-center my-4 before:flex-1 before:border-t before:border-gray-300 before:mt-0.5 after:flex-1 after:border-t after:border-gray-300 after:mt-0.5"
+          >
+            <p class="text-center text-neutral-normal font-medium mx-4 mb-0">OR</p>
           </div>
 
           <div class="flex flex-wrap -mx-3 mb-5">
             <div class="w-full px-3 mb-5 md:mb-0">
-              <BaseGhostButton class="w-full h-[52px]" type="button" :loading="loading" @click="loginWithWallet">
+              <BaseGhostButton type="button" :loading="loading" @click="loginWithWallet" block>
                 Login with wallet
               </BaseGhostButton>
-            </div>
-          </div>
-
-          <div class="flex flex-wrap -mx-3 mb-15 mt-3">
-            <div class="w-full px-3 mb-5 md:mb-0 text-body-2">
-              <span class="text-neutral-normal">Not a member?</span>
-              <span class="text-accent-green font-medium cursor-pointer" @click="loginWithWallet"> Sign up </span>
             </div>
           </div>
         </form>

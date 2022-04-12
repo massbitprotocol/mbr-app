@@ -18,7 +18,7 @@
       </div>
 
       <div class="w-full flex justify-end px-3 mt-7.5">
-        <BaseButtonDanger class="w-[189px] h-[52px]" type="submit" @click="$emit('onRemove', _id)" :loading="_loading">
+        <BaseButtonDanger class="w-[189px] h-[40px]" type="submit" @click="$emit('onRemove', _id)" :loading="_loading">
           Delete
         </BaseButtonDanger>
       </div>

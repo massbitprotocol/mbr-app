@@ -1,9 +1,13 @@
 <template>
   <button
+    type="button"
+    :class="{
+      'h-[40px] inline-block px-6 py-2 border-2 border-primary text-primary font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out': true,
+      'w-full': block,
+    }"
     v-bind="$attrs"
     v-on="$listeners"
     :disabled="loading"
-    class="flex items-center justify-center cursor-pointer border border-primary text-primary text-body-2 font-medium h-[40px] px-7.5 rounded-lg hover:text-primary/70 hover:border-primary/50 focus:border-primary"
   >
     <svg
       v-if="loading"
@@ -41,6 +45,11 @@ export default {
     },
 
     disabled: {
+      type: Boolean,
+      default: false,
+    },
+
+    block: {
       type: Boolean,
       default: false,
     },

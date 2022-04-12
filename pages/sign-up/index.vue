@@ -168,7 +168,7 @@
 
           <div class="flex flex-wrap -mx-3 mt-7.5">
             <div class="w-full px-3 mb-5 md:mb-0">
-              <BaseButton class="w-full h-[52px]" type="submit" :disabled="invalid" :loading="loading">
+              <BaseButton class="w-full h-[40px]" type="submit" :disabled="invalid" :loading="loading">
                 Create account
               </BaseButton>
             </div>

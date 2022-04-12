@@ -12,6 +12,12 @@ export default {
     state.api = _api;
   },
 
+  setListWithStaging(state, { dApis, meta, links }) {
+    state.list = dApis;
+    state.meta = meta;
+    state.links = links;
+  },
+
   addEntrypoint(state, entrypoint) {
     const _entrypoint = _.cloneDeep(entrypoint);
     const _api = _.cloneDeep(state.api);

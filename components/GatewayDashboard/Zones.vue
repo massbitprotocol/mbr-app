@@ -3,22 +3,7 @@
     <div
       v-for="zone in zones"
       :key="zone.key"
-      class="
-        w-full
-        h-full
-        md:h-[94px]
-        flex flex-col
-        md:flex-row
-        item-start
-        md:items-center
-        justify-between
-        px-5
-        py-5
-        md:py-auto
-        border border-primary-background
-        rounded-xl
-        gap-5
-      "
+      class="w-full h-full md:h-[94px] flex flex-col md:flex-row item-start md:items-center justify-between px-5 py-5 md:py-auto border border-primary-background rounded-xl gap-5"
     >
       <div class="flex items-center gap-4">
         <div v-if="zone.key === 'AS'" class="w-[64px] h-[64px] bg-asia-pattern bg-center bg-no-repeat"></div>
@@ -39,7 +24,7 @@
         </div>
       </div>
 
-      <BaseSecondaryButton class="h-[52px]" @click="$emit('selectZone', zone.key)">
+      <BaseSecondaryButton class="h-[40px]" @click="$emit('selectZone', zone.key)">
         <svg class="mr-2" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             fill-rule="evenodd"
