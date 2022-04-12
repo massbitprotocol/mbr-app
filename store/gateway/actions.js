@@ -1,5 +1,5 @@
 export default {
-  async getListApi({ commit }, paramString = '?limit=5') {
+  async getListApi({ commit }, paramString = '?limit=6') {
     const res = await this.$axios.$get(`/mbr/gateway/list${paramString}`);
     if (res) {
       commit('setListWithStaging', res);
