@@ -68,6 +68,16 @@ export default {
       type: Object,
       default: () => ({}),
     },
+
+    loadingNext: {
+      type: Boolean,
+      default: false,
+    },
+
+    loadingPrev: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   methods: {
