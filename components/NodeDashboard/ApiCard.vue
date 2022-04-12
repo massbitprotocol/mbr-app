@@ -24,7 +24,7 @@
         <!-- Zone -->
         <div class="w-full px-5">
           <div class="grid grid-cols-1">
-            <div class="text-body-2 text-neutral-normal font-medium">Zone</div>
+            <div class="text-body-2 text-neutral-normal">Zone</div>
             <div class="mt-1 text-body-1 text-neutral-darker font-medium truncate">
               {{ api.geo && api.geo.continent_name ? api.geo.continent_name : api.zone }}
             </div>
@@ -34,7 +34,7 @@
         <!-- Blockchain -->
         <div class="w-full px-5">
           <div class="grid grid-cols-1">
-            <div class="text-body-2 text-neutral-normal font-medium">Blockchain</div>
+            <div class="text-body-2 text-neutral-normal">Blockchain</div>
             <div class="mt-1 text-body-1 text-neutral-darker font-medium truncate">
               {{ _blockchain ? _blockchain.value : '--' }}
             </div>
@@ -56,7 +56,7 @@
           <div class="grid grid-cols-1">
             <div class="text-body-2 text-neutral-normal">Reward</div>
 
-            <div class="flex items-center gap-2" v-if="totalReward !== '0'">
+            <div class="flex items-center gap-2" v-if="totalReward && totalReward !== '0'">
               <div class="mt-1 uppercase text-body-1 text-neutral-darker font-medium">
                 {{ totalReward }} {{ chainToken }}
               </div>
@@ -247,6 +247,11 @@ export default {
     },
 
     async calculateEraStakeReward() {
+      if (this.api.status !== 'staked') {
+        this.totalReward = null;
+        return;
+      }
+
       this.checkApiIsReady();
 
       const { api } = this.$polkadot;
