@@ -5,6 +5,7 @@ module.exports = {
   mode: 'jit',
   purge: [],
   darkMode: false, // or 'media' or 'class'
+  content: ['./src/**/*.{html,js}', './node_modules/tw-elements/dist/js/**/*.js'],
   theme: {
     extend: {
       backgroundImage: {
@@ -90,6 +91,7 @@ module.exports = {
     require('@tailwindcss/forms'),
     require('@tailwindcss/line-clamp'),
     require('@tailwindcss/aspect-ratio'),
+    require('tw-elements/dist/plugin'),
     plugin(function ({ addUtilities }) {
       const newUtilities = {
         '.text-large-title': {

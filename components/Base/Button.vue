@@ -2,13 +2,15 @@
   <button
     v-bind="$attrs"
     v-on="$listeners"
-    :disabled="disabled"
+    type="button"
     :class="{
-      'flex items-center justify-center cursor-pointer text-white text-body-1 font-medium h-[40px] px-7.5 rounded-lg hover:bg-primary/90': true,
+      'h-[40px] inline-flex items-center justify-center px-6 py-2.5 bg-primary text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-darker hover:shadow-lg focus:bg-darker focus:shadow-lg focus:outline-none focus:ring-0 active:bg-darker active:shadow-lg transition duration-150 ease-in-out': true,
       'bg-primary': !loading,
       'bg-primary/90': loading,
-      'cursor-not-allowed bg-primary/70 hover:bg-primary/70': disabled === true,
+      'cursor-not-allowed opacity-60': disabled === true,
+      'w-full': block === true,
     }"
+    :disabled="disabled"
   >
     <svg
       v-if="loading"
@@ -44,6 +46,11 @@ export default {
     },
 
     disabled: {
+      type: Boolean,
+      default: false,
+    },
+
+    block: {
       type: Boolean,
       default: false,
     },

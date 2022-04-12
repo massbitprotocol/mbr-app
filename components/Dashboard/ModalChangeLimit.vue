@@ -69,7 +69,7 @@
             </div>
           </div>
           <div class="w-full flex justify-end mt-10">
-            <BaseButton class="w-[189px] h-[52px]" :loading="_loading" @click="$emit('onSave')"> Save </BaseButton>
+            <BaseButton class="w-[189px] h-[40px]" :loading="_loading" @click="$emit('onSave')"> Save </BaseButton>
           </div>
         </div>
       </div>

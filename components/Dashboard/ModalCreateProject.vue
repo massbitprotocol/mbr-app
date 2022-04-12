@@ -64,13 +64,13 @@
                 </div>
               </ValidationProvider>
 
-              <div v-if="networks.length > 0" class="w-full px-3 mb-5 md:mb-0">
+              <!-- <div v-if="networks.length > 0" class="w-full px-3 mb-5 md:mb-0">
                 <label class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2" for="grid-api-key">
                   Network
                 </label>
 
                 <BaseRadioButtonGroup :source="networks" :current-key.sync="form.network" />
-              </div>
+              </div> -->
 
               <div v-if="error" class="w-full px-3 mb-5 md:mb-0 text-body-2 text-accent-red font-normal mt-2">
                 {{ error }}
@@ -79,7 +79,7 @@
 
             <div class="flex flex-wrap -mx-3">
               <div class="w-full flex justify-end px-3">
-                <BaseButton class="w-[189px] h-[52px]" type="submit" :disabled="invalid" :loading="loading">
+                <BaseButton class="w-[189px] h-[40px]" type="submit" :disabled="invalid" :loading="loading">
                   Create
                 </BaseButton>
               </div>
@@ -163,9 +163,8 @@ export default {
           }, 500);
 
           this.$store.commit('project/setProject', res);
-          this.form = {
-            name: '',
-          };
+          this.resetForm();
+
           this.loading = false;
           this._visible = false;
         } else {
@@ -175,6 +174,14 @@ export default {
         this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
       }
       this.loading = false;
+    },
+
+    resetForm() {
+      this.form = {
+        name: '',
+        blockchain: '',
+        network: 'mainnet',
+      };
     },
   },
 };

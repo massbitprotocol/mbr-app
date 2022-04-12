@@ -15,7 +15,7 @@
         <div class="mb-5">
           <select
             v-model="projectId"
-            class="h-[52px] flex items-center mt-2 w-full px-3 cursor-pointer border border-primary-background rounded text-body-2 text-neutral-darker font-medium"
+            class="h-[40px] flex items-center mt-2 w-full px-3 cursor-pointer border border-primary-background rounded text-body-2 text-neutral-darker font-medium"
           >
             <option v-for="project in projectList" :key="`project-${project.id}`" :value="project.id">
               {{ project.name }}
@@ -25,7 +25,7 @@
 
         <div class="flex flex-wrap -mx-3">
           <div class="w-full flex justify-end px-3">
-            <BaseButton class="w-[189px] h-[52px]" :loading="loading" @click="setCurrentProject"> Confirm </BaseButton>
+            <BaseButton class="w-[189px] h-[40px]" :loading="loading" @click="setCurrentProject"> Confirm </BaseButton>
           </div>
         </div>
       </div>

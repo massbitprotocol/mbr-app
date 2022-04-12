@@ -10,7 +10,7 @@
       We work with small API providers and validators to form decentralized gateways.
     </div>
 
-    <BaseButton class="mt-10 w-full lg:w-[194px] h-[52px]" @click="$router.push({ name: 'login' })"> Login </BaseButton>
+    <BaseButton class="mt-10 w-full lg:w-[194px] h-[40px]" @click="$router.push({ name: 'login' })"> Login </BaseButton>
   </div>
 </template>
 

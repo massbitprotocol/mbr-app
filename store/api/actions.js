@@ -1,8 +1,8 @@
 export default {
   async getListApi({ commit }, projectId) {
     const res = await this.$axios.$get(`/mbr/d-apis/list/${projectId}`);
-    if (res && res.length) {
-      commit('setList', res);
+    if (res) {
+      commit('setListWithStaging', res);
 
       return res;
     }

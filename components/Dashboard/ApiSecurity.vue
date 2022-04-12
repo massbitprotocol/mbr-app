@@ -55,7 +55,7 @@
         </div>
       </div>
       <BaseSecondaryButton
-        class="w-full md:w-auto h-[52px] mt-7.5"
+        class="w-full md:w-auto h-[40px] mt-7.5"
         @click="updateSecurity"
         :disabled="invalid"
         :loading="loading"

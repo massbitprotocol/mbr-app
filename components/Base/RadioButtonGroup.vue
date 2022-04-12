@@ -8,7 +8,7 @@
           :class="[
             _key === item.key ? 'text-white bg-primary' : 'text-primary bg-transparent',
             source.length === 1 ? 'rounded-r' : '',
-            'w-full h-[52px] border-l border-t border-b border-primary font-medium uppercase text-body-2 px-4 py-2 rounded-l outline-none focus:outline-none mb-1 ease-linear transition-all duration-100',
+            'w-full h-[40px] border-l border-t border-b border-primary font-medium uppercase text-body-2 px-4 py-2 rounded-l outline-none focus:outline-none mb-1 ease-linear transition-all duration-100',
           ]"
           type="button"
         >
@@ -22,7 +22,7 @@
           :key="index"
           :class="[
             _key === item.key ? 'text-white bg-primary' : 'text-primary bg-transparent',
-            'w-full h-[52px] border-t border-b border-r border-primary font-medium uppercase text-body-2 px-4 py-2 rounded-r outline-none focus:outline-none mb-1 ease-linear transition-all duration-100',
+            'w-full h-[40px] border-t border-b border-r border-primary font-medium uppercase text-body-2 px-4 py-2 rounded-r outline-none focus:outline-none mb-1 ease-linear transition-all duration-100',
           ]"
           type="button"
         >
@@ -36,7 +36,7 @@
           :key="index"
           :class="[
             _key === item.key ? 'text-white bg-primary' : 'text-primary bg-transparent',
-            'w-full h-[52px] border border-solid border-primary font-medium uppercase text-body-2 px-4 py-2 outline-none focus:outline-none mb-1 ease-linear transition-all duration-100',
+            'w-full h-[40px] border border-solid border-primary font-medium uppercase text-body-2 px-4 py-2 outline-none focus:outline-none mb-1 ease-linear transition-all duration-100',
           ]"
           type="button"
         >

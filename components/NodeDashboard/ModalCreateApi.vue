@@ -130,7 +130,7 @@
 
             <div class="flex flex-wrap -mx-3">
               <div class="w-full flex justify-end px-3">
-                <BaseButton class="w-[189px] h-[52px]" type="submit" :disabled="invalid" :loading="loading">
+                <BaseButton class="w-[189px] h-[40px]" type="submit" :disabled="invalid" :loading="loading">
                   Add
                 </BaseButton>
               </div>

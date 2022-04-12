@@ -17,7 +17,7 @@
         </div>
 
         <BaseButton
-          class="w-full sm:w-auto h-[52px] flex items-center justify-center"
+          class="w-full sm:w-auto h-[40px] flex items-center justify-center"
           @click="showModalCreateProject = true"
         >
           <svg class="mr-2" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -32,6 +32,7 @@
           Create new Project
         </BaseButton>
       </div>
+
       <div v-if="$fetchState.pending" class="w-full h-[45vh] flex items-center justify-center">
         <svg
           class="animate-spin -ml-1 mr-3 h-5 w-5 text-primary"
@@ -69,7 +70,7 @@
         </div>
 
         <BaseButton
-          class="w-full sm:w-auto h-[52px] flex items-center justify-center"
+          class="w-full sm:w-auto h-[40px] flex items-center justify-center"
           @click="showModalCreateApi = true"
         >
           <svg class="mr-2" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -84,6 +85,7 @@
           Create new API
         </BaseButton>
       </div>
+
       <div v-if="$fetchState.pending" class="w-full h-[45vh] flex items-center justify-center">
         <svg
           class="animate-spin -ml-1 mr-3 h-5 w-5 text-primary"
@@ -105,9 +107,14 @@
       <div v-else>
         <div class="mb-15">
           <div v-if="apiList && apiList.length > 0" class="flex flex-col gap-y-2.5">
-            <template v-for="(api, index) in apiList">
-              <DashboardApiCard :key="index" :api="api" @updateApiStatus="(value) => updateApiStatus(api, value)" />
-            </template>
+            <DashboardApiCard
+              v-for="(api, index) in apiList"
+              :key="index"
+              :api="api"
+              @updateApiStatus="(value) => updateApiStatus(api, value)"
+            />
+
+            <BasePagination class="mt-3" :meta="apiMeta" :links="apiLinks" @onChangePage="onChangePage" />
           </div>
 
           <div v-else class="text-heading-2 text-neutral-darker">
@@ -116,17 +123,15 @@
           </div>
         </div>
 
-        <template v-for="(chart, index) in charts">
-          <BaseBlock class="mb-15" :key="index">
-            <DashboardStatsNew
-              :title="chart.name"
-              :url="chart.url"
-              :filters="filters"
-              :params="chart.params"
-              :filter.sync="chart.filter"
-            />
-          </BaseBlock>
-        </template>
+        <BaseBlock class="mb-15" v-for="(chart, index) in charts" :key="index">
+          <DashboardStatsNew
+            :title="chart.name"
+            :url="chart.url"
+            :filters="filters"
+            :params="chart.params"
+            :filter.sync="chart.filter"
+          />
+        </BaseBlock>
 
         <DashboardModalCreateApi :visible.sync="showModalCreateApi" />
       </div>
@@ -160,7 +165,7 @@ export default {
         if (project) {
           this.$store.commit('project/selectProject', project);
 
-          await this.$store.dispatch('api/getListApi', project.id);
+          // await this.$store.dispatch('api/getListApi', project.id);
         } else {
           this.$cookies.remove('current_project');
         }
@@ -223,12 +228,15 @@ export default {
       showModalCreateProject: false,
       pollProjectList: null,
       pollApiList: null,
+      loadingGetApi: true,
     };
   },
 
   computed: {
     ...mapGetters({
       apiList: 'api/list',
+      apiMeta: 'api/meta',
+      apiLinks: 'api/links',
       projectList: 'project/list',
       project: 'project/value',
     }),
@@ -249,21 +257,40 @@ export default {
         }
       };
 
-      // Poll apis
-      this.pollApiList = new EventSource(`${this.$config.portalURL}/mbr/d-apis/sse/api/list/${this.project.id}`, {
-        headers: { Authorization: this.$auth.strategy.token.get() },
-      });
-      this.pollApiList.onmessage = ({ data }) => {
-        const apis = JSON.parse(data);
-        if (apis) {
-          this.$store.commit('api/setList', apis);
-        }
-      };
+      this.handlePollListApi();
     },
 
     async updateApiStatus(api, checked) {
       let _api = _.cloneDeep(api);
       await this.$store.dispatch('api/updateApi', Object.assign(_api, { status: checked ? 1 : 0 }));
+    },
+
+    onChangePage(paramString) {
+      if (this.pollApiList) {
+        this.pollApiList.close();
+        this.pollApiList = null;
+      }
+      this.handlePollListApi(paramString);
+    },
+
+    handlePollListApi(paramString = '') {
+      const EventSource = EventSourcePolyfill || NativeEventSource;
+      this.loadingGetApi = true;
+
+      // Poll apis
+      this.pollApiList = new EventSource(
+        `${this.$config.portalURL}/mbr/d-apis/sse/api/list/${this.project.id}${paramString}`,
+        {
+          headers: { Authorization: this.$auth.strategy.token.get() },
+        },
+      );
+      this.pollApiList.onmessage = ({ data }) => {
+        const res = JSON.parse(data);
+        if (res) {
+          this.$store.commit('api/setListWithStaging', res);
+        }
+        this.loadingGetApi = false;
+      };
     },
   },
 

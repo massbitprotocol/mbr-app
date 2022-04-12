@@ -55,7 +55,7 @@
     >
       <button
         @click="$router.push({ name: 'projects-id', params: { id: api.id } })"
-        class="max-w-[189px] h-[52px] hidden lg:flex items-center justify-center cursor-pointer bg-neutral-lightest text-primary text-body-1 font-medium px-7.5 rounded-lg hover:bg-neutral-lightest/90 whitespace-nowrap"
+        class="max-w-[189px] h-[40px] hidden lg:flex items-center justify-center cursor-pointer bg-neutral-lightest text-primary text-body-1 font-medium px-7.5 rounded-lg hover:bg-neutral-lightest/90 whitespace-nowrap"
       >
         API Key Settings
       </button>
