@@ -2,9 +2,9 @@ import _ from 'lodash';
 
 export default async function ({ $axios, app, redirect, from, route }) {
   $axios.onResponse((response) => {
-    const { data } = response;
+    const { data, status } = response;
 
-    if (data && data.err_code === 100) {
+    if (status === 401) {
       app.$cookies.set('from', route.fullPath);
       app.$auth.logout();
 

@@ -74,7 +74,6 @@
 
 <script>
 import { mapState } from 'vuex';
-import { stringToHex } from '@polkadot/util';
 
 export default {
   name: 'BaseModalClaimReward',

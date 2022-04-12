@@ -4,10 +4,9 @@
     v-on="$listeners"
     :disabled="disabled"
     :class="{
-      'flex items-center justify-center cursor-pointer bg-neutral-lightest text-primary text-body-1 font-medium h-[40px] px-7.5 rounded-lg hover:text-primary/90': true,
-      'text-primary': !loading,
+      'h-[40px] inline-flex items-center justify-center px-6  bg-neutral-lightest text-primary font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-darker hover:shadow-lg focus:bg-darker focus:shadow-lg focus:outline-none focus:ring-0 active:bg-darker active:shadow-lg transition duration-150 ease-in-out': true,
       'text-primary/90': loading,
-      'cursor-not-allowed': disabled === true,
+      'cursor-not-allowed opacity-60': disabled === true,
     }"
   >
     <svg
@@ -31,7 +30,7 @@
 
 <script>
 export default {
-  name: 'SecondaryButton',
+  name: 'BaseSecondaryButton',
 
   props: {
     title: {

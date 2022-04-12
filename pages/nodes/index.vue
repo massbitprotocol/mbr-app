@@ -4,8 +4,6 @@
       <div class="bg-banner-node-pattern bg-neutral-darker h-[268px] flex items-center justify-center">
         <div class="container mx-auto">
           <div class="text-title-1 md:text-medium-title text-neutral-white font-bold">Welcome to Community Nodes</div>
-
-          <!-- <div class="mt-2 text-body-1 md:text-heading-2 font-medium text-primary-background">Content</div> -->
         </div>
       </div>
     </Portal>
@@ -30,7 +28,7 @@
 
     <div v-else>
       <!-- Your Nodes -->
-      <div class="flex flex-col md:flex-row items-start md:items-center flex-wrap justify-between gap-2 mb-3">
+      <div class="flex flex-col md:flex-row items-start md:items-center flex-wrap justify-between gap-2 mb-5">
         <div
           class="mt-7.5 uppercase whitespace-nowrap text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold"
         >
@@ -39,12 +37,14 @@
       </div>
 
       <div v-if="apiList && apiList.length > 0" class="flex flex-col gap-y-2.5">
-        <NodeDashboardApiCard
-          v-for="(api, index) in apiList"
-          :key="index"
-          :api="api"
-          @updateApiStatus="(value) => updateApiStatus(api, value)"
-        />
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          <NodeDashboardApiCard
+            v-for="(api, index) in apiList"
+            :key="index"
+            :api="api"
+            @updateApiStatus="(value) => updateApiStatus(api, value)"
+          />
+        </div>
 
         <BasePagination class="mt-3" :meta="apiMeta" :links="apiLinks" @onChangePage="onChangePage" />
       </div>
