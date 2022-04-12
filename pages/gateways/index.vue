@@ -30,7 +30,7 @@
 
     <div v-else>
       <!-- Your Gateway -->
-      <div class="mt-15 flex flex-col md:flex-row items-start md:items-center flex-wrap justify-between gap-2">
+      <div class="mt-15 flex flex-col md:flex-row items-start md:items-center flex-wrap justify-between gap-2 mb-5">
         <div
           class="uppercase whitespace-nowrap text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold"
         >
@@ -39,9 +39,15 @@
       </div>
 
       <div v-if="apiList && apiList.length > 0" class="flex flex-col gap-y-2.5">
-        <template v-for="(api, index) in apiList">
-          <GatewayDashboardApiCard :key="index" :api="api" @updateApiStatus="(value) => updateApiStatus(api, value)" />
-        </template>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          <template v-for="(api, index) in apiList">
+            <GatewayDashboardApiCard
+              :key="index"
+              :api="api"
+              @updateApiStatus="(value) => updateApiStatus(api, value)"
+            />
+          </template>
+        </div>
 
         <BasePagination class="mt-3" :meta="apiMeta" :links="apiLinks" @onChangePage="onChangePage" />
       </div>

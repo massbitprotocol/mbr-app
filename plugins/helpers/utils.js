@@ -12,9 +12,8 @@ export const utils = (ctx) => ({
         return errors.join('\n');
       }
     }
-
     if (error?.data) {
-      return error.data.message;
+      return error.data.message || error.data;
     }
 
     return error.message;
