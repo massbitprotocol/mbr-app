@@ -33,7 +33,7 @@ export default {
 
   async created() {
     if (!this.$auth.loggedIn) {
-      this.$router.push({ name: 'login' });
+      // this.$router.push({ name: 'login' });
       return;
     }
 

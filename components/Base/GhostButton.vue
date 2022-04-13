@@ -2,7 +2,7 @@
   <button
     type="button"
     :class="{
-      'h-[40px] inline-flex items-center justify-center px-6 py-2 border-2 border-primary text-primary font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out': true,
+      'h-[40px] leading-none inline-flex items-center justify-center px-6 py-2 border-2 border-primary text-primary font-medium text-xs uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out': true,
       'w-full': block,
     }"
     v-bind="$attrs"

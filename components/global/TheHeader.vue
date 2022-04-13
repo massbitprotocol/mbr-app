@@ -6,9 +6,13 @@
 
         <template v-if="!$auth.loggedIn">
           <div class="flex items-center gap-3">
-            <BaseGhostButton class="hidden lg:block" @click="$router.push({ name: 'login' })"> Login </BaseGhostButton>
+            <BaseCommunityConnectWallet />
 
-            <BaseButton class="hidden lg:block" @click="$router.push({ name: 'sign-up' })"> Register </BaseButton>
+            <BaseButton class="hidden lg:block" @click="$router.push({ name: 'login' })">
+              Login as provider
+            </BaseButton>
+
+            <!-- <BaseButton class="hidden lg:block" @click="$router.push({ name: 'sign-up' })"> Register </BaseButton> -->
           </div>
         </template>
 
@@ -80,15 +84,15 @@
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M3 17C3 17.5523 3.44772 18 4 18H11C11.5523 18 12 17.5523 12 17C12 16.4477 11.5523 16 11 16H4C3.44772 16 3 16.4477 3 17Z"
-              fill="#050C72"
+              fill="currentColor"
             />
             <path
               d="M3 12C3 12.5523 3.44772 13 4 13H20C20.5523 13 21 12.5523 21 12C21 11.4477 20.5523 11 20 11H4C3.44772 11 3 11.4477 3 12Z"
-              fill="#050C72"
+              fill="currentColor"
             />
             <path
               d="M13 6C12.4477 6 12 6.44772 12 7C12 7.55228 12.4477 8 13 8H20C20.5523 8 21 7.55228 21 7C21 6.44772 20.5523 6 20 6H13Z"
-              fill="#050C72"
+              fill="currentColor"
             />
           </svg>
         </div>
@@ -133,7 +137,7 @@
                         fill-rule="evenodd"
                         clip-rule="evenodd"
                         d="M13.6969 12.0001L18.8485 6.8485C19.3177 6.3793 19.3177 5.6209 18.8485 5.1517C18.3793 4.6825 17.6209 4.6825 17.1517 5.1517L12.0001 10.3033L6.8485 5.1517C6.3793 4.6825 5.6209 4.6825 5.1517 5.1517C4.6825 5.6209 4.6825 6.3793 5.1517 6.8485L10.3033 12.0001L5.1517 17.1517C4.6825 17.6209 4.6825 18.3793 5.1517 18.8485C5.3857 19.0825 5.6929 19.2001 6.0001 19.2001C6.3073 19.2001 6.6145 19.0825 6.8485 18.8485L12.0001 13.6969L17.1517 18.8485C17.3857 19.0825 17.6929 19.2001 18.0001 19.2001C18.3073 19.2001 18.6145 19.0825 18.8485 18.8485C19.3177 18.3793 19.3177 17.6209 18.8485 17.1517L13.6969 12.0001Z"
-                        fill="#050C72"
+                        fill="currentColor"
                       />
                     </svg>
                   </div>

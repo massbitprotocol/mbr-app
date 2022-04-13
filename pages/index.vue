@@ -2,7 +2,7 @@
   <div>
     <HomeDashboard v-if="$auth.loggedIn" />
 
-    <HomeLogin v-else />
+    <Home v-else />
   </div>
 </template>
 

@@ -14,7 +14,6 @@ export default function chainState() {
 
         commit('chain/setChainToken', chainToken);
         commit('chain/setChainDecimal', chainDecimal);
-
         if ($auth.user) {
           // Subscribe current era
           await api.query.dapiStaking.currentEra((era) => {
@@ -26,6 +25,15 @@ export default function chainState() {
             const _balance = BigInt(balance.free - balance.miscFrozen);
             commit('user/setBalance', $utils.formatBalance(_balance, chainDecimal));
           });
+        } else {
+          const currentUser = state['community-user'].currentUser;
+          if (currentUser) {
+            // Subscribe community user balance
+            await api.query.system.account(currentUser.address, ({ nonce, data: balance }) => {
+              const _balance = BigInt(balance.free - balance.miscFrozen);
+              commit('community-user/setBalance', $utils.formatBalance(_balance, chainDecimal));
+            });
+          }
         }
       }
     });

@@ -82,9 +82,6 @@ export default {
     async logout() {
       // Call api logout
       await this.$store.dispatch('user/logout');
-
-      // Clear local store and push to login
-      window.location.reload();
     },
   },
 };
