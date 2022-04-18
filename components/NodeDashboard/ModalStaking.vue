@@ -237,10 +237,8 @@ export default {
       const { api } = this.$polkadot;
 
       // Get transaction fee
-      const staking = api.tx.dapi.registerProvider(
+      const staking = api.tx.dapi.depositProvider(
         stringToHex('7e723314-5be3-40ba-80f6-a61010f14722'),
-        'Node',
-        `eth.mainnet`,
         BigInt(this.form.amount * 1e18),
       );
       const { partialFee } = await staking.paymentInfo(address);

@@ -17,7 +17,7 @@
             Verify
           </BaseButton>
 
-          <template v-if="api.status === 'verified'">
+          <template v-if="api.status === 'approved'">
             <BaseButton
               class="absolute h-[28px] px-4 text-caption"
               @click="showModalStaking = true"
@@ -119,12 +119,7 @@ export default {
 
       const { api } = this.$polkadot;
       const address = this.$auth.user.walletAddress;
-      const staking = api.tx.dapi.registerProvider(
-        stringToHex(this.api.id),
-        this.provider,
-        `${this.api.blockchain}.${this.api.network}`,
-        amount,
-      );
+      const staking = api.tx.dapi.depositProvider(stringToHex(this.api.id), amount);
       const signer = await this.$polkadot.getSigner({ address });
 
       try {
