@@ -18,4 +18,10 @@ export default {
     commit('setCurrentUser', null);
     return null;
   },
+
+  async setCurrentUser({ commit }, account) {
+    this.$cookies.set('community_account', account.address);
+
+    return account;
+  },
 };

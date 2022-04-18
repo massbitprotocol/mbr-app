@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center gap-3">
+  <div v-if="initAppSuccess" class="flex items-center gap-3">
     <div v-if="communityUser" class="flex items-center gap-2">
       <svg width="22" height="22" viewBox="0 0 251 252" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
@@ -100,6 +100,7 @@ export default {
       communityUser: (state) => state['community-user'].currentUser,
       balance: (state) => state['community-user'].balance,
       chainToken: (state) => state.chain.chainToken,
+      initAppSuccess: (state) => state.initAppSuccess,
     }),
   },
 
@@ -123,7 +124,11 @@ export default {
     },
 
     async excuteLoginByAccount(account) {
-      this.$cookies.set('community_account', account.address);
+      await this.$store.dispatch('community-user/setCurrentUser', account);
+
+      this.showModalSelectAccount = false;
+
+      window.location.reload();
     },
   },
 };
