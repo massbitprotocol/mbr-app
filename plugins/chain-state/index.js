@@ -14,12 +14,13 @@ export default function chainState() {
 
         commit('chain/setChainToken', chainToken);
         commit('chain/setChainDecimal', chainDecimal);
-        if ($auth.user) {
-          // Subscribe current era
-          await api.query.dapiStaking.currentEra((era) => {
-            commit('chain/setCurrentEra', era);
-          });
 
+        // Subscribe current era
+        api.query.dapiStaking.currentEra((era) => {
+          commit('chain/setCurrentEra', era);
+        });
+
+        if ($auth.user) {
           // Subscribe account balance
           await api.query.system.account($auth.user.walletAddress, ({ nonce, data: balance }) => {
             const _balance = BigInt(balance.free - balance.miscFrozen);
