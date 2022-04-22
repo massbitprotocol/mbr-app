@@ -118,7 +118,7 @@
         </div>
 
         <!-- Stats -->
-        <div class="mt-15 lg:mb-7.5">
+        <!-- <div class="mt-15 lg:mb-7.5">
           <div
             class="uppercase whitespace-nowrap text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold"
           >
@@ -140,7 +140,7 @@
               />
             </div>
           </div>
-        </div>
+        </div> -->
       </client-only>
     </div>
   </div>
@@ -168,6 +168,7 @@ export default {
     }
 
     this.syncData();
+    this.syncBandwidth();
   },
 
   created() {
@@ -180,6 +181,7 @@ export default {
       loadingDeleteApi: false,
       charts: [],
       pollInfo: null,
+      pollBandwidth: null,
       isEditing: false,
     };
   },
@@ -334,10 +336,22 @@ export default {
         if (this.isEditing) {
           return;
         }
-
         const nodeInfo = JSON.parse(data);
         if (nodeInfo.status) {
           this.$store.commit('node/updateApi', nodeInfo);
+        }
+      };
+    },
+
+    syncBandwidth() {
+      const EventSource = EventSourcePolyfill || NativeEventSource;
+      this.pollBandwidth = new EventSource(`${this.$config.portalURL}/mbr/node/stat/sse/${this.id}/bandwidth`, {
+        headers: { Authorization: this.$auth.strategy.token.get() },
+      });
+      this.pollBandwidth.onmessage = ({ data }) => {
+        const bandwidth = JSON.parse(data);
+        if (bandwidth) {
+          console.log('bandwidth :>> ', bandwidth);
         }
       };
     },
@@ -346,6 +360,10 @@ export default {
   destroyed() {
     if (this.pollInfo) {
       this.pollInfo.close();
+    }
+
+    if (this.pollBandwidth) {
+      this.pollBandwidth.close();
     }
   },
 };

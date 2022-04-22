@@ -30,7 +30,7 @@
         <form class="w-full flex flex-col items-center" @submit.prevent="handleSubmit(submitDelegate)">
           <ValidationProvider
             v-slot="{ errors }"
-            rules="required|double|min_value:1"
+            rules="required|double|min_value:10"
             name="staking amount"
             tag="div"
             class="w-full relative inline-flex gap-3 px-4 pt-5 border rounded-2xl border-primary-background"
@@ -184,7 +184,7 @@ export default {
     return {
       isShowEditAmount: false,
       form: {
-        amount: 1,
+        amount: 10,
       },
       transactionFee: 0,
       error: '',
@@ -319,7 +319,7 @@ export default {
     },
 
     resetForm() {
-      this.form.amount = 1;
+      this.form.amount = 10;
       this.error = '';
     },
 
