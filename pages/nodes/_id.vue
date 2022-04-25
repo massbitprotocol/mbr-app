@@ -125,20 +125,12 @@
             Stats
           </div>
 
-          <div class="mt-5 grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-7.5">
-            <div
-              v-for="(chart, index) in charts"
-              :key="index"
-              class="p-7.5 border border-primary-background rounded-xl"
-            >
-              <NodeDashboardApiChart
-                :title="chart.name"
-                :url="chart.url"
-                :filters="filters"
-                :params="chart.params"
-                :filter.sync="chart.filter"
-              />
-            </div>
+          <div class="mt-5 p-7.5 border border-primary-background rounded-xl">
+            <NodeDashboardBandwidthChart />
+          </div>
+
+          <div class="mt-5 p-7.5 border border-primary-background rounded-xl">
+            <NodeDashboardRequestChart />
           </div>
         </div>
       </client-only>
@@ -169,6 +161,7 @@ export default {
 
     this.syncData();
   },
+  fetchOnServer: false,
 
   created() {
     this.initChartConfig();
@@ -180,6 +173,7 @@ export default {
       loadingDeleteApi: false,
       charts: [],
       pollInfo: null,
+      pollBandwidth: null,
       isEditing: false,
     };
   },
@@ -334,7 +328,6 @@ export default {
         if (this.isEditing) {
           return;
         }
-
         const nodeInfo = JSON.parse(data);
         if (nodeInfo.status) {
           this.$store.commit('node/updateApi', nodeInfo);
@@ -343,7 +336,7 @@ export default {
     },
   },
 
-  destroyed() {
+  beforeDestroy() {
     if (this.pollInfo) {
       this.pollInfo.close();
     }
