@@ -107,7 +107,7 @@ export default {
   watch: {
     visible(value) {
       if (value === false) {
-        this.form = { name: '' };
+        this.form = this.resetForm();
       }
     },
   },

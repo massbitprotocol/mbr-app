@@ -86,7 +86,12 @@ const listSeries = [
 export default {
   name: 'RequestChart',
 
-  props: {},
+  props: {
+    dataSource: {
+      type: Array,
+      default: () => [],
+    },
+  },
 
   data() {
     return {
@@ -96,12 +101,9 @@ export default {
     };
   },
 
-  created() {
-    this.syncRequests();
-  },
-
   mounted() {
     this.startStat();
+    // this.syncRequests();
   },
 
   computed: {
@@ -170,6 +172,11 @@ export default {
           strokeWidth: 1.5,
           strokeOpacity: 0.7,
         });
+
+        const dataSource = this.dataSource.find((item) => item.name === series.config.name);
+        if (dataSource) {
+          series.resource.data.setAll(dataSource.values);
+        }
       }
 
       // Add cursor
