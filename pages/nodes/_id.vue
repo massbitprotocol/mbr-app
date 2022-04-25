@@ -125,12 +125,54 @@
             Stats
           </div>
 
-          <div class="mt-5 p-7.5 border border-primary-background rounded-xl">
-            <NodeDashboardBandwidthChart />
+          <div class="relative min-h-[660px] mt-5 p-7.5 border border-primary-background rounded-xl">
+            <div
+              v-if="loadingStatBandwidth"
+              class="absolute top-0 left-0 bg-primary-background/10 w-full h-full flex items-center justify-center"
+            >
+              <svg
+                class="animate-spin -ml-1 mr-3 h-6 w-6 text-primary"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+
+              <span class="text-body-1"> Loading... </span>
+            </div>
+
+            <NodeDashboardBandwidthChart v-else :dataSource="statBandwidthData" />
           </div>
 
           <div class="mt-5 p-7.5 border border-primary-background rounded-xl">
-            <NodeDashboardRequestChart />
+            <div
+              v-if="loadingStatRequests"
+              class="absolute top-0 left-0 bg-primary-background/10 w-full h-full flex items-center justify-center"
+            >
+              <svg
+                class="animate-spin -ml-1 mr-3 h-6 w-6 text-primary"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+
+              <span class="text-body-1"> Loading... </span>
+            </div>
+
+            <NodeDashboardRequestChart v-else :dataSource="statRequestsData" />
           </div>
         </div>
       </client-only>
@@ -163,14 +205,20 @@ export default {
   },
   fetchOnServer: false,
 
-  created() {
+  async created() {
     this.initChartConfig();
+    this.getStatBandwidth();
+    this.getStatRequest();
   },
 
   data() {
     return {
       editName: false,
       loadingDeleteApi: false,
+      loadingStatBandwidth: false,
+      statBandwidthData: [],
+      loadingStatRequests: false,
+      statRequestsData: [],
       charts: [],
       pollInfo: null,
       pollBandwidth: null,
@@ -286,6 +334,32 @@ export default {
 
       this.editName = false;
       this.isEditing = false;
+    },
+
+    async getStatBandwidth() {
+      this.loadingStatBandwidth = true;
+
+      const { data } = await this.$axios.$get(`mbr/node/stat/${this.id}/bandwidth`);
+      if (data && data.length) {
+        this.statBandwidthData = data;
+      } else {
+        this.statBandwidthData = [];
+      }
+
+      this.loadingStatBandwidth = false;
+    },
+
+    async getStatRequest() {
+      this.loadingStatRequests = true;
+
+      const { data } = await this.$axios.$get(`mbr/node/stat/${this.id}/requests`);
+      if (data && data.length) {
+        this.statRequestsData = data;
+      } else {
+        this.statRequestsData = [];
+      }
+
+      this.loadingStatRequests = false;
     },
 
     initChartConfig() {

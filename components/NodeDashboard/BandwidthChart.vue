@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-5 lg:mt-7.5">
+  <div class="mt-5 lg:mt-7.5 relative">
     <div class="w-full flex items-center justify-between">
       <div class="uppercase text-heading-2 text-neutral-darkset font-medium">Bandwidth</div>
     </div>
@@ -18,22 +18,25 @@ import _ from 'lodash';
 export default {
   name: 'BandwidthChart',
 
-  props: {},
+  props: {
+    dataSource: {
+      type: Array,
+      default: () => [],
+    },
+  },
 
   data() {
     return {
       pollBandwidth: null,
       root: null,
-      dataSource: [1650594455, '46043001'],
     };
   },
 
-  created() {
-    this.syncBandwidth();
-  },
+  async created() {},
 
   mounted() {
     this.startStat();
+    this.syncBandwidth();
   },
 
   computed: {
@@ -154,6 +157,7 @@ export default {
           });
         }
       });
+      this.series.data.setAll(this.dataSource);
 
       // Add cursor
       const cursor = chart.set(
