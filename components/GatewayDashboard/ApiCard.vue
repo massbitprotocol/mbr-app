@@ -172,6 +172,10 @@ export default {
     currentEra() {
       this.calculateEraStakeReward();
     },
+
+    'api.id'() {
+      this.calculateEraStakeReward();
+    },
   },
 
   async created() {

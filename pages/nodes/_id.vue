@@ -150,7 +150,7 @@
             <NodeDashboardBandwidthChart v-else :dataSource="statBandwidthData" />
           </div>
 
-          <div class="mt-5 p-7.5 border border-primary-background rounded-xl">
+          <div class="relative min-h-[660px] mt-5 p-7.5 border border-primary-background rounded-xl">
             <div
               v-if="loadingStatRequests"
               class="absolute top-0 left-0 bg-primary-background/10 w-full h-full flex items-center justify-center"
@@ -282,6 +282,7 @@ export default {
     async deleteApi() {
       this.loadingDeleteApi = true;
       this.isEditing = true;
+
       try {
         const isSuccess = await this.$store.dispatch('node/deleteApi', this.id);
         if (isSuccess) {
