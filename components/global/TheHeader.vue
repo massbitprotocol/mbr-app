@@ -8,7 +8,7 @@
           <div class="flex items-center gap-3">
             <BaseGhostButton class="hidden lg:block" @click="$router.push({ name: 'login' })"> Login </BaseGhostButton>
 
-            <BaseButton class="hidden lg:block" @click="$router.push({ name: 'sign-up' })"> Register </BaseButton>
+            <BaseButton class="hidden lg:block" @click="loginWithWallet"> Register </BaseButton>
           </div>
         </template>
 
@@ -219,11 +219,18 @@
         </div>
       </Transition>
     </Portal>
+
+    <BaseModalSelectAccount
+      :visible.sync="showModalSelectAccount"
+      :accounts="this.accounts"
+      @select="excuteLoginByAccount"
+    />
   </header>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import { stringToHex } from '@polkadot/util';
 
 export default {
   name: 'TheHeader',
@@ -231,6 +238,9 @@ export default {
   data() {
     return {
       isShowSideBar: false,
+      showModalSelectAccount: false,
+      loading: false,
+      accounts: [],
     };
   },
 
@@ -239,11 +249,83 @@ export default {
       balance: (state) => state.user.balance,
       chainToken: (state) => state.chain.chainToken,
     }),
+
+    to() {
+      if (this.$route.query && this.$route.query.to) return this.$route.query.to;
+
+      return 'projects';
+    },
   },
 
   methods: {
     redirectToMassbit() {
       window.location.href = 'https://massbit.io/';
+    },
+
+    async loginWithWallet() {
+      const isEnable = await this.$polkadot.isEnableApp();
+      if (isEnable) {
+        const accounts = await this.$polkadot.getListAcount();
+        if (accounts && accounts.length) {
+          if (accounts.length === 1) {
+            this.excuteLoginByAccount(accounts[0]);
+          } else {
+            // Show modal select account
+            this.accounts = accounts;
+            this.showModalSelectAccount = true;
+          }
+        }
+      } else {
+        this.$notify({ type: 'error', text: 'Cant not find polkadot wallet!' });
+      }
+    },
+
+    async excuteLoginByAccount(account) {
+      try {
+        const { salt } = await this.$store.dispatch('user/requestLoginWithWallet', account.address);
+        if (salt) {
+          const signer = await this.$polkadot.getSignRaw(account);
+          const { signature } = await signer({
+            address: account.address,
+            data: stringToHex(salt),
+            type: 'bytes',
+          });
+          const { data } = await this.$auth.loginWith('localWallet', {
+            data: { signature, walletAddress: account.address },
+          });
+          if (data.accessToken) {
+            const from = this.$cookies.get('from');
+            if (from) {
+              this.$cookies.remove('from');
+              this.$router.push(from);
+            } else {
+              this.$router.push({ name: this.to });
+            }
+          } else {
+            if (data.err) {
+              this.$notify({ type: 'error', text: data.err });
+            } else {
+              this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+            }
+          }
+        }
+      } catch (error) {
+        console.log(error);
+        if (error.response) {
+          const { data } = error.response;
+          let message = 'Something was wrong. Please try again!';
+          if (data.message) {
+            if (Array.isArray(data.message)) {
+              message = data.message[0];
+            } else {
+              message = data.message;
+            }
+          }
+          this.$notify({ type: 'error', text: message || 'Something was wrong. Please try again!' });
+        } else {
+          this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+        }
+      }
     },
   },
 };
