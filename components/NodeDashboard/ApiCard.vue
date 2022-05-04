@@ -98,7 +98,7 @@
         </BaseButton>
 
         <BaseButton
-          v-else-if="api.status === 'installed' || api.status === 'failed' || api.status === 'stopped'"
+          v-else-if="api.status === 'installed' || api.status === 'failed'"
           :loading="loadingVerify"
           :disabled="loadingVerify"
           @click="reVerify"
@@ -260,14 +260,14 @@ export default {
 
       const { api } = this.$polkadot;
 
-      const datas = await api.query.dapiStaking.providerEraStake.entries(this.api.id);
+      const datas = await api.query.dapiStaking.providerEraInfo.entries(this.api.id);
 
       let totalReward = BigInt(0);
 
       datas.forEach(([key, exposure]) => {
         const [hashProviderId, _era] = key.args;
 
-        if (_era.toNumber() < this.currentEra.toNumber()) {
+        if (_era.toNumber() < this.currentEra) {
           const era = _era.toString();
           const providerId = hashProviderId.toHuman();
           const stakeData = exposure.toString();
@@ -296,19 +296,19 @@ export default {
         const address = this.$auth.user.walletAddress;
         const { api } = this.$polkadot;
 
-        const datas = await api.query.dapiStaking.providerEraStake.entries(this.api.id);
+        const datas = await api.query.dapiStaking.providerEraInfo.entries(this.api.id);
         datas.forEach(([key, exposure]) => {
           const [hashProviderId, _era] = key.args;
           const era = _era.toString();
 
-          if (_era.toNumber() < this.currentEra.toNumber()) {
+          if (_era.toNumber() < this.currentEra) {
             const providerId = hashProviderId.toHuman();
             const stakeData = exposure.toString();
 
             if (stakeData.length > 0) {
               const stake = JSON.parse(stakeData);
               if (!stake.providerRewardClaimed) {
-                const tx = api.tx.dapiStaking.claimOperator(this.api.id, era);
+                const tx = api.tx.dapiStaking.claimProvider(this.api.id, era);
                 transacions.push(tx);
               }
             }

@@ -46,6 +46,7 @@ const config = {
     dapiURL: process.env.API_CORE_URL,
     portalURL: process.env.API_PORTAL_URL,
     dapiProviderDomain: process.env.DAPI_PROVIDER_DOMAIN,
+    massbitChain: process.env.MASSBIT_CHAIN,
     statURL: process.env.STAT_URL,
     env: process.env.ENVIRONMENT || 'dev',
   },

@@ -17,8 +17,10 @@ export default function chainState() {
 
         if ($auth.user) {
           // Subscribe current era
-          await api.query.dapiStaking.currentEra((era) => {
-            commit('chain/setCurrentEra', era);
+          await api.query.dapiStaking.era((era) => {
+            if (era.current) {
+              commit('chain/setCurrentEra', era.current.toNumber());
+            }
           });
 
           // Subscribe account balance
