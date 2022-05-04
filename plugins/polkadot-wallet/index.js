@@ -46,7 +46,7 @@ export default (ctx, inject) => {
 
     async startApi() {
       try {
-        const wsProvider = new WsProvider('wss://chain.massbitroute.dev');
+        const wsProvider = new WsProvider(ctx.app.$config.massbitChain);
         const api = new ApiPromise({ provider: wsProvider });
         await api.isReady;
 

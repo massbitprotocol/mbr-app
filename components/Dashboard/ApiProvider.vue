@@ -52,9 +52,7 @@ export default {
     },
 
     gatewayWss() {
-      return `wss://${this.$options.filters.shortenKey(this.api.id)}.${this.api.blockchain}-${this.api.network}.${
-        this.$config.dapiProviderDomain
-      }/${this.api.appKey}`;
+      return `wss://${this.api.id}.${this.api.blockchain}-${this.api.network}.${this.$config.dapiProviderDomain}/${this.api.appKey}`;
     },
 
     gatewayWssSecret() {

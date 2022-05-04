@@ -177,9 +177,11 @@ export default {
       });
       this.pollBandwidth.onmessage = ({ data }) => {
         const bandwidth = JSON.parse(data);
-        if (bandwidth) {
+        if (bandwidth && bandwidth.length > 0) {
           bandwidth[bandwidth.length - 1].bullet = true;
           this.series.data.setAll(bandwidth);
+        } else {
+          this.series.data.setAll([]);
         }
       };
     },

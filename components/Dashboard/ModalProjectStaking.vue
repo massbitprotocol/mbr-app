@@ -249,7 +249,7 @@ export default {
     },
 
     resetForm() {
-      this.form.amount = 0;
+      this.form.amount = 100;
     },
 
     showEditAmount() {
