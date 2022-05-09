@@ -134,20 +134,54 @@
             Stats
           </div>
 
-          <div class="mt-5 grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-7.5">
+          <div class="relative min-h-[660px] mt-5 p-7.5 border border-primary-background rounded-xl">
             <div
-              v-for="(chart, index) in charts"
-              :key="index"
-              class="p-7.5 border border-primary-background rounded-xl"
+              v-if="loadingStatBandwidth"
+              class="absolute top-0 left-0 bg-primary-background/10 w-full h-full flex items-center justify-center"
             >
-              <GatewayDashboardApiChart
-                :title="chart.name"
-                :url="chart.url"
-                :filters="filters"
-                :params="chart.params"
-                :filter.sync="chart.filter"
-              />
+              <svg
+                class="animate-spin -ml-1 mr-3 h-6 w-6 text-primary"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+
+              <span class="text-body-1"> Loading... </span>
             </div>
+
+            <GatewayDashboardBandwidthChart v-else :dataSource="statBandwidthData" />
+          </div>
+
+          <div class="relative min-h-[660px] mt-5 p-7.5 border border-primary-background rounded-xl">
+            <div
+              v-if="loadingStatRequests"
+              class="absolute top-0 left-0 bg-primary-background/10 w-full h-full flex items-center justify-center"
+            >
+              <svg
+                class="animate-spin -ml-1 mr-3 h-6 w-6 text-primary"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+
+              <span class="text-body-1"> Loading... </span>
+            </div>
+
+            <GatewayDashboardRequestChart v-else :dataSource="statRequestsData" />
           </div>
         </div>
       </client-only>
@@ -163,7 +197,7 @@ import _ from 'lodash';
 import chartFilters from '~/mixins/chartFilters';
 
 export default {
-  name: 'NodesDashboardDetail',
+  name: 'GatewaysDashboardDetail',
 
   middleware: ['auth'],
   auth: true,
@@ -175,30 +209,22 @@ export default {
     if (!api) {
       return this.$nuxt.error({ statusCode: 404, message: 'Api not found' });
     }
+
+    this.syncData();
   },
 
   created() {
-    this.initChartConfig();
-
-    const EventSource = EventSourcePolyfill || NativeEventSource;
-    this.pollInfo = new EventSource(`${this.$config.portalURL}/mbr/gateway/sse/${this.id}`, {
-      headers: { Authorization: this.$auth.strategy.token.get() },
-    });
-    this.pollInfo.onmessage = ({ data }) => {
-      if (this.isEditing) {
-        return;
-      }
-
-      const gatewayInfo = JSON.parse(data);
-      if (gatewayInfo.status) {
-        this.$store.commit('gateway/updateApi', gatewayInfo);
-      }
-    };
+    this.getStatBandwidth();
+    this.getStatRequest();
   },
 
   data() {
     return {
       editName: false,
+      loadingStatBandwidth: false,
+      statBandwidthData: [],
+      loadingStatRequests: false,
+      statRequestsData: [],
       charts: [],
       pollInfo: null,
       loadingDeleteApi: false,
@@ -346,6 +372,49 @@ export default {
           },
         },
       ];
+    },
+
+    async getStatBandwidth() {
+      this.loadingStatBandwidth = true;
+
+      const { data } = await this.$axios.$get(`mbr/gateway/stat/${this.id}/bandwidth`);
+      if (data && data.length) {
+        this.statBandwidthData = data;
+      } else {
+        this.statBandwidthData = [];
+      }
+
+      this.loadingStatBandwidth = false;
+    },
+
+    async getStatRequest() {
+      this.loadingStatRequests = true;
+
+      const { data } = await this.$axios.$get(`mbr/gateway/stat/${this.id}/requests`);
+      if (data && data.length) {
+        this.statRequestsData = data;
+      } else {
+        this.statRequestsData = [];
+      }
+
+      this.loadingStatRequests = false;
+    },
+
+    syncData() {
+      const EventSource = EventSourcePolyfill || NativeEventSource;
+      this.pollInfo = new EventSource(`${this.$config.portalURL}/mbr/gateway/sse/${this.id}`, {
+        headers: { Authorization: this.$auth.strategy.token.get() },
+      });
+      this.pollInfo.onmessage = ({ data }) => {
+        if (this.isEditing) {
+          return;
+        }
+
+        const gatewayInfo = JSON.parse(data);
+        if (gatewayInfo.status) {
+          this.$store.commit('gateway/updateApi', gatewayInfo);
+        }
+      };
     },
   },
 

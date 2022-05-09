@@ -64,7 +64,6 @@ export default (ctx, inject) => {
     getStakingMessage(dispatchError) {
       const decoded = this.api.registry.findMetaError(dispatchError.asModule);
       const { docs, name, section } = decoded;
-
       switch (`${section}.${name}`) {
         case 'dapi.AlreadyRegistered':
           return 'Node already registered';
@@ -78,8 +77,11 @@ export default (ctx, inject) => {
         case 'dapi.InvalidProviderStatus':
           return 'Provider status is not correct';
 
+        case 'balances.InsufficientBalance':
+          return 'Balance amount is not enough';
+
         default:
-          return `Unknown error: ${docs.join(' ')}`;
+          return `${name}: ${docs.join(' ')}`;
       }
     },
   };

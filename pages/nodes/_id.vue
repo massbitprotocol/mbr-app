@@ -206,7 +206,6 @@ export default {
   fetchOnServer: false,
 
   async created() {
-    this.initChartConfig();
     this.getStatBandwidth();
     this.getStatRequest();
   },
@@ -221,7 +220,6 @@ export default {
       statRequestsData: [],
       charts: [],
       pollInfo: null,
-      pollBandwidth: null,
       isEditing: false,
     };
   },
