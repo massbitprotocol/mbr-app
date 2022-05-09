@@ -144,7 +144,7 @@ export default {
               this.$notify({
                 type: 'success',
                 title: 'Success',
-                text: `Staking ${provider} successfully submitted to block ${blockHash}`,
+                text: `Register ${this.provider.toLowerCase()} submitted to block ${blockHash}`,
               });
               this.showModalStaking = false;
             }
