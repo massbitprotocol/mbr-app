@@ -124,7 +124,7 @@ export default {
 
       try {
         const unsub = await staking.signAndSend(address, { signer }, ({ status, events = [], dispatchError }) => {
-          if (status.isFinalized) {
+          if (status.isInBlock) {
             if (dispatchError) {
               if (dispatchError.isModule) {
                 this.$notify({
@@ -140,7 +140,7 @@ export default {
                 });
               }
             } else {
-              const blockHash = status.asFinalized.toString();
+              const blockHash = status.asInBlock.toString();
               this.$notify({
                 type: 'success',
                 title: 'Success',

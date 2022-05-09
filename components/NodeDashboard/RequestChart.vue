@@ -103,7 +103,7 @@ export default {
 
   mounted() {
     this.startStat();
-    // this.syncRequests();
+    this.syncRequests();
   },
 
   computed: {
@@ -151,32 +151,36 @@ export default {
 
       for (let index = 0; index < this.listSeries.length; index++) {
         let series = this.listSeries[index];
-
-        // Add series
+        // Add series total
         series['resource'] = chart.series.push(
           am5xy.LineSeries.new(root, {
             ...series.config,
+            stacked: true,
             xAxis,
             yAxis,
+            legendValueText: '{valueY}',
             tooltip: am5.Tooltip.new(root, {
               pointerOrientation: 'horizontal',
-              labelText: '[bold]{name}[/]: {valueY}',
+              labelText: '[bold]Code {name}[/] {valueY} Req/s',
             }),
           }),
         );
-        series['resource'].fills.template.setAll({
-          fillOpacity: 0.4,
-          visible: true,
+        series['resource'].get('tooltip').adapters.add('visible', function (visible, target) {
+          return target.dataItem && target.dataItem.dataContext.value > 0;
         });
         series['resource'].strokes.template.setAll({
-          strokeWidth: 1.5,
-          strokeOpacity: 0.7,
+          forceHidden: true,
+        });
+        series['resource'].fills.template.setAll({
+          fillOpacity: 0.6,
+          visible: true,
         });
 
         const dataSource = this.dataSource.find((item) => item.name === series.config.name);
         if (dataSource) {
           series.resource.data.setAll(dataSource.values);
         }
+        series['resource'].appear();
       }
 
       // Add cursor
@@ -188,15 +192,6 @@ export default {
         }),
       );
       cursor.lineY.set('visible', false);
-
-      // Legend
-      const legend = chart.children.push(
-        am5.Legend.new(root, {
-          x: am5.percent(50),
-          centerX: am5.percent(50),
-        }),
-      );
-      legend.data.setAll(chart.series.values);
     },
 
     syncRequests() {

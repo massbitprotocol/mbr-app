@@ -75,6 +75,9 @@ export default (ctx, inject) => {
         case 'dapi.InsufficientBoding':
           return 'Staking amount is not enough';
 
+        case 'dapi.InvalidProviderStatus':
+          return 'Provider status is not correct';
+
         default:
           return `Unknown error: ${docs.join(' ')}`;
       }
