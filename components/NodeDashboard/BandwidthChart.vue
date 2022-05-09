@@ -70,8 +70,6 @@ export default {
         am5xy.DateAxis.new(root, {
           maxDeviation: 0.1,
           groupData: false,
-          extraMax: 0.1,
-          extraMin: -0.1,
           baseInterval: {
             timeUnit: 'second',
             count: 300,
@@ -101,7 +99,7 @@ export default {
           valueXField: 'date',
           tooltip: am5.Tooltip.new(root, {
             pointerOrientation: 'horizontal',
-            labelText: '[bold]{name}[/]: {valueY}/Mbps',
+            labelText: '[bold]{name}[/] {valueY}/Mbps',
           }),
           stroke: am5.color('#2C3ACF'),
           fill: am5.color('#2C3ACF'),
@@ -109,55 +107,19 @@ export default {
         }),
       );
 
+      this.series.get('tooltip').adapters.add('visible', function (visible, target) {
+        return target.dataItem && target.dataItem.dataContext.value > 0;
+      });
+      this.series.strokes.template.setAll({
+        forceHidden: true,
+      });
       this.series.fills.template.setAll({
-        fillOpacity: 0.4,
+        fillOpacity: 0.6,
         visible: true,
       });
 
-      this.series.strokes.template.setAll({
-        strokeWidth: 1.5,
-        strokeOpacity: 0.7,
-      });
-      this.series.bullets.push(function (root, series, dataItem) {
-        // only create sprite if bullet == true in data context
-        if (dataItem.dataContext.bullet) {
-          var container = am5.Container.new(root, {});
-          var circle0 = container.children.push(
-            am5.Circle.new(root, {
-              radius: 2,
-              fill: am5.color('#EB5757'),
-            }),
-          );
-          var circle1 = container.children.push(
-            am5.Circle.new(root, {
-              radius: 2,
-              fill: am5.color('#EB5757'),
-            }),
-          );
-
-          circle1.animate({
-            key: 'radius',
-            to: 5,
-            duration: 1000,
-            easing: am5.ease.out(am5.ease.cubic),
-            loops: Infinity,
-          });
-          circle1.animate({
-            key: 'opacity',
-            to: 0,
-            from: 1,
-            duration: 1000,
-            easing: am5.ease.out(am5.ease.cubic),
-            loops: Infinity,
-          });
-
-          return am5.Bullet.new(root, {
-            locationX: undefined,
-            sprite: container,
-          });
-        }
-      });
-      this.series.data.setAll(this.dataSource);
+      const bandwidth = _.cloneDeep(this.dataSource);
+      this.series.data.setAll(bandwidth);
 
       // Add cursor
       const cursor = chart.set(
@@ -178,7 +140,6 @@ export default {
       this.pollBandwidth.onmessage = ({ data }) => {
         const bandwidth = JSON.parse(data);
         if (bandwidth && bandwidth.length > 0) {
-          bandwidth[bandwidth.length - 1].bullet = true;
           this.series.data.setAll(bandwidth);
         } else {
           this.series.data.setAll([]);
