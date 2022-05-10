@@ -21,161 +21,154 @@
     </div>
 
     <div v-else>
-      <client-only>
+      <div
+        class="w-full flex flex-col sm:flex sm:flex-row sm:items-center sm:justify-between mt-5 mb-3 lg:mt-10 lg:mb-5"
+      >
+        <div class="w-full mr-5 text-2xl !leading-none lg:text-medium-title text-neutral-darkset font-bold truncate">
+          <template v-if="editName">
+            <input
+              :value="_api.name"
+              @blur="updateApiName"
+              ref="apiName"
+              type="text"
+              class="text-2xl lg:text-medium-title text-neutral-darkset font-bold appearance-none block w-full border border-primary-background rounded leading-tight"
+            />
+          </template>
+          <template v-else>
+            {{ _api.name }}
+          </template>
+        </div>
+
+        <div class="flex justify-between items-center sm:justify-end gap-3">
+          <div class="flex gap-3 items-center">
+            <BasePopover class="flex items-center" content="Change the name of the API key" contentClass="w-[197px]">
+              <BaseIconButton class="w-[36px] h-[36px]" icon="edit" @click="showEditApiName" />
+            </BasePopover>
+
+            <BasePopover
+              v-if="api.status !== 'staked'"
+              class="flex items-center"
+              content="Delete this Node, if you don’t need it anymore."
+              contentClass="w-[197px]"
+            >
+              <BaseIconButton class="w-[36px] h-[36px]" icon="delete" :loading="loadingDeleteApi" @click="deleteApi" />
+            </BasePopover>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-full inline-flex justify-between gap-5">
+        <DashboardApiID :apiKey="api.id" />
+        <DashboardApiStatus :api="api" :provider="'Node'" />
+        <DashboardApiCreatedAt :createdAt="api.createdAt" />
+        <DashboardApiUpdatedAt :updatedAt="api.updatedAt" />
+      </div>
+
+      <div class="mt-10 lg:mt-15">
+        <div class="flex items-center justify-between">
+          <div class="uppercase text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold">
+            Overview
+          </div>
+        </div>
+
+        <NodeDashboardOverview :api="api" :isEditing.sync="isEditing" />
+      </div>
+
+      <div class="mt-15 grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-7.5">
+        <!-- Blockchain -->
+        <div v-if="_blockchain" class="p-5 bg-white rounded-xl border border-primary-background">
+          <div class="text-body-1 text-neutral-darkset font-medium">Blockchain</div>
+
+          <div v-if="_b" class="h-[44px] flex items-center justify-between">
+            <div class="flex items-center mt-2">
+              <img v-if="_blockchain.icon" :src="_blockchain.icon" class="mr-2" width="32" height="32" />
+              <div class="text-body-1 text-neutral-darkset font-medium">{{ _blockchain.value || '' }}</div>
+            </div>
+
+            <div class="h-[22px] flex items-center py-0.5 px-3 bg-primary rounded">
+              <span class="text-white text-caption font-medium uppercase">{{ _blockchain.id || '' }} </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Network -->
         <div
-          class="w-full flex flex-col sm:flex sm:flex-row sm:items-center sm:justify-between mt-5 mb-3 lg:mt-10 lg:mb-5"
+          v-if="api.network"
+          class="flex items-center justify-between p-5 bg-white rounded-xl border border-primary-background capitalize"
         >
-          <div class="w-full h-[40px] mr-5 text-2xl lg:text-medium-title text-neutral-darkset font-bold truncate">
-            <template v-if="editName">
-              <input
-                :value="_api.name"
-                @blur="updateApiName"
-                ref="apiName"
-                type="text"
-                class="text-2xl lg:text-medium-title text-neutral-darkset font-bold appearance-none block w-full border border-primary-background rounded leading-tight"
-              />
-            </template>
-            <template v-else>
-              {{ _api.name }}
-            </template>
-          </div>
-
-          <div class="flex justify-between items-center sm:justify-end gap-3 mt-3">
-            <div class="flex gap-3 items-center">
-              <BasePopover class="flex items-center" content="Change the name of the API key" contentClass="w-[197px]">
-                <BaseIconButton class="w-[36px] h-[36px]" icon="edit" @click="showEditApiName" />
-              </BasePopover>
-
-              <BasePopover
-                v-if="api.status !== 'staked'"
-                class="flex items-center"
-                content="Delete this Node, if you don’t need it anymore."
-                contentClass="w-[197px]"
-              >
-                <BaseIconButton
-                  class="w-[36px] h-[36px]"
-                  icon="delete"
-                  :loading="loadingDeleteApi"
-                  @click="deleteApi"
-                />
-              </BasePopover>
-            </div>
-          </div>
-        </div>
-
-        <div class="w-full inline-flex justify-between gap-5">
-          <DashboardApiID :apiKey="api.id" />
-          <DashboardApiStatus :api="api" :provider="'Node'" />
-          <DashboardApiCreatedAt :createdAt="api.createdAt" />
-          <DashboardApiUpdatedAt :updatedAt="api.updatedAt" />
-        </div>
-
-        <div class="mt-10 lg:mt-15">
-          <div class="flex items-center justify-between">
-            <div class="uppercase text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold">
-              Overview
-            </div>
-          </div>
-
-          <NodeDashboardOverview :api="api" :isEditing.sync="isEditing" />
-        </div>
-
-        <div class="mt-15 grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-7.5">
-          <!-- Blockchain -->
-          <div v-if="_blockchain" class="p-5 bg-white rounded-xl border border-primary-background">
-            <div class="text-body-1 text-neutral-darkset font-medium">Blockchain</div>
-
-            <div v-if="_b" class="h-[44px] flex items-center justify-between">
-              <div class="flex items-center mt-2">
-                <img v-if="_blockchain.icon" :src="_blockchain.icon" class="mr-2" width="32" height="32" />
-                <div class="text-body-1 text-neutral-darkset font-medium">{{ _blockchain.value || '' }}</div>
-              </div>
-
-              <div class="h-[22px] flex items-center py-0.5 px-3 bg-primary rounded">
-                <span class="text-white text-caption font-medium uppercase">{{ _blockchain.id || '' }} </span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Network -->
-          <div
-            v-if="api.network"
-            class="flex items-center justify-between p-5 bg-white rounded-xl border border-primary-background capitalize"
-          >
-            <div class="flex items-center">
-              <div
-                class="flex items-center h-[64px] mr-4"
-                v-html="require(`~/assets/svg/dashboard/network.svg?raw`)"
-              ></div>
-              <div class="flex flex-col">
-                <div class="text-body-1 text-neutral-normal font-medium">Network</div>
-                <div class="text-body-1 text-neutral-normal font-medium">
-                  <span class="text-heading-1 text-accent-green"> {{ api.network }} </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Stats -->
-        <div class="mt-15 lg:mb-7.5">
-          <div
-            class="uppercase whitespace-nowrap text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold"
-          >
-            Stats
-          </div>
-
-          <div class="relative min-h-[660px] mt-5 p-7.5 border border-primary-background rounded-xl">
+          <div class="flex items-center">
             <div
-              v-if="loadingStatBandwidth"
-              class="absolute top-0 left-0 bg-primary-background/10 w-full h-full flex items-center justify-center"
-            >
-              <svg
-                class="animate-spin -ml-1 mr-3 h-6 w-6 text-primary"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path
-                  class="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
-
-              <span class="text-body-1"> Loading... </span>
+              class="flex items-center h-[64px] mr-4"
+              v-html="require(`~/assets/svg/dashboard/network.svg?raw`)"
+            ></div>
+            <div class="flex flex-col">
+              <div class="text-body-1 text-neutral-normal font-medium">Network</div>
+              <div class="text-body-1 text-neutral-normal font-medium">
+                <span class="text-heading-1 text-accent-green"> {{ api.network }} </span>
+              </div>
             </div>
-
-            <NodeDashboardBandwidthChart v-else :dataSource="statBandwidthData" />
-          </div>
-
-          <div class="relative min-h-[660px] mt-5 p-7.5 border border-primary-background rounded-xl">
-            <div
-              v-if="loadingStatRequests"
-              class="absolute top-0 left-0 bg-primary-background/10 w-full h-full flex items-center justify-center"
-            >
-              <svg
-                class="animate-spin -ml-1 mr-3 h-6 w-6 text-primary"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path
-                  class="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
-
-              <span class="text-body-1"> Loading... </span>
-            </div>
-
-            <NodeDashboardRequestChart v-else :dataSource="statRequestsData" />
           </div>
         </div>
-      </client-only>
+      </div>
+
+      <!-- Stats -->
+      <div class="mt-15 lg:mb-7.5">
+        <div
+          class="uppercase whitespace-nowrap text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold"
+        >
+          Stats
+        </div>
+
+        <div class="relative min-h-[660px] mt-5 p-7.5 border border-primary-background rounded-xl">
+          <div
+            v-if="loadingStatBandwidth"
+            class="absolute top-0 left-0 bg-primary-background/10 w-full h-full flex items-center justify-center"
+          >
+            <svg
+              class="animate-spin -ml-1 mr-3 h-6 w-6 text-primary"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+
+            <span class="text-body-1"> Loading... </span>
+          </div>
+
+          <NodeDashboardBandwidthChart v-else :dataSource="statBandwidthData" />
+        </div>
+
+        <div class="relative min-h-[660px] mt-5 p-7.5 border border-primary-background rounded-xl">
+          <div
+            v-if="loadingStatRequests"
+            class="absolute top-0 left-0 bg-primary-background/10 w-full h-full flex items-center justify-center"
+          >
+            <svg
+              class="animate-spin -ml-1 mr-3 h-6 w-6 text-primary"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+
+            <span class="text-body-1"> Loading... </span>
+          </div>
+
+          <NodeDashboardRequestChart v-else :dataSource="statRequestsData" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
