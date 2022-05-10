@@ -35,7 +35,7 @@
             />
           </template>
           <template v-else>
-            {{ _api.name }}
+            <h1 class="leading-tight">{{ _api.name }}</h1>
           </template>
         </div>
 
