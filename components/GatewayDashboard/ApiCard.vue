@@ -341,7 +341,7 @@ export default {
 
         const _transactions = await api.tx.utility.batch(this.claimRewardTransactions);
         const unsub = await _transactions.signAndSend(address, { signer }, ({ status, events = [], dispatchError }) => {
-          if (status.isInBlock) {
+          if (status.isFinalized) {
             if (dispatchError) {
               if (dispatchError.isModule) {
                 this.$notify({
@@ -357,7 +357,7 @@ export default {
                 });
               }
             } else {
-              const blockHash = status.asInBlock.toString();
+              const blockHash = status.asFinalized.toString();
               this.$notify({
                 type: 'success',
                 title: 'Success',
@@ -418,7 +418,7 @@ export default {
       const signer = await this.$polkadot.getSigner({ address });
       try {
         const unsub = await unstaking.signAndSend(address, { signer }, ({ status, events = [], dispatchError }) => {
-          if (status.isInBlock) {
+          if (status.isFinalized) {
             if (dispatchError) {
               if (dispatchError.isModule) {
                 this.$notify({
@@ -434,7 +434,7 @@ export default {
                 });
               }
             } else {
-              const blockHash = status.asInBlock.toString();
+              const blockHash = status.asFinalized.toString();
               console.log('blockHash :>> ', blockHash);
               this.$notify({
                 type: 'success',
@@ -478,7 +478,7 @@ export default {
 
       try {
         const unsub = await staking.signAndSend(address, { signer }, ({ status, events = [], dispatchError }) => {
-          if (status.isInBlock) {
+          if (status.isFinalized) {
             if (dispatchError) {
               if (dispatchError.isModule) {
                 this.$notify({
@@ -494,7 +494,7 @@ export default {
                 });
               }
             } else {
-              const blockHash = status.asInBlock.toString();
+              const blockHash = status.asFinalized.toString();
               this.$notify({
                 type: 'success',
                 title: 'Success',
