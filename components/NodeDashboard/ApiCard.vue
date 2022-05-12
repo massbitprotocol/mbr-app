@@ -320,7 +320,7 @@ export default {
 
           const { partialFee } = await api.tx.utility.batch(transacions).paymentInfo(address);
           if (partialFee) {
-            this.claimTransactionFee = partialFee.toNumber() / 100000000000;
+            this.claimTransactionFee = partialFee.toNumber() / 1e18;
           }
         } else {
           // Reset
