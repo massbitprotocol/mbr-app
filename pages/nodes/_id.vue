@@ -394,6 +394,7 @@ export default {
         if (this.isEditing) {
           return;
         }
+
         const nodeInfo = JSON.parse(data);
         if (nodeInfo.status) {
           this.$store.commit('node/updateApi', nodeInfo);

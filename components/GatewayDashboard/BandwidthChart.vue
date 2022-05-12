@@ -1,7 +1,15 @@
 <template>
   <div class="mt-5 lg:mt-7.5 relative">
     <div class="w-full flex items-center justify-between">
-      <div class="uppercase text-heading-2 text-neutral-darkset font-medium">Bandwidth</div>
+      <div class="text-heading-2 text-neutral-darkset font-medium">
+        <span class="uppercase"> BANDWIDTH </span>
+        <div>
+          <h1 class="text-3xl font-bold text-primary mt-2">
+            {{ totalBandwidths }}
+            <span class="text-body-1 font-medium"> Mbps </span>
+          </h1>
+        </div>
+      </div>
     </div>
 
     <div class="w-full h-[50vh] mt-7.5" ref="chartdiv"></div>
@@ -29,6 +37,7 @@ export default {
     return {
       pollBandwidth: null,
       root: null,
+      totalBandwidths: 0,
     };
   },
 
@@ -119,6 +128,7 @@ export default {
       });
 
       const bandwidth = _.cloneDeep(this.dataSource);
+      this.totalBandwidths = am5.math.round(bandwidth.length ? bandwidth[bandwidth.length - 1].value : 0, 2);
       this.series.data.setAll(bandwidth);
 
       // Add cursor
@@ -140,6 +150,7 @@ export default {
       this.pollBandwidth.onmessage = ({ data }) => {
         const bandwidth = JSON.parse(data);
         if (bandwidth && bandwidth.length > 0) {
+          this.totalBandwidths = am5.math.round(bandwidth.length ? bandwidth[bandwidth.length - 1].value : 0, 2);
           this.series.data.setAll(bandwidth);
         } else {
           this.series.data.setAll([]);

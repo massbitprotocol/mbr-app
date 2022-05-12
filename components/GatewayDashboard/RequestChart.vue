@@ -1,7 +1,15 @@
 <template>
   <div class="mt-5 lg:mt-7.5">
     <div class="w-full flex items-center justify-between">
-      <div class="uppercase text-heading-2 text-neutral-darkset font-medium">Request per seccond</div>
+      <div class="text-heading-2 text-neutral-darkset font-medium">
+        <span class="uppercase"> Request per seccond </span>
+        <div>
+          <h1 class="text-3xl font-bold text-primary mt-2">
+            {{ totalRequests }}
+            <span class="text-body-1 font-medium"> Req/s </span>
+          </h1>
+        </div>
+      </div>
     </div>
 
     <div class="w-full h-[50vh] mt-7.5" ref="chartdiv"></div>
@@ -95,6 +103,7 @@ export default {
 
   data() {
     return {
+      totalRequests: 0,
       pollRequest: null,
       root: null,
       listSeries,
@@ -176,6 +185,11 @@ export default {
           visible: true,
         });
 
+        const totalSource = this.dataSource.find((item) => item.name === 'total');
+        if (totalSource) {
+          this.totalRequests = totalSource.values.length ? totalSource.values[totalSource.values.length - 1].value : 0;
+        }
+
         const dataSource = this.dataSource.find((item) => item.name === series.config.name);
         if (dataSource) {
           series.resource.data.setAll(dataSource.values);
@@ -203,6 +217,10 @@ export default {
         const requests = JSON.parse(data);
         if (requests) {
           for (const request of requests) {
+            if (request.name === 'total') {
+              this.totalRequests = request.values.length ? request.values[request.values.length - 1].value : 0;
+            }
+
             const series = this.listSeries.find(({ config }) => config.name === request.name);
             if (series) {
               series.resource.data.setAll(request.values);
