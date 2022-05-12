@@ -243,7 +243,7 @@ export default {
       );
       const { partialFee } = await staking.paymentInfo(address);
       if (partialFee) {
-        this.transactionFee = partialFee.toNumber() / 100000000000;
+        this.transactionFee = partialFee.toNumber() / 1e18;
       }
     },
 

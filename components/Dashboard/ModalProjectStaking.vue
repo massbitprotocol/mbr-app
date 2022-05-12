@@ -238,13 +238,13 @@ export default {
 
       // Get transaction fee
       const staking = api.tx.dapi.registerProject(
-        stringToHex('7e723314-5be3-40ba-80f6-a61010f14722'),
+        stringToHex('ff6d0744-aff2-483c-9054-b2693fff2fb3'),
         `eth.mainnet`,
         BigInt(this.form.amount * 1e18),
       );
       const { partialFee } = await staking.paymentInfo(address);
       if (partialFee) {
-        this.transactionFee = partialFee.toNumber() / 100000000000;
+        this.transactionFee = partialFee.toNumber() / 1e18;
       }
     },
 
