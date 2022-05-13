@@ -30,7 +30,7 @@
     {
       "id": "eth",
       "value": "Ethereum",
-      "icon": "https://dapi.massbit.io/icons/eth.svg",
+      "icon": "eth",
       "methods": ["eth_blockNumber", "eth_accounts", "eth_getBalance"],
       "api_interface": [
         {
@@ -48,7 +48,7 @@
     {
       "id": "dot",
       "value": "Polkadot",
-      "icon": "https://dapi.massbit.io/icons/dot.svg",
+      "icon": "dot",
       "methods": [],
       "api_interface": [
         {
