@@ -40,13 +40,14 @@
 
       <div v-if="apiList && apiList.length > 0" class="flex flex-col gap-y-2.5">
         <div class="relative grid grid-cols-1 lg:grid-cols-2 gap-5">
-          <template v-for="(api, index) in apiList">
-            <GatewayDashboardApiCard
-              :key="index"
-              :api="api"
-              @updateApiStatus="(value) => updateApiStatus(api, value)"
-            />
-          </template>
+          <GatewayDashboardApiCard
+            v-for="(api, index) in apiList"
+            :key="index"
+            :api="api"
+            :bandwidth="instanceBandwidthMetric.hasOwnProperty(api.id) ? instanceBandwidthMetric[api.id] : 0"
+            :requests="instanceRequestMetric.hasOwnProperty(api.id) ? instanceRequestMetric[api.id] : 0"
+            @updateApiStatus="(value) => updateApiStatus(api, value)"
+          />
 
           <!-- Loading -->
           <div
@@ -93,6 +94,7 @@
       </div>
 
       <!-- Stats -->
+      <!-- Stats -->
       <div class="mt-15 lg:mb-7.5">
         <div
           class="uppercase whitespace-nowrap text-heading-2 lg:text-title-2 text-neutral-darkset font-medium lg:font-bold"
@@ -100,18 +102,62 @@
           Stats
         </div>
 
-        <div class="mt-5 grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-7.5">
-          <template v-for="(chart, index) in charts">
-            <div :key="index" class="p-7.5 border border-primary-background rounded-xl">
-              <GatewayDashboardApiChart
-                :title="chart.name"
-                :url="chart.url"
-                :filters="filters"
-                :params="chart.params"
-                :filter.sync="chart.filter"
-              />
-            </div>
-          </template>
+        <div class="relative min-h-[660px] mt-5 p-7.5 border border-primary-background rounded-xl">
+          <div
+            v-if="loadingStatBandwidth"
+            class="absolute top-0 left-0 bg-primary-background/10 w-full h-full flex items-center justify-center"
+          >
+            <svg
+              class="animate-spin -ml-1 mr-3 h-6 w-6 text-primary"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+
+            <span class="text-body-1"> Loading... </span>
+          </div>
+
+          <GatewayDashboardBandwidthChartSummary
+            v-else
+            :dataSource="statBandwidthData"
+            @updateInstanceMetric="updateBanwidthInstanceMetric"
+          />
+        </div>
+
+        <div class="relative min-h-[660px] mt-5 p-7.5 border border-primary-background rounded-xl">
+          <div
+            v-if="loadingStatRequests"
+            class="absolute top-0 left-0 bg-primary-background/10 w-full h-full flex items-center justify-center"
+          >
+            <svg
+              class="animate-spin -ml-1 mr-3 h-6 w-6 text-primary"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+
+            <span class="text-body-1"> Loading... </span>
+          </div>
+
+          <GatewayDashboardRequestChartSummary
+            v-else
+            :dataSource="statRequestsData"
+            @updateInstanceMetric="updateRequestInstanceMetric"
+          />
         </div>
       </div>
     </div>
@@ -137,39 +183,22 @@ export default {
     await this.$store.dispatch('gateway/getListApi');
   },
 
+  created() {
+    this.getStatRequest();
+    this.getStatBandwidth();
+  },
+
   data() {
     return {
       apis: [],
       showModalCreateApi: false,
       loadingGetGatewayList: false,
-      charts: [
-        {
-          name: 'Total Requests',
-          url: `${this.$config.statURL}/__internal_grafana/d-solo/YUv28Os7k/mbrg`,
-          filter: 'now|now-6h',
-          params: {
-            orgId: 1,
-            theme: 'light',
-            'var-Instance': 'All',
-            'var-FilterName': 'All',
-            'var-Filter': `All`,
-            panelId: 2,
-          },
-        },
-        {
-          name: 'Total Bandwidth',
-          url: `${this.$config.statURL}/__internal_grafana/d-solo/YUv28Os7k/mbrg`,
-          filter: 'now|now-6h',
-          params: {
-            orgId: 1,
-            theme: 'light',
-            'var-Instance': 'All',
-            'var-FilterName': 'All',
-            'var-Filter': `All`,
-            panelId: 4,
-          },
-        },
-      ],
+      loadingStatRequests: false,
+      loadingStatBandwidth: false,
+      statRequestsData: [],
+      statBandwidthData: [],
+      instanceBandwidthMetric: {},
+      instanceRequestMetric: {},
       zone: '',
     };
   },
@@ -200,6 +229,49 @@ export default {
       await this.$store.dispatch('gateway/getListApi', paramsString);
 
       this.loadingGetGatewayList = false;
+    },
+
+    async getStatBandwidth() {
+      this.loadingStatBandwidth = true;
+
+      const { data, instanceMetric } = await this.$axios.$get(`mbr/gateway/user/stat/bandwidth`);
+      if (instanceMetric) {
+        this.instanceBandwidthMetric = instanceMetric;
+      }
+
+      if (data && data.length) {
+        this.statBandwidthData = data;
+      } else {
+        this.statBandwidthData = [];
+      }
+
+      this.loadingStatBandwidth = false;
+    },
+
+    async getStatRequest() {
+      this.loadingStatRequests = true;
+
+      const { data, instanceMetric } = await this.$axios.$get(`mbr/gateway/user/stat/requests`);
+      if (instanceMetric) {
+        this.instanceRequestMetric = instanceMetric;
+      }
+      if (data && data.length) {
+        this.statRequestsData = data;
+      } else {
+        this.statRequestsData = [];
+      }
+
+      this.loadingStatRequests = false;
+    },
+
+    updateRequestInstanceMetric(metric) {
+      const _metric = _.cloneDeep(metric);
+      this.instanceRequestMetric = _metric;
+    },
+
+    updateBanwidthInstanceMetric(metric) {
+      const _metric = _.cloneDeep(metric);
+      this.instanceBandwidthMetric = _metric;
     },
   },
 };

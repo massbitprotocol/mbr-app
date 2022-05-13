@@ -196,7 +196,7 @@ export default {
 
     syncRequests() {
       const EventSource = EventSourcePolyfill || NativeEventSource;
-      this.pollRequest = new EventSource(`${this.$config.portalURL}/mbr/node/stat/user/sse/requests`, {
+      this.pollRequest = new EventSource(`${this.$config.portalURL}/mbr/gateway/stat/user/sse/requests`, {
         headers: { Authorization: this.$auth.strategy.token.get() },
       });
       this.pollRequest.onmessage = ({ data }) => {
