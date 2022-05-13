@@ -37,6 +37,8 @@
             v-for="(api, index) in apiList"
             :key="index"
             :api="api"
+            :bandwidth="instanceBandwidthMetric.hasOwnProperty(api.id) ? instanceBandwidthMetric[api.id] : 0"
+            :requests="instanceRequestMetric.hasOwnProperty(api.id) ? instanceRequestMetric[api.id] : 0"
             @updateApiStatus="(value) => updateApiStatus(api, value)"
           />
 
@@ -179,6 +181,8 @@ export default {
       loadingStatBandwidth: false,
       statRequestsData: [],
       statBandwidthData: [],
+      instanceBandwidthMetric: {},
+      instanceRequestMetric: {},
       charts: [
         {
           name: 'Total Requests',
@@ -241,8 +245,11 @@ export default {
     async getStatBandwidth() {
       this.loadingStatBandwidth = true;
 
-      const { data } = await this.$axios.$get(`mbr/node/user/stat/bandwidth`);
-      console.log('data :>> ', data);
+      const { data, instanceMetric } = await this.$axios.$get(`mbr/node/user/stat/bandwidth`);
+      if (instanceMetric) {
+        this.instanceBandwidthMetric = instanceMetric;
+      }
+
       if (data && data.length) {
         this.statBandwidthData = data;
       } else {
@@ -255,7 +262,10 @@ export default {
     async getStatRequest() {
       this.loadingStatRequests = true;
 
-      const { data } = await this.$axios.$get(`mbr/node/user/stat/requests`);
+      const { data, instanceMetric } = await this.$axios.$get(`mbr/node/user/stat/requests`);
+      if (instanceMetric) {
+        this.instanceRequestMetric = instanceMetric;
+      }
       if (data && data.length) {
         this.statRequestsData = data;
       } else {
