@@ -187,7 +187,10 @@ export default {
 
         const totalSource = this.dataSource.find((item) => item.name === 'total');
         if (totalSource) {
-          this.totalRequests = totalSource.values.length ? totalSource.values[totalSource.values.length - 1].value : 0;
+          this.totalRequests = am5.math.round(
+            totalSource.values.length ? totalSource.values[totalSource.values.length - 1].value : 0,
+            2,
+          );
         }
 
         const dataSource = this.dataSource.find((item) => item.name === series.config.name);
@@ -218,7 +221,10 @@ export default {
         if (requests) {
           for (const request of requests) {
             if (request.name === 'total') {
-              this.totalRequests = request.values.length ? request.values[request.values.length - 1].value : 0;
+              this.totalRequests = am5.math.round(
+                request.values.length ? request.values[request.values.length - 1].value : 0,
+                2,
+              );
             }
             const series = this.listSeries.find(({ config }) => config.name === request.name);
             if (series) {
