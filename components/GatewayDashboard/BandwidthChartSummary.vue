@@ -138,7 +138,7 @@ export default {
 
     syncBandwidth() {
       const EventSource = EventSourcePolyfill || NativeEventSource;
-      this.pollBandwidth = new EventSource(`${this.$config.portalURL}/mbr/node/stat/user/sse/bandwidth`, {
+      this.pollBandwidth = new EventSource(`${this.$config.portalURL}/mbr/gateway/stat/user/sse/bandwidth`, {
         headers: { Authorization: this.$auth.strategy.token.get() },
       });
       this.pollBandwidth.onmessage = ({ data }) => {

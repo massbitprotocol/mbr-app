@@ -51,8 +51,30 @@
           </div>
         </div>
 
-        <!-- Reward -->
+        <!-- Bandwidth -->
         <div class="w-full px-5">
+          <div class="grid grid-cols-1">
+            <div class="text-body-2 text-neutral-normal">Bandwidth</div>
+
+            <div class="flex items-center gap-2">
+              <div class="mt-1 text-body-1 text-neutral-darker font-medium">{{ bandwidth }} Mbps</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Requests -->
+        <div class="w-full px-5">
+          <div class="grid grid-cols-1">
+            <div class="text-body-2 text-neutral-normal">Requests</div>
+
+            <div class="flex items-center gap-2">
+              <div class="mt-1 text-body-1 text-neutral-darker font-medium">{{ requests }} Req/s</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reward -->
+        <!-- <div class="w-full px-5">
           <div class="grid grid-cols-1">
             <div class="text-body-2 text-neutral-normal">Reward</div>
 
@@ -73,7 +95,7 @@
 
             <div v-else>--</div>
           </div>
-        </div>
+        </div> -->
       </div>
 
       <!-- Actions -->
@@ -135,7 +157,7 @@
         />
 
         <!-- Claim reward -->
-        <BaseModalClaimReward
+        <!-- <BaseModalClaimReward
           :type="'gateway'"
           :visible.sync="showModalClaimReward"
           :loading="loadingModalClaimReward"
@@ -143,7 +165,7 @@
           :transactionFee="claimTransactionFee"
           :totalReward="totalReward"
           @submitClaimReward="submitClaimReward"
-        />
+        /> -->
       </div>
     </div>
 
@@ -165,6 +187,16 @@ export default {
     api: {
       type: Object,
       default: () => new Object(),
+    },
+
+    bandwidth: {
+      type: Number | String,
+      default: 0,
+    },
+
+    requests: {
+      type: Number | String,
+      default: 0,
     },
   },
 

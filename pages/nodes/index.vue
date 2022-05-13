@@ -116,7 +116,11 @@
             <span class="text-body-1"> Loading... </span>
           </div>
 
-          <NodeDashboardBandwidthChartSummary v-else :dataSource="statBandwidthData" />
+          <NodeDashboardBandwidthChartSummary
+            v-else
+            :dataSource="statBandwidthData"
+            @updateInstanceMetric="updateBanwidthInstanceMetric"
+          />
         </div>
 
         <div class="relative min-h-[660px] mt-5 p-7.5 border border-primary-background rounded-xl">
@@ -141,7 +145,11 @@
             <span class="text-body-1"> Loading... </span>
           </div>
 
-          <NodeDashboardRequestChartSummary v-else :dataSource="statRequestsData" />
+          <NodeDashboardRequestChartSummary
+            v-else
+            :dataSource="statRequestsData"
+            @updateInstanceMetric="updateRequestInstanceMetric"
+          />
         </div>
       </div>
     </div>
@@ -183,34 +191,6 @@ export default {
       statBandwidthData: [],
       instanceBandwidthMetric: {},
       instanceRequestMetric: {},
-      charts: [
-        {
-          name: 'Total Requests',
-          url: `${this.$config.statURL}/__internal_grafana/d-solo/35llQjE7k/mbrn`,
-          filter: 'now|now-6h',
-          params: {
-            orgId: 1,
-            theme: 'light',
-            'var-Instance': 'All',
-            'var-FilterName': 'All',
-            'var-Filter': `All`,
-            panelId: 2,
-          },
-        },
-        {
-          name: 'Total Bandwidth',
-          url: `${this.$config.statURL}/__internal_grafana/d-solo/35llQjE7k/mbrn`,
-          filter: 'now|now-6h',
-          params: {
-            orgId: 1,
-            theme: 'light',
-            'var-Instance': 'All',
-            'var-FilterName': 'All',
-            'var-Filter': `All`,
-            panelId: 4,
-          },
-        },
-      ],
       zone: '',
     };
   },
@@ -273,6 +253,16 @@ export default {
       }
 
       this.loadingStatRequests = false;
+    },
+
+    updateRequestInstanceMetric(metric) {
+      const _metric = _.cloneDeep(metric);
+      this.instanceRequestMetric = _metric;
+    },
+
+    updateBanwidthInstanceMetric(metric) {
+      const _metric = _.cloneDeep(metric);
+      this.instanceBandwidthMetric = _metric;
     },
   },
 };
