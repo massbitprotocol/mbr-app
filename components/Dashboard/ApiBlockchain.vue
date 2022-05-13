@@ -6,7 +6,13 @@
 
       <div v-if="blockchain" class="h-[44px] flex items-center justify-between">
         <div class="flex items-center mt-2">
-          <img v-if="blockchain.icon" :src="blockchain.icon" class="mr-2" width="32" height="32" />
+          <img
+            v-if="blockchain.icon"
+            :src="require(`~/assets/${blockchain.icon}.svg`)"
+            class="mr-2"
+            width="32"
+            height="32"
+          />
           <div class="text-body-1 text-neutral-darkset font-medium">{{ blockchain.value || '' }}</div>
         </div>
 
