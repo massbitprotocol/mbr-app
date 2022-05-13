@@ -79,17 +79,6 @@ const listSeries = [
     },
     resource: null,
   },
-  // {
-  //   config: {
-  //     name: 'total',
-  //     minBulletDistance: 10,
-  //     valueYField: 'value',
-  //     valueXField: 'date',
-  //     stroke: am5.color('#E9EBFA'),
-  //     fill: am5.color('#E9EBFA'),
-  //   },
-  //   resource: null,
-  // },
 ];
 export default {
   name: 'RequestChart',
@@ -103,22 +92,16 @@ export default {
 
   data() {
     return {
-      totalRequests: 0,
       pollRequest: null,
       root: null,
       listSeries,
+      totalRequests: 0,
     };
   },
 
   mounted() {
     this.startStat();
     this.syncRequests();
-  },
-
-  computed: {
-    id() {
-      return this.$route.params.id || null;
-    },
   },
 
   methods: {
@@ -213,7 +196,7 @@ export default {
 
     syncRequests() {
       const EventSource = EventSourcePolyfill || NativeEventSource;
-      this.pollRequest = new EventSource(`${this.$config.portalURL}/mbr/gateway/stat/sse/${this.id}/requests`, {
+      this.pollRequest = new EventSource(`${this.$config.portalURL}/mbr/node/stat/user/sse/requests`, {
         headers: { Authorization: this.$auth.strategy.token.get() },
       });
       this.pollRequest.onmessage = ({ data }) => {
@@ -226,7 +209,6 @@ export default {
                 2,
               );
             }
-
             const series = this.listSeries.find(({ config }) => config.name === request.name);
             if (series) {
               series.resource.data.setAll(request.values);
