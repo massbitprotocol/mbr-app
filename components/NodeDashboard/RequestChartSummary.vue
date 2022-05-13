@@ -199,7 +199,7 @@ export default {
       this.pollRequest = new EventSource(`${this.$config.portalURL}/mbr/node/stat/user/sse/requests`, {
         headers: { Authorization: this.$auth.strategy.token.get() },
       });
-      this.pollRequest.onmessage = ({ data }) => {
+      this.pollRequest.onmessage = ({ data, instanceMetric }) => {
         const requests = JSON.parse(data);
         if (requests) {
           for (const request of requests) {
