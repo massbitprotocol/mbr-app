@@ -5,7 +5,10 @@
         <div class="flex items-center justify-center gap-10">
           <TheLogoDark />
 
-          <div class="flex items-center justify-center gap-5 mt-1" v-if="$route.name !== 'index'">
+          <div
+            class="flex items-center justify-center gap-5 mt-1"
+            v-if="!['login', 'index', 'sign-up'].includes($route.name)"
+          >
             <NuxtLink
               class="h-[40px] flex items-center justify-center text-body-1 text-neutral-darkset"
               exact-active-class="!text-primary font-medium"
@@ -30,7 +33,7 @@
           <div class="flex items-center gap-3">
             <BaseGhostButton class="hidden lg:block" @click="$router.push({ name: 'login' })"> Login </BaseGhostButton>
 
-            <BaseButton class="hidden lg:block" @click="loginWithWallet"> Register </BaseButton>
+            <BaseButton class="hidden lg:block" @click="loginWithWallet"> Sign up </BaseButton>
           </div>
         </template>
 

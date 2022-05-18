@@ -1,9 +1,9 @@
 <template>
   <div class="min-h-[80vh] grid items-center mx-auto max-w-lg py-7.5 lg:py-10">
     <div>
-      <div class="text-center text-title-2 lg:text-title-1 text-neutral-darkset font-bold">Welcome Back</div>
+      <div class="text-center text-title-2 lg:text-title-1 text-neutral-darkset font-bold">Hello, who’s this?</div>
       <div class="mt-3 text-center text-body-2 lg:text-body-1 text-neutral-normal">
-        See your growth and get consulting support!
+        Welcome to MassBit Route Testnet Phase II
       </div>
       <ValidationObserver v-slot="{ handleSubmit, invalid }" tag="div">
         <form class="mx-auto w-full max-w-md mt-7" @submit.prevent="handleSubmit(userLogin)">
@@ -20,7 +20,7 @@
                   class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2"
                   for="grid-user-name"
                 >
-                  User name
+                  Username
                 </label>
                 <input
                   v-model.trim="form.username"
@@ -53,7 +53,7 @@
                   Password
                 </label>
 
-                <NuxtLink class="text-body-2 text-primary font-medium" :to="{ name: 'forgot-password' }">
+                <NuxtLink class="text-body-2 text-neutral-normal" :to="{ name: 'forgot-password' }">
                   Forgot password?
                 </NuxtLink>
               </div>
@@ -82,7 +82,7 @@
             </div>
             <div class="flex flex-wrap -mx-3">
               <div class="w-full px-3 mb-5 md:mb-0 text-body-2">
-                <span class="text-neutral-normal">Not a member?</span>
+                <span class="text-neutral-normal">Don’t have the account yet?</span>
                 <span class="text-primary font-medium cursor-pointer" @click="loginWithWallet"> Sign up </span>
               </div>
             </div>
@@ -90,7 +90,9 @@
 
           <div class="flex flex-wrap -mx-3 mb-5">
             <div class="w-full px-3 mb-5 md:mb-0">
-              <BaseButton type="submit" :disabled="invalid" :loading="loading" block> Login </BaseButton>
+              <BaseButton type="submit" :disabled="invalid" :loading="loading" block>
+                Log in to MassBit Route
+              </BaseButton>
             </div>
           </div>
 
@@ -103,7 +105,7 @@
           <div class="flex flex-wrap -mx-3 mb-5">
             <div class="w-full px-3 mb-5 md:mb-0">
               <BaseGhostButton type="button" :loading="loading" @click="loginWithWallet" block>
-                Login with wallet
+                Log In With Wallet
               </BaseGhostButton>
             </div>
           </div>
