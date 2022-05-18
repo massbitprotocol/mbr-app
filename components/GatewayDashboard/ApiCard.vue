@@ -102,7 +102,7 @@
       <div class="flex items-center gap-5 justify-end py-3 px-6 border-t border-primary-background">
         <BaseButton
           class="w-[120px] hidden xl:flex"
-          v-if="api.status === 'verified'"
+          v-if="api.status === 'approved'"
           @click="showModalStaking = true"
           :loading="loadingStaking"
         >
