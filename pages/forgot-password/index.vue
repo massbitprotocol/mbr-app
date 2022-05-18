@@ -2,8 +2,13 @@
   <div class="min-h-[80vh] w-full grid items-center mx-autuo py-7.5 lg:py-10">
     <div>
       <div class="text-center text-title-2 lg:text-title-1 text-neutral-darkset font-bold">Forgot Your Password?</div>
-      <div class="mt-3 text-center text-body-2 lg:text-body-1 text-neutral-normal">
-        Enter your registered email below to<br />receive password reset instruction
+      <div
+        class="w-full flex items-center justify-center mt-3 text-center text-body-2 lg:text-body-1 text-neutral-normal"
+      >
+        <div class="max-w-lg">
+          Type the address linked to your account and we'll send you password reset instructions. They might end up in
+          your spam folder, so please check there as well.
+        </div>
       </div>
 
       <ValidationObserver v-slot="{ handleSubmit, invalid }" tag="div">

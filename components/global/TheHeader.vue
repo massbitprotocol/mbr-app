@@ -7,7 +7,7 @@
 
           <div
             class="flex items-center justify-center gap-5 mt-1"
-            v-if="!['login', 'index', 'sign-up'].includes($route.name)"
+            v-if="!['login', 'index', 'sign-up', 'forgot-password'].includes($route.name)"
           >
             <NuxtLink
               class="h-[40px] flex items-center justify-center text-body-1 text-neutral-darkset"
