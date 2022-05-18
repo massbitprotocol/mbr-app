@@ -277,7 +277,7 @@
         <a href="https://github.com/massbitprotocol/" target="_blank">
           <img src="https://massbit.io/images/socials/github.svg" alt="Github" />
         </a>
-        <a href="coming-soon.html" target="_blank">
+        <a href="https://discord.gg/jXAGgWCKJR" target="_blank">
           <img src="https://massbit.io/images/socials/discord.svg" alt="Discord" />
         </a>
       </div>
