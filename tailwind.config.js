@@ -13,6 +13,7 @@ module.exports = {
         'support-top': `url('/assets/svg/support-top.svg')`,
         'support-bottom': `url('/assets/svg/support-bottom.svg')`,
         'banner-node-pattern': `url('~assets/svg/dashboard/banner-node.svg')`,
+        'banner-testnet-pattern': `url('~assets/svg/dashboard/banner-testnet.svg')`,
         'banner-gateway-pattern': `url('~assets/svg/dashboard/banner-gateway.svg')`,
         'banner-user-pattern': `url('~assets/svg/dashboard/banner-user.svg')`,
         'vector-pattern': `url('~assets/svg/home/vector.svg')`,

@@ -1,11 +1,20 @@
 <template>
   <div class="min-h-[80vh] mx-auto w-full pb-30">
     <Portal to="banner" tag="div">
-      <div class="bg-banner-gateway-pattern bg-neutral-darker h-[268px] flex items-center justify-center">
+      <div class="bg-banner-testnet-pattern bg-neutral-darker h-[268px] flex items-center justify-center">
         <div class="container mx-auto">
-          <div class="text-title-1 md:text-medium-title text-neutral-white font-bold">Welcome to Community Gateway</div>
-
-          <!-- <div class="mt-2 text-body-1 md:text-heading-2 font-medium text-primary-background">Content</div> -->
+          <div class="text-title-1 md:text-medium-title text-neutral-white font-bold">Welcome to MBR Phase II</div>
+          <div class="mt-3 !text-lg text-primary-background">
+            After the success of the First Testnet for MassBit Route, we are launching Testnet Phase II with some new
+            features. Your
+            <a
+              class="font-medium underline"
+              href="https://docs.massbit.io/massbit-route-mbr/testnet-phase-ii-opening"
+              target="_blank"
+              rel="noopener noreferrer"
+              >guidance & resources.</a
+            >
+          </div>
         </div>
       </div>
     </Portal>
