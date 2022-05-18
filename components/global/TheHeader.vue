@@ -5,7 +5,7 @@
         <div class="flex items-center justify-center gap-10">
           <TheLogoDark />
 
-          <div class="flex items-center justify-center gap-5 mt-1">
+          <div class="flex items-center justify-center gap-5 mt-1" v-if="$route.name !== 'index'">
             <NuxtLink
               class="h-[40px] flex items-center justify-center text-body-1 text-neutral-darkset"
               exact-active-class="!text-primary font-medium"
