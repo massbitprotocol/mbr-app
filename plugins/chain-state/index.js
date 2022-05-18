@@ -10,7 +10,7 @@ export default function chainState() {
         const { api } = $polkadot;
         const { chainTokens, chainDecimals } = api.registry;
         const chainDecimal = chainDecimals.length ? chainDecimals[0] : 18;
-        const chainToken = chainTokens.length ? chainTokens[0] : 'MBT';
+        const chainToken = chainTokens.length ? chainTokens[0] : '';
 
         commit('chain/setChainToken', chainToken);
         commit('chain/setChainDecimal', chainDecimal);

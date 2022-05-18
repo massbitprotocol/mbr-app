@@ -1,5 +1,5 @@
 export default () => ({
   currentEra: null,
-  chainToken: 'MBT',
+  chainToken: '',
   chainDecimal: 18,
 });

@@ -141,7 +141,7 @@ export default {
       },
       error: '',
       chainDecimals: 18,
-      chainTokens: 'MBT',
+      chainTokens: '',
     };
   },
 
