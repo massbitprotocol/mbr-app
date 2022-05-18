@@ -2,7 +2,29 @@
   <header class="border-b border-b-primary-background h-[72px] lg:h-[88px]">
     <div class="h-full container mx-auto">
       <div class="h-full flex items-center justify-between">
-        <TheLogoDark />
+        <div class="flex items-center justify-center gap-10">
+          <TheLogoDark />
+
+          <div class="flex items-center justify-center gap-5 mt-1">
+            <NuxtLink
+              class="h-[40px] flex items-center justify-center text-body-1 text-neutral-darkset"
+              exact-active-class="!text-primary font-medium"
+              ex
+              :to="{ name: 'nodes' }"
+            >
+              Community Nodes
+            </NuxtLink>
+
+            <NuxtLink
+              class="h-[40px] flex items-center justify-center text-body-1 text-neutral-darkset"
+              exact-active-class="!text-primary font-medium"
+              ex
+              :to="{ name: 'gateways' }"
+            >
+              Community Gateways
+            </NuxtLink>
+          </div>
+        </div>
 
         <template v-if="!$auth.loggedIn">
           <div class="flex items-center gap-3">
