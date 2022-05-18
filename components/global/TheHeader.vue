@@ -253,7 +253,7 @@ export default {
     to() {
       if (this.$route.query && this.$route.query.to) return this.$route.query.to;
 
-      return 'projects';
+      return 'nodes';
     },
   },
 

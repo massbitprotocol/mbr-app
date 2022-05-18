@@ -34,17 +34,17 @@
       <div class="grid grid-cols-1 p-6 rounded-xl bg-statistic-price-pattern bg-neutral-darkset bg-no-repeat bg-right">
         <div class="text-title-2 font-bold text-neutral-white">Decentralized API</div>
 
-        <NuxtLink :to="{ name: 'projects' }" class="flex items-center text-body-2 text-neutral-white font-medium pt-8">
-          Get Started
-          <svg class="ml-2" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <span class="opacity-60 disabled flex items-center text-body-2 text-neutral-white font-medium pt-8">
+          Comming soon
+          <!-- <svg class="ml-2" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               fill-rule="evenodd"
               clip-rule="evenodd"
               d="M17.707 9.29301L12.707 4.29301C12.316 3.90201 11.684 3.90201 11.293 4.29301C10.902 4.68401 10.902 5.31601 11.293 5.70701L14.586 9.00001H3C2.447 9.00001 2 9.44801 2 10C2 10.552 2.447 11 3 11H14.586L11.293 14.293C10.902 14.684 10.902 15.316 11.293 15.707C11.488 15.902 11.744 16 12 16C12.256 16 12.512 15.902 12.707 15.707L17.707 10.707C18.098 10.316 18.098 9.68401 17.707 9.29301Z"
               fill="white"
             />
-          </svg>
-        </NuxtLink>
+          </svg> -->
+        </span>
       </div>
 
       <!-- Gateway -->

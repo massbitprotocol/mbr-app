@@ -129,7 +129,7 @@ export default {
 
   async asyncData({ $auth, redirect, route }) {
     if ($auth.loggedIn) {
-      redirect({ name: route.query.to || 'projects' });
+      redirect({ name: route.query.to || 'nodes' });
     }
   },
 
@@ -149,7 +149,7 @@ export default {
     to() {
       if (this.$route.query && this.$route.query.to) return this.$route.query.to;
 
-      return 'projects';
+      return 'nodes';
     },
   },
 
