@@ -14,7 +14,7 @@
         <div class="mb-3 text-body-1 font-medium text-neutral-darkset">Username</div>
 
         <input
-          v-model.trim="$auth.user.data.username"
+          v-model.trim="$auth.user.username"
           :class="{
             'appearance-none block w-full text-body-2 font-medium text-neutral-darkset border border-primary-background rounded py-3 px-4 mb-2.5 leading-tight': true,
           }"
@@ -27,7 +27,20 @@
         <div class="mb-3 text-body-1 font-medium text-neutral-darkset">Email</div>
 
         <input
-          v-model.trim="$auth.user.data.email"
+          v-model.trim="$auth.user.email"
+          :class="{
+            'appearance-none block w-full text-body-2 font-medium text-neutral-darkset border border-primary-background rounded py-3 px-4 mb-2.5 leading-tight': true,
+          }"
+          type="text"
+          disabled
+        />
+      </div>
+
+      <div>
+        <div class="mb-3 text-body-1 font-medium text-neutral-darkset">Wallet address</div>
+
+        <input
+          v-model.trim="$auth.user.walletAddress"
           :class="{
             'appearance-none block w-full text-body-2 font-medium text-neutral-darkset border border-primary-background rounded py-3 px-4 mb-2.5 leading-tight': true,
           }"

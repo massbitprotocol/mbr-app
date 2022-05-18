@@ -40,9 +40,9 @@
       </NuxtLink> -->
 
       <!-- Referral -->
-      <NuxtLink
+      <span
         :to="{ name: 'my-profile-referral' }"
-        class="h-[44px] px-6 flex items-center text-body-2 text-neutral-darkset font-medium"
+        class="opacity-50 cursor-not-allowed h-[44px] px-6 flex items-center text-body-2 text-neutral-darkset font-medium"
         exact-active-class="!text-primary !font-bold bg-neutral-lightest rounded-lg"
       >
         <svg class="mr-2" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -57,7 +57,7 @@
         </svg>
 
         Referral
-      </NuxtLink>
+      </span>
     </div>
 
     <div class="w-full">
