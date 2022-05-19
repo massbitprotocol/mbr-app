@@ -84,7 +84,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self' 'https://massbit.io'; script-src 'self'; font-src 'self';"
+          "value": "default-src 'self' https://sibforms.com; script-src 'self'; font-src 'self';"
         }
       ]
     }
