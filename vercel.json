@@ -84,7 +84,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self' https://portal.massbitroute.net https://sibforms.com https://massbit.io; script-src 'self' 'unsafe-inline' https://sibforms.com; style-src 'self' 'unsafe-inline' https://sibforms.com https://massbit.io; font-src 'self'; media-src *; connect-src 'self' wss:;"
+          "value": "default-src 'self' wss://chain.massbitroute.net https://portal.massbitroute.net https://sibforms.com https://massbit.io; script-src 'self' 'unsafe-inline' https://sibforms.com; style-src 'self' 'unsafe-inline' https://sibforms.com https://massbit.io; font-src 'self'; media-src *;"
         }
       ]
     }
