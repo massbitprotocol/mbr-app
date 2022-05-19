@@ -10,10 +10,7 @@
       "use": "@nuxtjs/vercel-builder",
       "config": {
         "internalServer": true,
-        "serverFiles": [
-          "modules/**",
-          "./.nuxt/dist/sitemap-routes.json"
-        ]
+        "serverFiles": ["modules/**", "./.nuxt/dist/sitemap-routes.json"]
       }
     }
   ],
@@ -84,6 +81,10 @@
         {
           "key": "Permissions-Policy",
           "value": "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self' https://portal.massbitroute.dev https://sibforms.com https://massbit.io; script-src 'self' 'unsafe-inline' https://sibforms.com; style-src 'self' 'unsafe-inline' https://sibforms.com https://massbit.io; font-src 'self'; media-src *"
         }
       ]
     }
