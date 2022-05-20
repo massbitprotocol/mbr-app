@@ -116,7 +116,7 @@
                     type="text"
                   />
                   <p class="text-gray-500 text-xs italic mb-1.5">
-                    ETH/DOT blockchain node IP and RPC port (Format - http://[IP]:[port] or https://[ip]:[port]/)
+                    ETH/DOT blockchain node IP and RPC port (Format - http://[IP]:[PORT] or https://[IP]/)
                   </p>
 
                   <p v-if="errors[0]" class="text-red-500 text-xs italic">{{ errors[0] }}</p>
