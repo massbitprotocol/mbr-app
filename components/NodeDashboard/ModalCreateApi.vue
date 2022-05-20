@@ -111,9 +111,13 @@
 
                   <input
                     v-model="form.dataSource"
-                    class="mb-2.5 appearance-none block w-full text-body-2 text-gray-700 border border-primary-background rounded py-3 px-4 leading-tight"
+                    placeholder="Enter your data source"
+                    class="mb-1 appearance-none block w-full text-body-2 text-gray-700 border border-primary-background rounded py-3 px-4 leading-tight"
                     type="text"
                   />
+                  <p class="text-gray-500 text-xs italic mb-1.5">
+                    ETH/DOT blockchain node IP and RPC port (Format - http://[IP]:[port] or https://[ip]:[port]/)
+                  </p>
 
                   <p v-if="errors[0]" class="text-red-500 text-xs italic">{{ errors[0] }}</p>
                 </div>
@@ -174,7 +178,7 @@ export default {
         name: '',
         blockchain: '',
         zone: '',
-        dataSource: 'http://127.0.0.1:8545',
+        dataSource: '',
         network: 'mainnet',
       },
       loading: false,
