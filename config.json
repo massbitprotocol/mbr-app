@@ -42,6 +42,10 @@
         {
           "id": "mainnet",
           "value": "Mainnet"
+        },
+        {
+          "id": "rinkeby",
+          "value": "rinkeby"
         }
       ]
     },
