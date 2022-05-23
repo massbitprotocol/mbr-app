@@ -37,7 +37,7 @@
                     class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2"
                     for="grid-api-key"
                   >
-                    Node name
+                    Node name<span class="text-caption text-accent-red italic font-mono">(required)</span>
                   </label>
 
                   <input
@@ -66,7 +66,7 @@
                     class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2"
                     for="grid-api-key"
                   >
-                    Choose Blockchain
+                    Choose Blockchain <span class="text-caption text-accent-red italic font-mono">(required)</span>
                   </label>
 
                   <BaseSearch v-model="form.blockchain" :source="blockchains" placeholder="Select blockchain" />
@@ -86,7 +86,7 @@
                     class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2"
                     for="grid-api-key"
                   >
-                    Choose Zone
+                    Choose Zone <span class="text-caption text-accent-red italic font-mono">(required)</span>
                   </label>
 
                   <GatewayDashboardSelectZone v-model="form.zone" :source="zones" placeholder="Select zone" />
@@ -94,34 +94,69 @@
                 </div>
               </ValidationProvider>
 
-              <ValidationProvider
-                v-slot="{ errors }"
-                rules="required|url"
-                name="data source"
-                tag="div"
-                class="w-full px-3 mb-5 md:mb-0"
-              >
-                <div>
-                  <label
-                    class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2"
-                    for="grid-api-key"
-                  >
-                    Data Source
-                  </label>
+              <div class="w-full px-3 mb-5 md:mb-0">
+                <label class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2" for="grid-api-key">
+                  Data source
+                </label>
+              </div>
+              <BaseBlock class="w-full mx-3 px-5 mb-5 md:mb-0">
+                <ValidationProvider
+                  v-slot="{ errors }"
+                  rules="required|url"
+                  name="data source http/https"
+                  tag="div"
+                  class="mb-5"
+                >
+                  <div>
+                    <BasePopover
+                      class="flex items-center"
+                      content="ETH/DOT blockchain node IP and RPC port (Format - http://[IP]:[PORT] or https://[IP]/)"
+                      contentClass="w-[220px] text-caption font-normal"
+                      placement="right"
+                    >
+                      <label for="floatingInput" class="text-gray-700 font-medium text-caption">
+                        HTTP/HTTPS <span class="text-caption text-accent-red italic font-mono">(required)</span>
+                      </label>
+                    </BasePopover>
 
-                  <input
-                    v-model="form.dataSource"
-                    placeholder="Enter your data source"
-                    class="mb-1 appearance-none block w-full text-body-2 text-gray-700 border border-primary-background rounded py-3 px-4 leading-tight"
-                    type="text"
-                  />
-                  <p class="text-gray-500 text-xs italic mb-1.5">
-                    ETH/DOT blockchain node IP and RPC port (Format - http://[IP]:[PORT] or https://[IP]/)
-                  </p>
+                    <input
+                      v-model="form.dataSource"
+                      type="text"
+                      class="form-control block w-full py-3 px-4 leading-tight text-body-2 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-primary-background rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                      id="floatingInput"
+                      placeholder="Your blockchain node IP and RPC port"
+                    />
 
-                  <p v-if="errors[0]" class="text-red-500 text-xs italic">{{ errors[0] }}</p>
-                </div>
-              </ValidationProvider>
+                    <p v-if="errors[0]" class="text-red-500 text-xs italic mb-3">{{ errors[0] }}</p>
+                  </div>
+                </ValidationProvider>
+
+                <!-- Websocket -->
+                <ValidationProvider v-slot="{ errors }" rules="url" name="data source websocket" tag="div" class="mb-5">
+                  <div>
+                    <BasePopover
+                      class="flex items-center"
+                      content="ETH/DOT blockchain node IP and Websocket port (Format - ws://[IP]:[PORT] or wss://[IP]/)"
+                      contentClass="w-[220px] text-caption font-normal"
+                      placement="right"
+                    >
+                      <label for="floatingInputWs" class="text-gray-700 font-medium text-caption"
+                        >WEBSOCKET <span class="font-mono text-caption italic">(optional)</span></label
+                      >
+                    </BasePopover>
+
+                    <input
+                      v-model="form.dataSourceWs"
+                      type="text"
+                      class="form-control block w-full py-3 px-4 leading-tight text-body-2 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-primary-background rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                      id="floatingInputWs"
+                      placeholder="Your blockchain node IP and Wesocket port"
+                    />
+
+                    <p v-if="errors[0]" class="text-red-500 text-xs italic mb-3">{{ errors[0] }}</p>
+                  </div>
+                </ValidationProvider>
+              </BaseBlock>
 
               <!-- <div class="w-full px-3 mb-5 md:mb-0">
                 <label class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2" for="grid-api-key">
@@ -179,6 +214,7 @@ export default {
         blockchain: '',
         zone: '',
         dataSource: '',
+        dataSourceWs: '',
         network: 'mainnet',
       },
       loading: false,
@@ -226,10 +262,9 @@ export default {
           this._visible = false;
         }
       } catch (error) {
-        console.log('error :>> ', error);
-        if (error.response) {
-          const { data } = error.response;
-          this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+        if (error.response && error.response.data) {
+          const { message } = error.response.data;
+          this.$notify({ type: 'error', text: Array.isArray(message) ? message[0] : message });
         } else {
           this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
         }

@@ -100,7 +100,7 @@ extend('min_dimensions', {
 });
 extend('url', {
   validate: (url) => {
-    const reg = /^(http|https)?:\/\/?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm;
+    const reg = /^(http|https|ws|wss)?:\/\/?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm;
 
     return reg.test(url);
   },
