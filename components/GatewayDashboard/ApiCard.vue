@@ -74,7 +74,7 @@
         </div>
 
         <!-- Reward -->
-        <!-- <div class="w-full px-5">
+        <div class="w-full px-5">
           <div class="grid grid-cols-1">
             <div class="text-body-2 text-neutral-normal">Reward</div>
 
@@ -95,7 +95,7 @@
 
             <div v-else>--</div>
           </div>
-        </div> -->
+        </div>
       </div>
 
       <!-- Actions -->
@@ -157,7 +157,7 @@
         />
 
         <!-- Claim reward -->
-        <!-- <BaseModalClaimReward
+        <BaseModalClaimReward
           :type="'gateway'"
           :visible.sync="showModalClaimReward"
           :loading="loadingModalClaimReward"
@@ -165,7 +165,7 @@
           :transactionFee="claimTransactionFee"
           :totalReward="totalReward"
           @submitClaimReward="submitClaimReward"
-        /> -->
+        />
       </div>
     </div>
 

@@ -5,6 +5,7 @@
         <div class="text-heading-2 text-neutral-darkset font-bold">Add New Node</div>
 
         <svg
+          @click="_visible = false"
           class="flex items-center text-neutral-darkset cursor-pointer"
           width="20"
           height="20"
@@ -109,6 +110,7 @@
                 </label>
               </div>
               <BaseBlock class="w-full mx-3 px-5 mb-5 md:mb-0">
+                <!-- http/https -->
                 <ValidationProvider
                   v-slot="{ errors }"
                   rules="required|url"
