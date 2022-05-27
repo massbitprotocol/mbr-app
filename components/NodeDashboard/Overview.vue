@@ -57,7 +57,7 @@
 
     <div v-else class="block md:table table-auto w-full">
       <colgroup>
-        <col class="w-full md:w-40" />
+        <col class="w-full md:w-60" />
         <col />
       </colgroup>
 
@@ -127,9 +127,11 @@
               </td>
             </tr>
 
-            <!-- Data source -->
+            <!-- Data source http -->
             <tr class="w-full grid md:table-row">
-              <td class="text-body-2 text-neutral-normal font-medium py-3 whitespace-nowrap">Data source</td>
+              <td class="text-body-2 text-neutral-normal font-medium py-3 whitespace-nowrap">
+                Data source <span class="opacity-70 font-normal italic">http/https</span>
+              </td>
               <td>
                 <div class="flex items-center">
                   <input
@@ -171,6 +173,57 @@
                     contentClass="w-[197px]"
                   >
                     <BaseIconButton class="w-[36px] h-[36px] ml-2" icon="edit" @click="showEditDataSource" />
+                  </BasePopover>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Data source websocket -->
+            <tr class="w-full grid md:table-row">
+              <td class="text-body-2 text-neutral-normal font-medium py-3 whitespace-nowrap">
+                Data source <span class="opacity-70 font-normal italic">websocket</span>
+              </td>
+              <td>
+                <div class="flex items-center">
+                  <input
+                    v-if="editDataSourceWs"
+                    :value="api.dataSourceWs"
+                    :disabled="loadingUpdateApiWs"
+                    @blur="updateDataSourceWs"
+                    ref="apiDataSourceWs"
+                    type="text"
+                    class="text-text-body-2 text-neutral-normal font-normal py-3 appearance-none block border border-primary-background rounded leading-tight"
+                  />
+
+                  <template v-else>
+                    <span v-if="api.dataSourceWs" class="text-body-2 text-neutral-darkset font-medium py-3">
+                      {{ api.dataSourceWs }}
+                    </span>
+
+                    <span v-else class="text-body-2 text-neutral-lighter py-3"> -- </span>
+                  </template>
+
+                  <svg
+                    v-if="loadingUpdateApiWs"
+                    class="animate-spin ml-2 h-5 w-5 text-primary"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  <BasePopover
+                    v-else
+                    class="flex items-center"
+                    content="Change the data source of the Node"
+                    contentClass="w-[197px]"
+                  >
+                    <BaseIconButton class="w-[36px] h-[36px] ml-2" icon="edit" @click="showEditDataSourceWs" />
                   </BasePopover>
                 </div>
               </td>
@@ -275,7 +328,9 @@ export default {
       isShowCopyTootip: false,
       copyTimeout: null,
       editDataSource: false,
+      editDataSourceWs: false,
       loadingUpdateApi: false,
+      loadingUpdateApiWs: false,
     };
   },
 
@@ -316,7 +371,7 @@ export default {
     },
 
     async updateDataSource() {
-      let dataSource = this.$refs.apiDataSource.value;
+      let dataSource = `${this.$refs.apiDataSource.value}`.trim();
       const reg = /^(http|https)?:\/\/?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm;
       if (reg.test(dataSource)) {
         this.loadingUpdateApi = true;
@@ -324,7 +379,7 @@ export default {
           let _api = _.cloneDeep(this.api);
           const result = await this.$store.dispatch('node/updateApi', Object.assign(_api, { dataSource: dataSource }));
           if (result) {
-            this.$notify({ type: 'success', text: 'The name of your API key has been successfully changed!' });
+            this.$notify({ type: 'success', text: 'The http datasource updated!' });
           } else {
             this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
           }
@@ -346,6 +401,46 @@ export default {
       this._isEditing = true;
       this.$nextTick(() => {
         this.$refs.apiDataSource.focus();
+      });
+    },
+
+    async updateDataSourceWs() {
+      let dataSourceWs = `${this.$refs.apiDataSourceWs.value}`.trim();
+      const reg = /^(ws|wss)?:\/\/?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm;
+      if (reg.test(dataSourceWs)) {
+        this.loadingUpdateApiWs = true;
+        setTimeout(async () => {
+          let _api = _.cloneDeep(this.api);
+          const result = await this.$store.dispatch(
+            'node/updateApi',
+            Object.assign(_api, { dataSourceWs: dataSourceWs }),
+          );
+          if (result) {
+            this.$notify({
+              type: 'success',
+              text: 'The websocket datasource updated!',
+            });
+          } else {
+            this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+          }
+
+          this.editDataSourceWs = false;
+          this.loadingUpdateApiWs = false;
+          this._isEditing = false;
+        }, 1500);
+      } else {
+        this.editDataSourceWs = false;
+        this.loadingUpdateApiWs = false;
+
+        this.$notify({ type: 'error', text: 'The feild is not a valid websocket URL' });
+      }
+    },
+
+    showEditDataSourceWs() {
+      this.editDataSourceWs = true;
+      this._isEditing = true;
+      this.$nextTick(() => {
+        this.$refs.apiDataSourceWs.focus();
       });
     },
   },
