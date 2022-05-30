@@ -132,7 +132,13 @@
                 </ValidationProvider>
 
                 <!-- Websocket -->
-                <ValidationProvider v-slot="{ errors }" rules="url" name="data source websocket" tag="div" class="mb-5">
+                <ValidationProvider
+                  v-slot="{ errors }"
+                  rules="required|url"
+                  name="data source websocket"
+                  tag="div"
+                  class="mb-5"
+                >
                   <div>
                     <BasePopover
                       class="flex items-center"
@@ -141,7 +147,7 @@
                       placement="right"
                     >
                       <label for="floatingInputWs" class="text-gray-700 font-medium text-caption"
-                        >WEBSOCKET <span class="font-mono text-caption italic">(optional)</span></label
+                        >WEBSOCKET <span class="text-caption text-accent-red italic font-mono">(required)</span></label
                       >
                     </BasePopover>
 
