@@ -52,11 +52,11 @@ export default {
     },
 
     gatewayWss() {
-      return `wss://${this.api.id}.${this.api.blockchain}-${this.api.network}.${this.$config.dapiProviderDomain}/${this.api.appKey}`;
+      return `wss://${this.api.id}-ws.${this.api.blockchain}-${this.api.network}.${this.$config.dapiProviderDomain}/${this.api.appKey}`;
     },
 
     gatewayWssSecret() {
-      return `wss://${this.api.id}.${this.api.blockchain}-${this.api.network}.${this.$config.dapiProviderDomain}/${this.api.appKey}`;
+      return `wss://${this.api.id}-ws.${this.api.blockchain}-${this.api.network}.${this.$config.dapiProviderDomain}/${this.api.appKey}`;
     },
   },
 };
