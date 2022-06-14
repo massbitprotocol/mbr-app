@@ -41,6 +41,16 @@
           </div>
         </div>
 
+        <!-- Network -->
+        <div class="w-full px-5">
+          <div class="grid grid-cols-1">
+            <div class="text-body-2 text-neutral-normal font-medium">Network</div>
+            <div class="mt-1 text-body-1 text-neutral-darker font-medium truncate capitalize">
+              {{ api.network || '--' }}
+            </div>
+          </div>
+        </div>
+
         <!-- Status -->
         <div class="w-full px-5">
           <div class="grid grid-cols-1">
@@ -74,7 +84,7 @@
         </div>
 
         <!-- Reward -->
-        <div class="w-full px-5">
+        <!-- <div class="w-full px-5">
           <div class="grid grid-cols-1">
             <div class="text-body-2 text-neutral-normal">Reward</div>
 
@@ -95,7 +105,7 @@
 
             <div v-else>--</div>
           </div>
-        </div>
+        </div> -->
       </div>
 
       <!-- Actions -->
