@@ -53,8 +53,12 @@
             v-for="(api, index) in apiList"
             :key="index"
             :api="api"
-            :bandwidth="instanceBandwidthMetric.hasOwnProperty(api.id) ? instanceBandwidthMetric[api.id] : 0"
-            :requests="instanceRequestMetric.hasOwnProperty(api.id) ? instanceRequestMetric[api.id] : 0"
+            :bandwidth="
+              api.geo && instanceBandwidthMetric.hasOwnProperty(api.geo.ip) ? instanceBandwidthMetric[api.geo.ip] : 0
+            "
+            :requests="
+              api.geo && instanceRequestMetric.hasOwnProperty(api.geo.ip) ? instanceRequestMetric[api.geo.ip] : 0
+            "
             @updateApiStatus="(value) => updateApiStatus(api, value)"
           />
 

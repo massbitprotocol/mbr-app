@@ -48,8 +48,12 @@
             v-for="(api, index) in apiList"
             :key="index"
             :api="api"
-            :bandwidth="instanceBandwidthMetric.hasOwnProperty(api.id) ? instanceBandwidthMetric[api.id] : 0"
-            :requests="instanceRequestMetric.hasOwnProperty(api.id) ? instanceRequestMetric[api.id] : 0"
+            :bandwidth="
+              api.geo && instanceBandwidthMetric.hasOwnProperty(api.geo.ip) ? instanceBandwidthMetric[api.geo.ip] : 0
+            "
+            :requests="
+              api.geo && instanceRequestMetric.hasOwnProperty(api.geo.ip) ? instanceRequestMetric[api.geo.ip] : 0
+            "
             @updateApiStatus="(value) => updateApiStatus(api, value)"
           />
 
@@ -238,7 +242,7 @@ export default {
 
       const { data, instanceMetric } = await this.$axios.$get(`mbr/node/user/stat/bandwidth`);
       if (instanceMetric) {
-        this.instanceBandwidthMetric = instanceMetric;
+        this.updateBanwidthInstanceMetric(instanceMetric);
       }
 
       if (data && data.length) {
@@ -255,10 +259,11 @@ export default {
 
       const { data, instanceMetric } = await this.$axios.$get(`mbr/node/user/stat/requests`);
       if (instanceMetric) {
-        this.instanceRequestMetric = instanceMetric;
+        this.updateRequestInstanceMetric(instanceMetric);
       }
-      if (data && data.length) {
-        this.statRequestsData = data;
+
+      if (data) {
+        this.statRequestsData = data.data;
       } else {
         this.statRequestsData = [];
       }

@@ -194,6 +194,7 @@ export default {
         }
 
         const dataSource = this.dataSource.find((item) => item.name === series.config.name);
+        console.log('dataSource :>> ', dataSource);
         if (dataSource) {
           series.resource.data.setAll(dataSource.values);
         }
@@ -219,17 +220,21 @@ export default {
       this.pollRequest.onmessage = ({ data }) => {
         const requests = JSON.parse(data);
         if (requests) {
-          for (const request of requests) {
-            if (request.name === 'total') {
+          for (let index = 0; index < this.listSeries.length; index++) {
+            let series = this.listSeries[index];
+            // Add series total
+            const totalSource = requests.find((item) => item.name === 'total');
+            if (totalSource) {
               this.totalRequests = am5.math.round(
-                request.values.length ? request.values[request.values.length - 1].value : 0,
+                totalSource.values.length ? totalSource.values[totalSource.values.length - 1].value : 0,
                 2,
               );
             }
 
-            const series = this.listSeries.find(({ config }) => config.name === request.name);
-            if (series) {
-              series.resource.data.setAll(request.values);
+            // Add series data source
+            const dataSource = requests.find((item) => item.name === series.config.name);
+            if (dataSource) {
+              series.resource.data.setAll(dataSource.values);
             }
           }
         }

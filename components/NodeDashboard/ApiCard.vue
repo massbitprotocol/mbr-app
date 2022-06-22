@@ -1,26 +1,50 @@
 <template>
   <div class="relative flex justify-center">
     <div class="block min-w-full rounded-lg border border-primary-background bg-white max-w-sm text-center">
-      <div class="text-left py-3 px-6 border-b border-primary-background">
-        <!-- Name -->
-        <div
-          class="text-heading-1 text-neutral-darkset font-bold overflow-ellipsis whitespace-nowrap break-words overflow-hidden"
-        >
-          {{ api.name }}
-        </div>
-
-        <!-- API key -->
-        <div class="w-full inline-flex items-center gap-2">
-          <div class="text-body-2 xl:text-body-1 text-neutral-darker font-medium truncate">
-            {{ api.id | shortenKey }}
+      <div class="flex items-center justify-between gap-3 text-left py-3 px-6 border-b border-primary-background">
+        <div class="flex flex-col truncate">
+          <!-- Name -->
+          <div class="text-heading-1 text-neutral-darkset font-bold truncate">
+            {{ api.name }}
           </div>
 
-          <TheCopyButton buttonClass="bg-primary-background" :textToCopy="api.id" />
+          <!-- API key -->
+          <div class="w-full inline-flex items-center gap-2">
+            <div class="text-body-2 xl:text-body-1 text-neutral-darker font-medium truncate">
+              {{ api.id | shortenKey }}
+            </div>
+
+            <TheCopyButton buttonClass="bg-primary-background" :textToCopy="api.id" />
+          </div>
+        </div>
+
+        <div
+          :class="{
+            'min-w-[80px] max-w-[150px] text-xs capitalize inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-mono text-white rounded bg-gray-200': true,
+            '!bg-blue-400': ['created'].includes(api.status),
+            '!bg-blue-600': ['verified'].includes(api.status),
+            '!bg-primary': ['approved'].includes(api.status),
+            '!bg-accent-green': ['staked'].includes(api.status),
+            '!bg-accent-yellow': ['investigate', 'investigate_fail'].includes(api.status),
+            '!bg-accent-red': ['failed'].includes(api.status),
+          }"
+        >
+          {{ api.status ? api.status.split('_').join(' ') : '--' }}
         </div>
       </div>
 
       <!-- Details -->
       <div class="p-6 grid grid-cols-3 gap-2.5 text-left">
+        <!-- IP -->
+        <div class="w-full px-5">
+          <div class="grid grid-cols-1">
+            <div class="text-body-2 text-neutral-normal">IP</div>
+            <div class="mt-1 uppercase text-body-1 text-neutral-darker font-medium truncate">
+              {{ api.geo ? api.geo.ip : '--' }}
+            </div>
+          </div>
+        </div>
+
         <!-- Zone -->
         <div class="w-full px-5">
           <div class="grid grid-cols-1">
@@ -37,16 +61,6 @@
             <div class="text-body-2 text-neutral-normal">Blockchain</div>
             <div class="mt-1 text-body-1 text-neutral-darker font-medium truncate">
               {{ _blockchain ? _blockchain.value : '--' }}
-            </div>
-          </div>
-        </div>
-
-        <!-- Status -->
-        <div class="w-full px-5">
-          <div class="grid grid-cols-1">
-            <div class="text-body-2 text-neutral-normal">Status</div>
-            <div class="mt-1 uppercase text-body-1 text-neutral-darker font-medium truncate">
-              {{ api.status }}
             </div>
           </div>
         </div>
