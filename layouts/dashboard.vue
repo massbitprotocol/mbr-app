@@ -28,6 +28,10 @@ export default {
   mode: 'out-in',
 
   async created() {
+    if (['reset-password'].includes(this.$route.name)) {
+      return;
+    }
+
     if (!this.$auth.loggedIn) {
       this.$router.push({ name: 'login' });
       return;
