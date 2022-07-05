@@ -46,6 +46,24 @@
       ]
     },
     {
+      "id": "matic",
+      "value": "Polygon",
+      "icon": "matic",
+      "methods": [],
+      "api_interface": [
+        {
+          "id": "jsonrpc",
+          "value": "JSON-RPC"
+        }
+      ],
+      "network": [
+        {
+          "id": "testnet",
+          "value": "Testnet"
+        }
+      ]
+    },
+    {
       "id": "dot",
       "value": "Polkadot",
       "icon": "dot",

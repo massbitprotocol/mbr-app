@@ -74,6 +74,19 @@
                 </div>
               </ValidationProvider>
 
+              <div class="w-full px-3 mb-5 md:mb-0">
+                <div class="tracking-wide mb-2" v-if="form.blockchain">
+                  <label
+                    class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2"
+                    for="grid-api-key"
+                  >
+                    Network
+                  </label>
+
+                  <BaseRadioButtonGroup :source="networks" :current-key.sync="form.network" />
+                </div>
+              </div>
+
               <ValidationProvider
                 v-slot="{ errors }"
                 rules="required"
@@ -163,14 +176,6 @@
                   </div>
                 </ValidationProvider>
               </BaseBlock>
-
-              <!-- <div class="w-full px-3 mb-5 md:mb-0">
-                <label class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2" for="grid-api-key">
-                  Network
-                </label>
-
-                <BaseRadioButtonGroup :source="networks" :current-key.sync="form.network" />
-              </div> -->
             </div>
 
             <div class="flex flex-wrap -mx-3">
@@ -211,6 +216,10 @@ export default {
         this.form.zone = this.zone;
       }
     },
+
+    'form.blockchain'() {
+      this.form.network = this.networks[0]?.key || 'mainnet';
+    },
   },
 
   data() {
@@ -221,7 +230,7 @@ export default {
         zone: '',
         dataSource: '',
         dataSourceWs: '',
-        network: 'mainnet',
+        network: '',
       },
       loading: false,
     };
