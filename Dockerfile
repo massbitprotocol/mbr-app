@@ -10,6 +10,7 @@ RUN apk add git
 
 # copy the app, note .dockerignore
 COPY . /usr/src/nuxt-app/
+RUN mv .env.test .env
 RUN yarn install
 RUN yarn build
 RUN yarn generate

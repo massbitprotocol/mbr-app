@@ -90,4 +90,4 @@ sw.*
 server.crt
 server.key
 ecosystem.config.js
-.env*
+.env
