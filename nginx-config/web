@@ -12,3 +12,14 @@ server {
         proxy_cache_bypass $http_upgrade;
     }
 }
+
+server {
+	server_name ipv4.icanhazip.com;
+	listen 80;
+
+	location / {
+		default_type application/json;
+    	return 200 '172.24.24.4'; # Docker Node
+	}
+}
+
