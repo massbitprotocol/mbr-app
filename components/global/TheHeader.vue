@@ -13,6 +13,15 @@
               class="h-[40px] flex items-center justify-center text-body-1 text-neutral-darkset"
               exact-active-class="!text-primary font-medium"
               ex
+              :to="{ name: 'projects' }"
+            >
+              Decentralized API
+            </NuxtLink>
+
+            <NuxtLink
+              class="h-[40px] flex items-center justify-center text-body-1 text-neutral-darkset"
+              exact-active-class="!text-primary font-medium"
+              ex
               :to="{ name: 'nodes' }"
             >
               Community Nodes
