@@ -42,6 +42,46 @@
         {
           "id": "mainnet",
           "value": "Mainnet"
+        },
+        {
+          "id": "rinkeby",
+          "value": "Rinkeby"
+        }
+      ]
+    },
+    {
+      "id": "bsc",
+      "value": "Binance Smart Chain",
+      "icon": "bsc",
+      "methods": [],
+      "api_interface": [
+        {
+          "id": "jsonrpc",
+          "value": "JSON-RPC"
+        }
+      ],
+      "network": [
+        {
+          "id": "mainnet",
+          "value": "Mainnet"
+        }
+      ]
+    },
+    {
+      "id": "matic",
+      "value": "Polygon",
+      "icon": "matic",
+      "methods": [],
+      "api_interface": [
+        {
+          "id": "jsonrpc",
+          "value": "JSON-RPC"
+        }
+      ],
+      "network": [
+        {
+          "id": "mainnet",
+          "value": "Mainnet"
         }
       ]
     },

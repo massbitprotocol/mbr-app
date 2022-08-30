@@ -64,6 +64,14 @@
                 </div>
               </ValidationProvider>
 
+              <div class="w-full px-3 mb-5 md:mb-0" v-if="form.blockchain && networks.length > 1">
+                <label class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2" for="grid-api-key">
+                  Network
+                </label>
+
+                <BaseRadioButtonGroup class="mb-2" :source="networks" :current-key.sync="form.network" />
+              </div>
+
               <ValidationProvider
                 v-slot="{ errors }"
                 rules="required"
@@ -83,14 +91,6 @@
                   <p v-if="errors[0]" class="text-red-500 text-xs italic">{{ errors[0] }}</p>
                 </div>
               </ValidationProvider>
-
-              <!-- <div class="w-full px-3 mb-5 md:mb-0">
-                <label class="block text-body-1 text-neutral-darkset font-medium tracking-wide mb-2" for="grid-api-key">
-                  Network
-                </label>
-
-                <BaseRadioButtonGroup :source="networks" :current-key.sync="form.network" />
-              </div> -->
             </div>
 
             <div class="flex flex-wrap -mx-3">
