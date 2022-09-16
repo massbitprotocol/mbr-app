@@ -258,6 +258,7 @@ export default {
       };
 
       this.handlePollListApi();
+      this.handlePollProjectStat();
     },
 
     async updateApiStatus(api, checked) {
@@ -292,6 +293,27 @@ export default {
         this.loadingGetApi = false;
       };
     },
+    handlePollProjectStat() {
+      const bearerToken = this.$auth.strategy.token.get();
+      console.log(bearerToken);
+      const EventSource = EventSourcePolyfill || NativeEventSource;
+      this.pollStat = new EventSource(
+        `${this.$config.portalURL}/mbr/d-apis/sse/stat/${this.project.blockchain}/${this.project.network}/project/${this.project.id}`,
+        {
+          headers: { Authorization:  bearerToken },
+        },
+      );
+      this.pollStat.onerror = (err) => {
+        console.error(err);
+      };
+      this.pollStat.onmessage = ({ data }) => {
+        const res = JSON.parse(data);
+        console.log(res);
+        //if (res) {
+        //  this.$store.commit('api/setListWithStaging', res);
+        //}
+      };
+    }
   },
 
   destroyed() {
@@ -301,6 +323,10 @@ export default {
 
     if (this.pollApiList) {
       this.pollApiList.close();
+    }
+
+    if (this.pollStat) {
+      this.pollStat.close();
     }
   },
 };
