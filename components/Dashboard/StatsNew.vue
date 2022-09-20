@@ -64,6 +64,12 @@ export default {
       default: () => [],
     },
   },
+  watch: {
+    dataSource: function(newVal) {
+      //console.log(newVal);
+      this.series.data.setAll(newVal);
+    },
+  },
   data() {
     return {
       pollBandwidth: null,
@@ -76,6 +82,9 @@ export default {
 
   mounted() {
     this.createChart();
+  },
+  beforeUpdate() {
+
   },
   computed: {
     id() {
@@ -157,7 +166,10 @@ export default {
           renderer: am5xy.AxisRendererY.new(root, {}),
         }),
       );
-
+      const tooltip = am5.Tooltip.new(root, {
+        pointerOrientation: 'horizontal',
+        labelText: '{valueY}/' + this.params.unit,
+      })
       // Add series
       this.series = chart.series.push(
         am5xy.LineSeries.new(root, {
@@ -167,13 +179,10 @@ export default {
           yAxis: yAxis,
           valueYField: 'value',
           valueXField: 'date',
-          tooltip: am5.Tooltip.new(root, {
-            pointerOrientation: 'horizontal',
-            labelText: '[bold]{name}[/] {valueY}/Mbps',
-          }),
+          tooltip,
           stroke: am5.color('#2C3ACF'),
           fill: am5.color('#2C3ACF'),
-          connect: false,
+          connect: true,
         }),
       );
 

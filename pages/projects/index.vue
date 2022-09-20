@@ -125,11 +125,12 @@
 
         <BaseBlock class="mb-15" v-for="(chart, index) in charts" :key="index">
           <DashboardStatsNew
-            :title="chart.name"
+            :title="chart.title"
             :url="chart.url"
             :filters="filters"
             :params="chart.params"
             :filter.sync="chart.filter"
+            :dataSource="statData[chart.name]"
           />
         </BaseBlock>
 
@@ -198,7 +199,8 @@ export default {
     return {
       charts: [
         {
-          name: 'Total Requests',
+          name: 'requests',
+          title: 'Total Requests',
           url: `${this.$config.statURL}/__internal_grafana/d-solo/YUv28Os7k/mbrg`,
           filter: 'now|now-6h',
           params: {
@@ -208,10 +210,12 @@ export default {
             'var-FilterName': 'All',
             'var-Filter': `All`,
             panelId: 2,
+            unit: 'Requests/s'
           },
         },
         {
-          name: 'Total Bandwidth',
+          name: 'bandwidth',
+          title: 'Total Bandwidth',
           url: `${this.$config.statURL}/__internal_grafana/d-solo/YUv28Os7k/mbrg`,
           filter: 'now|now-6h',
           params: {
@@ -221,6 +225,7 @@ export default {
             'var-FilterName': 'All',
             'var-Filter': `All`,
             panelId: 4,
+            unit: 'Mbps'
           },
         },
       ],
@@ -229,6 +234,7 @@ export default {
       pollProjectList: null,
       pollApiList: null,
       loadingGetApi: true,
+      statData: {},
     };
   },
 
@@ -306,13 +312,39 @@ export default {
       this.pollStat.onerror = (err) => {
         console.error(err);
       };
-      this.pollStat.onmessage = ({ data }) => {
-        const res = JSON.parse(data);
-        console.log(res);
-        //if (res) {
-        //  this.$store.commit('api/setListWithStaging', res);
-        //}
-      };
+      this.pollStat.onmessage = this.updateStatData;
+    },
+    updateStatData(response) {
+      if (!response) return;
+      const {data} = response;
+      const res = JSON.parse(data);
+      //console.log(res);
+      const bandwidth = Array.isArray(res.bandwidth) && res.bandwidth.length ? res.bandwidth[0] : {};
+      const requests = Array.isArray(res.requests) && res.requests.length ? res.requests[0] : {};
+      if (Array.isArray(bandwidth.values) && bandwidth.values.length) {
+        this.statData['bandwidth'] = bandwidth.values.map((item) => {
+          const date = item[0]*1000;
+          const value = parseInt(item[1]);
+          return {
+            date,
+            value
+          };
+        })
+      } else {
+        this.statData['bandwidth'] = [];
+      }
+      if (Array.isArray(requests.values) && requests.values.length) {
+        this.statData['requests'] = requests.values.map((item) => {
+          const date = item[0]*1000;
+          const value = parseInt(item[1]);
+          return {
+            date,
+            value
+          };
+        })
+      } else {
+        this.statData['requests'] = [];
+      }
     }
   },
 
