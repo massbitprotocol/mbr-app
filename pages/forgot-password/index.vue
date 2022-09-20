@@ -1,6 +1,17 @@
 <template>
   <div class="min-h-[80vh] w-full grid items-center mx-autuo py-7.5 lg:py-10">
-    <div>
+    <div v-if="showWaringCheckEmailConfirm" class="flex flex-col items-center">
+      <div
+        class="flex items-center justify-center font-medium text-heading-1 text-center whitespace-nowrap text-neutral-darker"
+      >
+        A reset password link has been sent to your email account
+      </div>
+
+      <div class="mt-2 text-center text-heading-2 text-gray-700">
+        Please click on the link to reset your account password
+      </div>
+    </div>
+    <div v-else>
       <div class="text-center text-title-2 lg:text-title-1 text-neutral-darkset font-bold">Forgot Your Password?</div>
       <div
         class="w-full flex items-center justify-center mt-3 text-center text-body-2 lg:text-body-1 text-neutral-normal"
@@ -42,7 +53,7 @@
 
           <div class="flex flex-wrap -mx-3 mb-5">
             <div class="w-full px-3 mb-5 md:mb-0">
-              <BaseButton class="w-full h-[40px]" type="submit" :disabled="invalid">Send</BaseButton>
+              <BaseButton class="w-full h-[40px]" type="submit" :disabled="invalid" :loading="loading">Send</BaseButton>
             </div>
           </div>
 
@@ -60,6 +71,8 @@
 </template>
 
 <script>
+import _ from 'lodash';
+
 export default {
   name: 'ForgotPassword',
   middleware: ['auth'],
@@ -67,6 +80,8 @@ export default {
 
   data() {
     return {
+      showWaringCheckEmailConfirm: false,
+      loading: false,
       form: {
         email: '',
       },
@@ -74,8 +89,36 @@ export default {
   },
 
   methods: {
-    submitFormForgotPassword() {
-      console.log('ForgotPassword');
+    async submitFormForgotPassword() {
+      this.loading = true;
+      try {
+        const _form = _.cloneDeep(this.form);
+        const res = await this.$axios.$post('/auth/request-reset-password', { ..._form });
+        if (res && res.status) {
+          this.showWaringCheckEmailConfirm = true;
+        } else {
+          this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+        }
+      } catch (error) {
+        console.log('error :>> ', error);
+        if (error?.response) {
+          const { data } = error?.response;
+          if (data?.message) {
+            let message = 'Something was wrong. Please try again!';
+            if (Array.isArray(data.message)) {
+              message = data.message[0];
+            } else {
+              message = data.message;
+            }
+            this.$notify({ type: 'error', text: message || 'Something was wrong. Please try again!' });
+          } else {
+            this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
+          }
+        } else {
+          this.$notify({ type: 'error', text: error.toString() });
+        }
+      }
+      this.loading = false;
     },
   },
 };

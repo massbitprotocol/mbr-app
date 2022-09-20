@@ -60,7 +60,7 @@
           <div class="grid grid-cols-1">
             <div class="text-body-2 text-neutral-normal">Blockchain</div>
             <div class="mt-1 text-body-1 text-neutral-darker font-medium truncate">
-              {{ _blockchain ? _blockchain.value : '--' }}
+              {{ _blockchain ? _blockchain.value : '--' }} - {{ api.network ? api.network : '--' }}
             </div>
           </div>
         </div>

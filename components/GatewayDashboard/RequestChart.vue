@@ -194,7 +194,6 @@ export default {
         }
 
         const dataSource = this.dataSource.find((item) => item.name === series.config.name);
-        console.log('dataSource :>> ', dataSource);
         if (dataSource) {
           series.resource.data.setAll(dataSource.values);
         }
