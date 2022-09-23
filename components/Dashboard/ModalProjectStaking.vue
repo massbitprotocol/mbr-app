@@ -72,7 +72,7 @@
 
                   <ValidationProvider
                     v-slot="{ errors }"
-                    rules="required|double|min_value:100"
+                    rules="required|double|min_value:1"
                     name="staking amount"
                     tag="div"
                     class="w-full"
