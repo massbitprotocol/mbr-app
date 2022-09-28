@@ -151,7 +151,7 @@ export default {
           groupData: false,
           baseInterval: {
             timeUnit: 'second',
-            count: 300,
+            count: 30,
           },
           renderer: am5xy.AxisRendererX.new(root, {
             minGridDistance: 50,

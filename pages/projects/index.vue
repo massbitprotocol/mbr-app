@@ -225,7 +225,7 @@ export default {
             'var-FilterName': 'All',
             'var-Filter': `All`,
             panelId: 4,
-            unit: 'Mbps'
+            unit: 'Mb'
           },
         },
       ],
