@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  mbr_web:
+    container_name: mbr_web
+    image: massbit/massbitroute_web:${WEB_TAG}
+    # build: ../mbr-app
+    restart: always
+    #ports:
+    #  - '3000:3000'
+    environment:
+      - API_USER_URL=https://portal.massbitroute.net/
+      - API_PORTAL_URL=https://portal.massbitroute.net/
+
+      - ENVIRONMENT=shamu
+      - STAT_URL=http://stat.mbr.massbitroute.net
+      - GATEWAY_INSTALL_URL=http://portal.massbitroute.net/api/v1/gateway_install
+      - NODE_INSTALL_URL=http://portal.massbitroute.net/api/v1/node_install
+      - DAPI_PROVIDER_DOMAIN=massbitroute.net
+      - MASSBIT_CHAIN=ws://chain.massbitroute.net:9944
