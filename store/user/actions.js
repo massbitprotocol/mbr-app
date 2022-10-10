@@ -17,4 +17,15 @@ export default {
 
     return res;
   },
+
+  async getProviderRewards({ commit }) {
+    const res = await this.$axios.$get('/reward/provider');
+    if (res) {
+      commit('setProviderRewards', res);
+      return res;
+    }
+    commit('setProviderRewards', []);
+    return [];
+  },
+
 };

@@ -20,7 +20,24 @@
 
         Personal Info
       </NuxtLink>
+      <NuxtLink
+        :to="{ name: 'my-profile-reward' }"
+        class="h-[44px] px-6 flex items-center text-body-2 text-neutral-darkset font-medium"
+        exact-active-class="!text-primary !font-bold bg-neutral-lightest rounded-lg"
+      >
+        <svg class="mr-2" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M13.6267 5.75038C13.6267 7.82166 12.003 9.50076 10 9.50076C7.99704 9.50076 6.37333 7.82166 6.37333 5.75038C6.37333 3.6791 7.99704 2 10 2C12.003 2 13.6267 3.6791 13.6267 5.75038Z"
+            fill="currentColor"
+          />
+          <path
+            d="M3.57552 13.9724C4.76613 13.0041 7.13563 11.4368 10 11.4368C12.8644 11.4368 15.2339 13.0041 16.4245 13.9724C16.9559 14.4046 17.1217 15.1353 16.9118 15.8L16.6255 16.7069C16.3819 17.4782 15.6863 18 14.9017 18H5.09829C4.31368 18 3.61807 17.4782 3.37452 16.7069L3.08815 15.8C2.87829 15.1353 3.04407 14.4046 3.57552 13.9724Z"
+            fill="currentColor"
+          />
+        </svg>
 
+        Reward
+      </NuxtLink>
       <!-- Login & Security -->
       <!-- <NuxtLink
         :to="{ name: 'my-profile-login-security' }"
@@ -42,7 +59,7 @@
       <!-- Referral -->
       <span
         :to="{ name: 'my-profile-referral' }"
-        class="opacity-50 cursor-not-allowed h-[44px] px-6 flex items-center text-body-2 text-neutral-darkset font-medium"
+        class="opacity-50  h-[44px] px-6 flex items-center text-body-2 text-neutral-darkset font-medium"
         exact-active-class="!text-primary !font-bold bg-neutral-lightest rounded-lg"
       >
         <svg class="mr-2" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
