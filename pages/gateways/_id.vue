@@ -74,6 +74,10 @@
         <div class="w-full inline-flex justify-between gap-5">
           <DashboardApiID :apiKey="api.id" />
           <DashboardApiStatus :api="api" :provider="'Gateway'" />
+          <DashboardApiDetails
+            v-if="api.status == 'failed' || api.status == 'verifying'"
+            :api="api"
+          />
           <DashboardApiCreatedAt :createdAt="api.createdAt" />
           <DashboardApiUpdatedAt :updatedAt="api.updatedAt" />
         </div>
