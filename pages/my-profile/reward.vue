@@ -19,7 +19,6 @@
           <tr>
             <th>Node name</th>
             <th>Type</th>
-            <th>Current status</th>
             <th>Start time</th>
             <th>End time</th>
             <th>Reward dates</th>
