@@ -49,6 +49,7 @@ const config = {
     dapiProviderDomain: process.env.DAPI_PROVIDER_DOMAIN,
     massbitChain: process.env.MASSBIT_CHAIN,
     statURL: process.env.STAT_URL,
+    linkErrorCodes: process.env.LINK_ERROR_CODES,
     env: process.env.ENVIRONMENT || 'dev',
   },
 
