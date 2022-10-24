@@ -19,7 +19,7 @@ export default {
   },
 
   async getProviderRewards({ commit }, data) {
-    const res = await this.$axios.$get(`/reward/provider?year=${data.year}&month=${data.monthIndex}`);
+    const res = await this.$axios.$get(`/mbr/reward/provider?year=${data.year}&month=${data.monthIndex}`);
     if (res) {
       commit('setProviderRewards', res.rewards);
       return res.rewards;

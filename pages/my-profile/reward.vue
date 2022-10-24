@@ -18,20 +18,21 @@
         <thead class="header">
           <tr>
             <th>Node name</th>
+            <th>Type</th>
             <th>Current status</th>
             <th>Start time</th>
             <th>End time</th>
-            <th>Reward date</th>
+            <th>Reward dates</th>
             <th>Token</th>
           </tr>
         </thead>
         <tbody class="body">
           <tr v-for="reward in providerRewards">
             <td>
-              {{ reward.name }}
+              {{ reward.node_name }}
             </td>
             <td>
-              {{ reward.current_status }}
+              {{ reward.node_type }}
             </td>
             <td>
               {{ reward.start_time }}
@@ -137,11 +138,11 @@ export default {
   width: auto;
   display: flex;
   justify-content: center;
-  width: 50rem;
+  width: 75rem;
 }
 table {
   border-radius: 6px;
-  width: 50rem;
+  width: 75rem;
 }
 
 .header {
@@ -154,14 +155,25 @@ th,
 td {
   text-align: center;
   border-collapse: collapse;
-  padding: 0.5rem;
+  padding: 0.5rem 0.75rem;
   overflow: auto;
   border-bottom: 1px solid rgb(219, 219, 219);
   border-right: 1px solid rgb(219, 219, 219);
-  min-width: 6rem;
+  min-width: 7rem;
+}
+th:first-of-type,
+td:first-of-type {
+  width: 20rem;
+}
+td:first-of-type {
+  text-align: left;
+}
+td:nth-of-type(6),
+td:nth-of-type(7) {
+  text-align: right;
 }
 th:last-of-type,
-td:nth-of-type(6) {
+td:nth-of-type(7) {
   border-right: none;
 }
 tr:last-of-type > td {
