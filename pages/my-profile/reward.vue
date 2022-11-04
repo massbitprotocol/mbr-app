@@ -7,8 +7,8 @@
           class="ml-2"
           :no-default="true"
           @change="fetch"
-          :default-month="currentMonth"
-          :default-year="currentYear"
+          :default-month="getCurrentMonth"
+          :default-year="getCurrentYear"
         ></month-picker-input>
       </div>
     </div>
@@ -21,7 +21,7 @@
             <th>Type</th>
             <th>Start time</th>
             <th>End time</th>
-            <th>Reward dates</th>
+            <th>Reward day(s)</th>
             <th>Token</th>
           </tr>
         </thead>
@@ -61,41 +61,14 @@ export default {
   name: 'MyProfileReward',
   data() {
     return {
+      currentMonth: integer,
+      currentYear: integer,
       date: {
         from: null,
         to: null,
         month: null,
         year: null,
       },
-      // providerRewards: [
-      //   {
-      //     type: 'node',
-      //     reward_tokens: 100,
-      //     end_time: '21/10/2022',
-      //     start_time: '21/9/2022',
-      //     name: 'node_test_1',
-      //     current_status: 'approved',
-      //     reward_days: 31,
-      //   },
-      //   {
-      //     type: 'gateway',
-      //     reward_tokens: 200,
-      //     end_time: '21/10/2022',
-      //     start_time: '21/9/2022',
-      //     name: 'gateway_test_1',
-      //     current_status: 'approved',
-      //     reward_days: 31,
-      //   },
-      //   {
-      //     type: 'gateway',
-      //     reward_tokens: 40,
-      //     end_time: '21/10/2022',
-      //     start_time: '21/9/2022',
-      //     name: 'gateway_test_2',
-      //     current_status: 'approved',
-      //     reward_days: 31,
-      //   },
-      // ],
     };
   },
   components: { MonthPickerInput },
@@ -105,6 +78,7 @@ export default {
     },
     async fetch(date) {
       this.date = date;
+
       await this.$store.dispatch('user/getProviderRewards', date);
     },
   },
@@ -113,16 +87,20 @@ export default {
     ...mapGetters({
       providerRewards: 'user/providerRewards',
     }),
-    currentMonth() {
-      const currentMonth = new Date().getMonth();
-      const currentYear = new Date().getFullYear();
-      return currentMonth > 0 ? currentMonth : 12;
+    getCurrentMonth() {
+      let currentMonth = new Date().getMonth();
+      if (currentMonth == 1) {
+        currentMonth = 12;
+      }
+      return currentMonth;
     },
-    currentYear() {
-      const currentDate = new Date();
-      const currentMonth = new Date().getMonth();
-      const currentYear = new Date().getFullYear();
-      return currentMonth > 0 ? currentYear : currentYear - 1;
+    getCurrentYear() {
+      const temp = new Date().getMonth();
+      let currentYear = new Date().getFullYear();
+      if (temp == 1) {
+        currentYear -= 1;
+      }
+      return currentYear;
     },
   },
 };
@@ -137,11 +115,13 @@ export default {
   width: auto;
   display: flex;
   justify-content: center;
-  width: 75rem;
+  width: 75vw;
+  max-width: 75rem;
 }
 table {
   border-radius: 6px;
-  width: 75rem;
+  width: 75vw;
+  max-width: 75rem;
 }
 
 .header {
