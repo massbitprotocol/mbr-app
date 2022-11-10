@@ -19,7 +19,8 @@ Vue.filter('shortenSecret', (value) => {
     return value;
   }
 
-  return `${value.slice(0, 3)}...${value.slice(-12)}`;
+  // return `${value.slice(0, 3)}...${value.slice(-12)}`;
+  return value;
 });
 
 Vue.filter('shortenUrl', (value) => {
@@ -27,9 +28,11 @@ Vue.filter('shortenUrl', (value) => {
     return value;
   }
 
-  return `${value.slice(0, value.length - (TRUNCATED_ADDRESS_START_CHARS + 1))}...${value.slice(
-    -TRUNCATED_ADDRESS_END_CHARS,
-  )}`;
+  // return `${value.slice(0, value.length - (TRUNCATED_ADDRESS_START_CHARS + 1))}...${value.slice(
+  //   -TRUNCATED_ADDRESS_END_CHARS,
+  // )}`;
+
+  return value;
 });
 
 Vue.filter('shortenWalletAddress', (value) => {
@@ -40,7 +43,8 @@ Vue.filter('shortenWalletAddress', (value) => {
   const regexp = /.{10}/g;
   regexp.lastIndex = 13;
 
-  return value.replace(regexp.exec(value)[0], '*'.repeat(10));
+  // return value.replace(regexp.exec(value)[0], '*'.repeat(10));
+  return value;
 });
 
 Vue.filter('shortenId', (value) => {
@@ -48,7 +52,8 @@ Vue.filter('shortenId', (value) => {
     return '';
   }
 
-  return value.substr(-7, 7) || '';
+  // return value.substr(-7, 7) || '';
+  return value;
 });
 
 Vue.filter('number', (value) => {
