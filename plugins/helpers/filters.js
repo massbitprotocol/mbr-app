@@ -10,7 +10,8 @@ Vue.filter('shortenKey', (value) => {
     return value;
   }
 
-  return `${value.slice(0, TRUNCATED_ADDRESS_START_CHARS)}...${value.slice(-TRUNCATED_ADDRESS_END_CHARS)}`;
+  // return `${value.slice(0, TRUNCATED_ADDRESS_START_CHARS)}...${value.slice(-TRUNCATED_ADDRESS_END_CHARS)}`;
+  return value;
 });
 
 Vue.filter('shortenSecret', (value) => {
