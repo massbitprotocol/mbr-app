@@ -108,8 +108,6 @@
 </template>
 
 <script>
-import { stringToHex } from '@polkadot/util';
-
 export default {
   name: 'Login',
   middleware: ['auth'],
@@ -171,53 +169,7 @@ export default {
       this.$router.push({ name: 'sign-up' });
     },
 
-    async excuteLoginByAccount(account) {
-      try {
-        const { salt } = await this.$store.dispatch('user/requestLoginWithWallet', account.address);
-        if (salt) {
-          const signer = await this.$polkadot.getSignRaw(account);
-          const { signature } = await signer({
-            address: account.address,
-            data: stringToHex(salt),
-            type: 'bytes',
-          });
-          const { data } = await this.$auth.loginWith('localWallet', {
-            data: { signature, walletAddress: account.address },
-          });
-          if (data.accessToken) {
-            const from = this.$cookies.get('from');
-            if (from) {
-              this.$cookies.remove('from');
-              this.$router.push(from);
-            } else {
-              this.$router.push({ name: this.to });
-            }
-          } else {
-            if (data.err) {
-              this.$notify({ type: 'error', text: data.err });
-            } else {
-              this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
-            }
-          }
-        }
-      } catch (error) {
-        console.log(error);
-        if (error.response) {
-          const { data } = error.response;
-          let message = 'Something was wrong. Please try again!';
-          if (data.message) {
-            if (Array.isArray(data.message)) {
-              message = data.message[0];
-            } else {
-              message = data.message;
-            }
-          }
-          this.$notify({ type: 'error', text: message || 'Something was wrong. Please try again!' });
-        } else {
-          this.$notify({ type: 'error', text: 'Something was wrong. Please try again!' });
-        }
-      }
-    },
+    async excuteLoginByAccount(account) {},
   },
 };
 </script>

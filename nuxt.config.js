@@ -34,7 +34,6 @@ const config = {
     { src: '~/plugins/axios', ssr: true },
     { src: '~/plugins/notifications/ssr', ssr: true },
     { src: '~/plugins/notifications/client', ssr: false },
-    { src: '~/plugins/polkadot-wallet', ssr: false },
     '~/plugins/tooltip',
     '~/plugins/qrcode',
     '~/plugins/helpers/filters.js',
@@ -154,20 +153,7 @@ const config = {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     // Add exception
-    transpile: [
-      'vee-validate/dist/rules',
-      '@polkadot/api',
-      '@polkadot/rpc-core',
-      '@polkadot/rpc-provider',
-      '@polkadot/types',
-      '@polkadot/extension-dapp',
-      '@polkadot/util-crypto',
-      '@polkadot/keyring',
-      '@polkadot/ui-keyring',
-      '@polkadot/ui-settings',
-      '@polkadot/hw-ledger',
-      '@polkadot/types-codec',
-    ],
+    transpile: ['vee-validate/dist/rules'],
     extend: function (config) {
       config.module.rules.push({
         test: /\.js$/,
