@@ -95,20 +95,6 @@
               </BaseButton>
             </div>
           </div>
-
-          <div
-            class="flex items-center my-4 before:flex-1 before:border-t before:border-gray-300 before:mt-0.5 after:flex-1 after:border-t after:border-gray-300 after:mt-0.5"
-          >
-            <p class="text-center text-neutral-normal font-medium mx-4 mb-0">OR</p>
-          </div>
-
-          <div class="flex flex-wrap -mx-3 mb-5">
-            <div class="w-full px-3 mb-5 md:mb-0">
-              <BaseGhostButton type="button" :loading="loading" @click="loginWithWallet" block>
-                Log In With Wallet
-              </BaseGhostButton>
-            </div>
-          </div>
         </form>
       </ValidationObserver>
     </div>
@@ -182,21 +168,7 @@ export default {
     },
 
     async loginWithWallet() {
-      const isEnable = await this.$polkadot.isEnableApp();
-      if (isEnable) {
-        const accounts = await this.$polkadot.getListAcount();
-        if (accounts && accounts.length) {
-          if (accounts.length === 1) {
-            this.excuteLoginByAccount(accounts[0]);
-          } else {
-            // Show modal select account
-            this.accounts = accounts;
-            this.showModalSelectAccount = true;
-          }
-        }
-      } else {
-        this.$notify({ type: 'error', text: 'Cant not find polkadot wallet!' });
-      }
+      this.$router.push({ name: 'sign-up' });
     },
 
     async excuteLoginByAccount(account) {
