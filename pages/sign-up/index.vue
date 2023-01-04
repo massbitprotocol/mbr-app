@@ -280,7 +280,7 @@ export default {
       this.loading = true;
       try {
         const _form = _.cloneDeep(this.form);
-        const res = await this.$axios.$post('/auth/register', { ..._form, id: this.$auth.user.id });
+        const res = await this.$axios.$post('/auth/register', _form);
         if (res && res.id) {
           this.showWaringCheckEmailConfirm = true;
           this.$notify({ type: 'success', text: 'Your new account has been created!' });

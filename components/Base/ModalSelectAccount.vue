@@ -18,8 +18,6 @@
           :key="index"
           class="flex items-center gap-4 py-3 px-3 text-body-1 font-medium rounded text-neutral-darkest cursor-pointer hover:bg-neutral-lightest"
         >
-          <Identicon :size="42" :theme="'substrate'" :value="account.address" />
-
           {{ account.meta.name }}
         </div>
       </div>
@@ -28,13 +26,8 @@
 </template>
 
 <script>
-import Identicon from '@polkadot/vue-identicon';
-import { mapGetters } from 'vuex';
-
 export default {
   name: 'BaseModalSelectAccount',
-
-  components: { Identicon },
 
   props: {
     visible: {

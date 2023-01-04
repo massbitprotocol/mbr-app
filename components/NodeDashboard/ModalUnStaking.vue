@@ -36,8 +36,6 @@
 </template>
 
 <script>
-import { formatBalance } from '@polkadot/util';
-
 export default {
   name: 'NodeDashboardModalStaking',
 
