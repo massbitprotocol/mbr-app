@@ -10,7 +10,7 @@
       <div class="mt-2 text-center text-heading-2 text-gray-700">Please click on the link to verify your account</div>
 
       <div class="flex justify-center mt-7 text-center text-body-1 text-gray-700 italic">
-        Don’t get a mail?
+        Didn't get the email?
 
         <button
           :class="{ 'font-bold text-primary cursor-pointer mx-2': true, 'text-primary/70': loadingSendEmail }"
@@ -280,7 +280,7 @@ export default {
       this.loading = true;
       try {
         const _form = _.cloneDeep(this.form);
-        const res = await this.$axios.$post('/auth/register', { ..._form, id: this.$auth.user.id });
+        const res = await this.$axios.$post('/auth/register', _form);
         if (res && res.id) {
           this.showWaringCheckEmailConfirm = true;
           this.$notify({ type: 'success', text: 'Your new account has been created!' });

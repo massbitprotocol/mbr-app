@@ -7,8 +7,6 @@
         @click="showMenu = !showMenu"
         class="inline-flex items-center gap-3 justify-center w-full rounded-lg border border-primary shadow-sm px-4 py-2 text-body-2 text-primary font-medium hover:bg-gray-50 focus:outline-none focus:ring-0"
       >
-        <Identicon :size="24" :theme="'substrate'" :value="$auth.user.walletAddress" />
-
         {{ $auth.user.username }}
         <svg
           class="-mr-1 ml-2 h-5 w-5"
@@ -65,12 +63,8 @@
 </template>
 
 <script>
-import Identicon from '@polkadot/vue-identicon';
-
 export default {
   name: 'TheAccountDropdown',
-
-  components: { Identicon },
 
   data() {
     return {

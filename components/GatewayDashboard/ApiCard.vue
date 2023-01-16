@@ -190,7 +190,6 @@
 </template>
 
 <script>
-import { stringToHex } from '@polkadot/util';
 import { mapGetters, mapState } from 'vuex';
 import _ from 'lodash';
 
@@ -274,19 +273,7 @@ export default {
 
   methods: {
     async checkApiIsReady() {
-      if (!this.$polkadot.api.isReady) {
-        await this.$polkadot.startApi();
-
-        if (!this.$polkadot.api.isReady) {
-          this.$notify({
-            type: 'error',
-            title: 'Error',
-            text: 'Polkadot API is not ready',
-          });
-
-          return;
-        }
-      }
+      return;
     },
 
     async calculateRewardAndShowModal() {
@@ -299,129 +286,15 @@ export default {
     },
 
     async calculateEraStakeReward() {
-      this.checkApiIsReady();
-
-      const { api } = this.$polkadot;
-
-      const datas = await api.query.dapiStaking.providerEraInfo.entries(this.api.id);
-
-      let totalReward = BigInt(0);
-
-      datas.forEach(([key, exposure]) => {
-        const [hashProviderId, _era] = key.args;
-
-        if (_era.toNumber() < this.currentEra) {
-          const era = _era.toString();
-          const providerId = hashProviderId.toHuman();
-          const stakeData = exposure.toString();
-
-          if (stakeData.length > 0) {
-            const stake = JSON.parse(stakeData);
-
-            if (!stake.providerRewardClaimed) {
-              totalReward += BigInt(stake.total);
-            }
-          }
-        }
-      });
-
-      this.totalReward = this.$utils.formatBalance(totalReward, this.chainDecimal);
+      return;
     },
 
     async calculateTransactions() {
       this.claimRewardTransactions = [];
-
-      try {
-        this.checkApiIsReady();
-
-        let transacions = [];
-
-        const address = this.$auth.user.walletAddress;
-        const { api } = this.$polkadot;
-
-        const datas = await api.query.dapiStaking.providerEraInfo.entries(this.api.id);
-        datas.forEach(([key, exposure]) => {
-          const [hashProviderId, _era] = key.args;
-          const era = _era.toString();
-
-          if (_era.toNumber() < this.currentEra) {
-            const providerId = hashProviderId.toHuman();
-            const stakeData = exposure.toString();
-
-            if (stakeData.length > 0) {
-              const stake = JSON.parse(stakeData);
-              if (!stake.providerRewardClaimed) {
-                const tx = api.tx.dapiStaking.claimProvider(this.api.id, era);
-                transacions.push(tx);
-              }
-            }
-          }
-        });
-
-        if (transacions.length) {
-          this.claimRewardTransactions = transacions;
-
-          const { partialFee } = await api.tx.utility.batch(transacions).paymentInfo(address);
-          if (partialFee) {
-            this.claimTransactionFee = partialFee.toNumber() / 1e18;
-          }
-        } else {
-          // Reset
-          this.claimRewardTransactions = [];
-          this.claimTransactionFee = 0;
-        }
-      } catch (error) {
-        console.log('error :>> ', error);
-      }
     },
 
     async submitClaimReward() {
-      this.loadingModalClaimReward = true;
-
-      try {
-        this.checkApiIsReady();
-
-        const address = this.$auth.user.walletAddress;
-        const { api } = this.$polkadot;
-        const signer = await this.$polkadot.getSigner({ address });
-
-        const _transactions = await api.tx.utility.batch(this.claimRewardTransactions);
-        const unsub = await _transactions.signAndSend(address, { signer }, ({ status, events = [], dispatchError }) => {
-          if (status.isFinalized) {
-            if (dispatchError) {
-              if (dispatchError.isModule) {
-                this.$notify({
-                  type: 'error',
-                  title: 'Error',
-                  text: this.$polkadot.getStakingMessage(dispatchError),
-                });
-              } else {
-                this.$notify({
-                  type: 'error',
-                  title: 'Error',
-                  text: dispatchError.toString(),
-                });
-              }
-            } else {
-              const blockHash = status.asFinalized.toString();
-              this.$notify({
-                type: 'success',
-                title: 'Success',
-                text: `Claim node reward successfully submitted to block ${blockHash}`,
-              });
-              this.showModalClaimReward = false;
-
-              this.calculateEraStakeReward();
-            }
-
-            this.loadingModalClaimReward = false;
-            unsub();
-          }
-        });
-      } catch (error) {
-        this.$notify({ type: 'error', text: this.$utils.getErrorMessage(error) });
-        this.loadingModalClaimReward = false;
-      }
+      return;
     },
 
     async reVerify() {
@@ -442,120 +315,11 @@ export default {
     },
 
     async unStakeProvider() {
-      this.loadingUnStaking = true;
-
-      if (!this.$polkadot.api.isReady) {
-        await this.$polkadot.startApi();
-
-        if (!this.$polkadot.api.isReady) {
-          this.$notify({
-            type: 'error',
-            title: 'Error',
-            text: 'Polkadot API is not ready',
-          });
-
-          return;
-        }
-      }
-
-      const { api } = this.$polkadot;
-      const address = this.$auth.user.walletAddress;
-      const unstaking = api.tx.dapi.unregisterProvider(this.api.id);
-      const signer = await this.$polkadot.getSigner({ address });
-      try {
-        const unsub = await unstaking.signAndSend(address, { signer }, ({ status, events = [], dispatchError }) => {
-          if (status.isFinalized) {
-            if (dispatchError) {
-              if (dispatchError.isModule) {
-                this.$notify({
-                  type: 'error',
-                  title: 'Error',
-                  text: this.$polkadot.getStakingMessage(dispatchError),
-                });
-              } else {
-                this.$notify({
-                  type: 'error',
-                  title: 'Error',
-                  text: dispatchError.toString(),
-                });
-              }
-            } else {
-              const blockHash = status.asFinalized.toString();
-              console.log('blockHash :>> ', blockHash);
-              this.$notify({
-                type: 'success',
-                title: 'Success',
-                text: 'Unregister node successfully',
-              });
-              this.showModalUnStakeProvider = false;
-            }
-
-            this.loadingUnStaking = false;
-            unsub();
-          }
-        });
-      } catch (error) {
-        console.log('error :>> ', error);
-        this.loadingUnStaking = false;
-      }
+      return;
     },
 
     async submitStaking(amount) {
-      this.loadingStaking = true;
-
-      if (!this.$polkadot.api.isReady) {
-        await this.$polkadot.startApi();
-
-        if (!this.$polkadot.api.isReady) {
-          this.$notify({
-            type: 'error',
-            title: 'Error',
-            text: 'Polkadot API is not ready',
-          });
-
-          return;
-        }
-      }
-      const { api } = this.$polkadot;
-
-      const address = this.$auth.user.walletAddress;
-      const staking = api.tx.dapi.depositProvider(stringToHex(this.api.id), amount);
-      const signer = await this.$polkadot.getSigner({ address });
-
-      try {
-        const unsub = await staking.signAndSend(address, { signer }, ({ status, events = [], dispatchError }) => {
-          if (status.isFinalized) {
-            if (dispatchError) {
-              if (dispatchError.isModule) {
-                this.$notify({
-                  type: 'error',
-                  title: 'Error',
-                  text: this.$polkadot.getStakingMessage(dispatchError),
-                });
-              } else {
-                this.$notify({
-                  type: 'error',
-                  title: 'Error',
-                  text: dispatchError.toString(),
-                });
-              }
-            } else {
-              const blockHash = status.asFinalized.toString();
-              this.$notify({
-                type: 'success',
-                title: 'Success',
-                text: `Staking gateway successfully submitted to block ${blockHash}`,
-              });
-              this.showModalStaking = false;
-            }
-
-            this.loadingStaking = false;
-            unsub();
-          }
-        });
-      } catch (error) {
-        console.log('error :>> ', error);
-      }
+      return;
     },
   },
 };

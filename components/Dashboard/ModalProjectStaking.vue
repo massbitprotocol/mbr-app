@@ -135,7 +135,6 @@
 
 <script>
 import { mapState } from 'vuex';
-import { stringToHex } from '@polkadot/util';
 
 export default {
   name: 'NodeDashboardModalStaking',
@@ -219,33 +218,7 @@ export default {
     },
 
     async calculateTransactionFee() {
-      if (!this.$polkadot.api.isReady) {
-        await this.$polkadot.startApi();
-
-        if (!this.$polkadot.api.isReady) {
-          this.$notify({
-            type: 'error',
-            title: 'Error',
-            text: 'Polkadot API is not ready',
-          });
-
-          return;
-        }
-      }
-
-      const address = this.$auth.user.walletAddress;
-      const { api } = this.$polkadot;
-
-      // Get transaction fee
-      const staking = api.tx.dapi.registerProject(
-        stringToHex('ff6d0744-aff2-483c-9054-b2693fff2fb3'),
-        `eth.mainnet`,
-        BigInt(this.form.amount * 1e18),
-      );
-      const { partialFee } = await staking.paymentInfo(address);
-      if (partialFee) {
-        this.transactionFee = partialFee.toNumber() / 1e18;
-      }
+      return;
     },
 
     resetForm() {
