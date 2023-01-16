@@ -24,7 +24,7 @@
         </div>
       </div>
 
-      <BaseSecondaryButton class="h-[40px]" @click="$emit('selectZone', zone.key)">
+      <BaseSecondaryButton :disabled="true" class="h-[40px]" @click="$emit('selectZone1', zone.key)">
         <svg class="mr-2" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             fill-rule="evenodd"
