@@ -23,7 +23,7 @@
                   Username
                 </label>
                 <input
-                  v-model.trim="form.username"
+                  v-model.trim="form.email"
                   id="grid-user-name"
                   :class="{
                     'appearance-none block w-full text-body-2 text-gray-700 border border-primary-background rounded py-3 px-4 mb-2.5 leading-tight': true,
@@ -122,7 +122,7 @@ export default {
   data() {
     return {
       form: {
-        username: '',
+        email: '',
         password: '',
       },
       showModalSelectAccount: false,

@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-1 xl:grid-cols-2 gap-5 pt-4">
+  <div class="grid grid-cols-1 xl:grid-cols-2 gap-5 pt-4" :v-show="false">
     <div
       v-for="zone in zones"
       :key="zone.key"
