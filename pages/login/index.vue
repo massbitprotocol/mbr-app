@@ -140,6 +140,7 @@ export default {
       form: {
         email: '',
         password: '',
+        username: '',
       },
       showModalSelectAccount: false,
       loading: false,
@@ -159,6 +160,7 @@ export default {
     async userLogin() {
       this.loading = true;
       try {
+        this.form.username = this.form.email;
         const { data } = await this.$auth.loginWith('local', { data: this.form });
         if (data.accessToken) {
           const from = this.$cookies.get('from');
