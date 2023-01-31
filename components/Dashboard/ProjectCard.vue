@@ -210,8 +210,6 @@ export default {
                 });
               }
             } else {
-              const blockHash = status.asFinalized.toString();
-              console.log('blockHash :>> ', blockHash);
               this.showModalStaking = false;
               this.$notify({
                 type: 'success',

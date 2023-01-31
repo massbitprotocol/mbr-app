@@ -480,8 +480,6 @@ export default {
                 });
               }
             } else {
-              const blockHash = status.asFinalized.toString();
-              console.log('blockHash :>> ', blockHash);
               this.$notify({
                 type: 'success',
                 title: 'Success',
