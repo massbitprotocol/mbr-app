@@ -1,5 +1,3 @@
-import { formatBalance as _formatBalance } from '@polkadot/util';
-
 export const utils = (ctx) => ({
   getErrorMessage(error) {
     if (error.response) {

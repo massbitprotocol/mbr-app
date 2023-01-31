@@ -53,7 +53,7 @@
               </div>
             </div>
             <div class="flex flex-col gap-2">
-              <div class="text-body text-neutral-normal font-medium">Balance {{ _formatBalance(balance) }}</div>
+              <div class="text-body text-neutral-normal font-medium">Balance 0</div>
 
               <div class="h-[42px] flex justify-center items-center gap-2">
                 <svg width="28" height="28" viewBox="0 0 251 252" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -106,8 +106,6 @@
 </template>
 
 <script>
-import { formatBalance } from '@polkadot/util';
-
 export default {
   name: 'DashboardModalProjectStaking',
 
@@ -158,43 +156,12 @@ export default {
 
   methods: {
     async submitStaking() {
-      await this.getAccountBalance();
-
-      if (this.balance === BigInt(0)) {
-        this.error = 'You balance is not enough';
-
-        return;
-      }
-
-      this.$emit('submitStaking', BigInt(this.form.amount * 1e18));
+      return;
     },
 
     async getAccountBalance() {
-      if (!this.$polkadot.api.isReady) {
-        await this.$polkadot.startApi();
-
-        if (!this.$polkadot.api.isReady) {
-          this.$notify({
-            type: 'error',
-            title: 'Error',
-            text: 'Polkadot API is not ready',
-          });
-
-          return;
-        }
-      }
-
-      const address = this.$auth.user.walletAddress;
-      const { api } = this.$polkadot;
-
-      const { chainTokens, chainDecimals } = api.registry;
-      if (chainTokens && chainTokens.length) this.chainTokens = chainTokens[0];
-      if (chainDecimals && chainDecimals.length) this.chainDecimals = chainDecimals[0];
-
-      const { nonce, data: balance } = await api.query.system.account(address);
-      const _balance = BigInt(balance.free - balance.miscFrozen);
-
-      this.balance = BigInt(_balance);
+      this.balance = 0;
+      this.form.amount = 0;
     },
 
     resetForm() {
@@ -203,7 +170,7 @@ export default {
     },
 
     _formatBalance(balance) {
-      return formatBalance(balance, { forceUnit: 'd', withSi: false }, this.chainDecimals);
+      return;
     },
   },
 };

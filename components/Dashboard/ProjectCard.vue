@@ -123,7 +123,6 @@
 </template>
 
 <script>
-import { stringToHex } from '@polkadot/util';
 import { mapGetters } from 'vuex';
 import _ from 'lodash';
 
@@ -228,61 +227,7 @@ export default {
     },
 
     async unStakeProvider() {
-      this.loadingUnStaking = true;
-
-      if (!this.$polkadot.api.isReady) {
-        await this.$polkadot.startApi();
-
-        if (!this.$polkadot.api.isReady) {
-          this.$notify({
-            type: 'error',
-            title: 'Error',
-            text: 'Polkadot API is not ready',
-          });
-
-          return;
-        }
-      }
-
-      const { api } = this.$polkadot;
-      const address = this.$auth.user.walletAddress;
-      const unstaking = api.tx.dapi.unregisterProvider(this.project.id);
-      const signer = await this.$polkadot.getSigner({ address });
-      try {
-        const unsub = await unstaking.signAndSend(address, { signer }, ({ status, events = [], dispatchError }) => {
-          if (status.isFinalized) {
-            if (dispatchError) {
-              if (dispatchError.isModule) {
-                this.$notify({
-                  type: 'error',
-                  title: 'Error',
-                  text: this.$polkadot.getStakingMessage(dispatchError),
-                });
-              } else {
-                this.$notify({
-                  type: 'error',
-                  title: 'Error',
-                  text: dispatchError.toString(),
-                });
-              }
-            } else {
-              const blockHash = status.asFinalized.toString();
-              this.$notify({
-                type: 'success',
-                title: 'Success',
-                text: 'Unstake node successfully',
-              });
-              this.showModalUnStakeProvider = false;
-            }
-
-            this.loadingUnStaking = false;
-            unsub();
-          }
-        });
-      } catch (error) {
-        console.log('error :>> ', error);
-        this.loadingUnStaking = false;
-      }
+      return;
     },
   },
 };

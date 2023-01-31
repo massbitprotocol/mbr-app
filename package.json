@@ -9,6 +9,9 @@
     "generate": "nuxt generate",
     "vercel-build": "yarn global add node-gyp-build"
   },
+  "engines": {
+    "node": "16.x"
+  },
   "resolutions": {
     "glob": "7.2.0"
   },
