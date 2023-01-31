@@ -166,7 +166,64 @@ export default {
 
   methods: {
     async stakingProject(amount) {
-      return;
+      this.loadingStaking = true;
+
+      if (!this.$polkadot.api.isReady) {
+        await this.$polkadot.startApi();
+
+        if (!this.$polkadot.api.isReady) {
+          this.$notify({
+            type: 'error',
+            title: 'Error',
+            text: 'Polkadot API is not ready',
+          });
+
+          return;
+        }
+      }
+
+      const { api } = this.$polkadot;
+      const address = this.$auth.user.walletAddress;
+      const staking = api.tx.dapi.registerProject(
+        stringToHex(this.project.id),
+        `${this.project.blockchain}.${this.project.network || 'mainnet'}`,
+        amount,
+      );
+      const signer = await this.$polkadot.getSigner({ address });
+
+      try {
+        const unsub = await staking.signAndSend(address, { signer }, ({ status, events = [], dispatchError }) => {
+          if (status.isFinalized) {
+            if (dispatchError) {
+              if (dispatchError.isModule) {
+                this.$notify({
+                  type: 'error',
+                  title: 'Error',
+                  text: this.$polkadot.getStakingMessage(dispatchError),
+                });
+              } else {
+                this.$notify({
+                  type: 'error',
+                  title: 'Error',
+                  text: dispatchError.toString(),
+                });
+              }
+            } else {
+              this.showModalStaking = false;
+              this.$notify({
+                type: 'success',
+                title: 'Success',
+                text: 'Staking project successfully',
+              });
+            }
+
+            this.loadingStaking = false;
+            unsub();
+          }
+        });
+      } catch (error) {
+        console.log('error :>> ', error);
+      }
     },
 
     async unStakeProvider() {
